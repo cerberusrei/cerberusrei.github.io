@@ -23,8 +23,8 @@
 
   <script type="text/javascript">
     const CLIENT_ID="1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
-    //const API_KEY="AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
-    const API_KEY="AIzaSyCKIA6PZIy_6Y92eISUn7XyIFk_DxRFBEQ";
+    const API_KEY="AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
+    //const API_KEY="AIzaSyCKIA6PZIy_6Y92eISUn7XyIFk_DxRFBEQ";
 
     // Discovery doc URL for APIs used by the quickstart
     const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
@@ -109,7 +109,7 @@
       if (token !== null) {
         google.accounts.oauth2.revoke(token.access_token);
         gapi.client.setToken('');
-        $('#content').html('content').innerText = '';
+        $('#content').html('');
         document.getElementById('authorize_button').innerText = 'Authorize';
         document.getElementById('signout_button').style.visibility = 'hidden';
       }
@@ -123,14 +123,14 @@
 
       let response;
       try {
-        response = await gapi.client.drive.files.list({
-          'pageSize': 10,
-          'fields': 'files(id, name)',
-        });
-        
 //         response = await gapi.client.drive.files.list({
-//           q:"'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
+//           'pageSize': 10,
+//           'fields': 'files(id, name)',
 //         });
+        
+        response = await gapi.client.drive.files.list({
+          q:"'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
+        });
       } catch (err) {
         handleError(err);
         return;
@@ -169,7 +169,7 @@
 
   <div id="error" class="alert alert-danger" role="alert"></div>
 
-  <pre id="content" style="white-space: pre-wrap;"></pre>
+  <div id="content" class="alert alert-info" role="alert"></div>
 
   <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
   <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
