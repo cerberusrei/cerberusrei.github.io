@@ -2,6 +2,25 @@
 <html>
 <title>Google Album</title>
 <head>
+  <title>PPCD transaction file generator</title>
+  <meta charset="utf-8">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <style>
+      @media screen {
+          .main-container {
+              width: 60%;
+              /* border-radius: 0.5%; */
+              padding: 5px;
+              margin-top: 5px;
+          }
+      }
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <script type="text/javascript">
     const CLIENT_ID="1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com"
     const API_KEY="AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA"
@@ -89,7 +108,7 @@
       if (token !== null) {
         google.accounts.oauth2.revoke(token.access_token);
         gapi.client.setToken('');
-        document.getElementById('content').innerText = '';
+        $('#content').html('content').innerText = '';
         document.getElementById('authorize_button').innerText = 'Authorize';
         document.getElementById('signout_button').style.visibility = 'hidden';
       }
@@ -101,30 +120,42 @@
     async function listFiles() {
       let response;
       try {
+//         response = await gapi.client.drive.files.list({
+//           'pageSize': 10,
+//           'fields': 'files(id, name)',
+//         });
+        
         response = await gapi.client.drive.files.list({
-          'pageSize': 10,
-          'fields': 'files(id, name)',
+          q:"'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
         });
       } catch (err) {
-        document.getElementById('content').innerText = err.message;
+        showError(err);
         return;
       }
       const files = response.result.files;
       if (!files || files.length == 0) {
-        document.getElementById('content').innerText = 'No files found.';
+        showError(err);
         return;
       }
       // Flatten to string to display
-      const output = files.reduce(
-          (str, file) => `${str}${file.name} (${file.id}\n`,
-          'Files:\n');
-      document.getElementById('content').innerText = output;
+      const output = files.reduce((str, file) => `${str}${file.name} (${file.id}\n`, 'Files:\n');
+      $('#content').html(output);
+    }
+
+    function showError(err) {
+      try {
+        $('#error').html(JSON.stringify(err));
+      } catch (err) {
+        $('#error').html(err.message);
+      }
     }
   </script>
 </head>
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+
+  <div id="error" class="alert alert-danger" role="alert"></div>
 
   <pre id="content" style="white-space: pre-wrap;"></pre>
 
