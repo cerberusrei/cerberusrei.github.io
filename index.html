@@ -122,14 +122,14 @@
 
       let response;
       try {
-//         response = await gapi.client.drive.files.list({
-//           'pageSize': 10,
-//           'fields': 'files(id, name)',
-//         });
-        
         response = await gapi.client.drive.files.list({
-          q:"'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
+          'pageSize': 10,
+          'fields': 'files(id, name)',
         });
+        
+//         response = await gapi.client.drive.files.list({
+//           q:"'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
+//         });
       } catch (err) {
         handleError(err);
         return;
