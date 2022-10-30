@@ -109,7 +109,7 @@
     /**
      *  Sign in the user upon button click.
      */
-    function handleAuthClick() {
+    function switchAccount() {
       try {
         signOut();
 
@@ -141,7 +141,7 @@
       }
     }
 
-    function switchAlbum(id) {
+    async function switchAlbum(id) {
       albumId = id;
 
       let name = await getAlbumName(id);
