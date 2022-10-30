@@ -126,8 +126,8 @@
       try {
         let files = getFileList();
 
-        $('#content').html(''); // clear original content
         if (!files || files.length == 0) {
+          $('#content').html('No files');
           return;
         }
 
@@ -174,7 +174,7 @@
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
-
+  version: 1
   <div id="error" class="alert alert-danger" role="alert"></div>
 
   <div id="content" class="alert alert-info" role="alert"></div>
