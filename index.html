@@ -84,7 +84,7 @@
         return; // not ready
       }
 
-      $(':action-buttons').show();
+      $(':action-button').show();
       $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) || true);
     }
 
@@ -151,7 +151,7 @@
         let output = files.map(JSON.stringify).join('<br/>');
         $('#content').html(output);
 
-        let thumbnails = files.map((file) => getFileInfo(file.id)).join('<br/>');
+        let thumbnails = await files.map((file) => getFileInfo(file.id)).join('<br/>');
         $('#content').html($('#content').html() + thumbnails);
       } catch (err) {
         handleError(err);
@@ -225,8 +225,8 @@
 </head>
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
-  <button id="signout_button" class="action-buttons" onclick="handleSignoutClick()" hidden>Sign Out</button>
-  <button onclick="listFiles()" class="action-buttons" onchange="storeDebugMode" hidden>List Files</button>
+  <button id="signout_button" class="action-button" onclick="handleSignoutClick()" hidden>Sign Out</button>
+  <button onclick="listFiles()" class="action-button" onchange="storeDebugMode" hidden>List Files</button>
   <input id="debugMode" type="checkbox" checked>Debug
   version: 2
 
