@@ -59,7 +59,7 @@
       'size',
       'hasThumbnail',
       'webViewLink',
-      'imageMediaMetadata(time)'
+      'imageMediaMetadata(time,width,height,cameraMake,cameraModel,exposureTime,isoSpeed,whiteBalance)'
     ].join(",");
 
     /**
@@ -143,9 +143,12 @@
 
     async function switchAlbum(id) {
       albumId = id;
+      nextPageToken = "";
 
       let name = await getAlbumName(id);
       $("#albumName").html(name);
+
+      listFiles();
     }
 
     async function listFiles() {
@@ -279,7 +282,7 @@
     <div id="error" class="alert alert-danger" role="alert" hidden></div>
   </div>
   
-  <div class="container text-center">
+  <div class="container">
     <div class="dropdown">
       <button id="albumMenu" class="btn btn-secondary dropdown-toggle" type="button"
               data-bs-toggle="dropdown" aria-expanded="false">
