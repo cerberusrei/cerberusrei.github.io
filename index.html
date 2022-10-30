@@ -107,11 +107,17 @@
       );
 
       // register listener to load more images when scrolling to bottom
-      $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-          listFiles();
-        }
-      });
+      $(document.body).on('touchmove', onScroll); // for mobile
+      $(window).on('scroll', onScroll);
+
+      // trigger selection by default album
+      $("albumMenu li:first a").click();
+    }
+
+    function onScroll() {
+      if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+        listFiles();
+      }
     }
 
     /**
@@ -156,6 +162,8 @@
       let name = await getAlbumName(id);
       $("#albumName").html(name);
 
+      // reload from new album 
+      $('#fileListContainer').html('');
       listFiles();
     }
 
@@ -172,7 +180,7 @@
         }
 
         let container = $('#fileListContainer');
-        let html = files.forEach((file) => container.append(toFileCellHtml(file)));
+        files.forEach((file) => container.append(toFileCellHtml(file)));
       } catch (err) {
         handleError(err);
       }
