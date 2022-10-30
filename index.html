@@ -151,7 +151,8 @@
         let output = files.map(JSON.stringify).join('<br/>');
         $('#content').html(output);
 
-        let thumbnails = files.map((file) => getFileInfo(file.id)).join('<br/>');
+        // let thumbnails = files.map((file) => getFileInfo(file.id)).join('<br/>');
+        let thumbnails = files.map((file) => getThumbnailLink()).join('<br/>');
         $('#content').html($('#content').html() + thumbnails);
       } catch (err) {
         handleError(err);
@@ -175,19 +176,23 @@
       return response.result.files;
     }
 
-   async function getFileInfo(id) {
-     try {
-       let response = await gapi.client.drive.files.get({
-         fileId: id,
-         fields: "thumbnailLink,contentHints"
-       });
+    async function getFileInfo(id) {
+      try {
+        let response = await gapi.client.drive.files.get({
+          fileId: id,
+          fields: "thumbnailLink,contentHints"
+        });
 
-       debugAlert(response);
-       return response.thumbnailLink;
-     } catch (err) {
-       handleError(err);
-     }
-   }
+        debugAlert(response);
+        return response.thumbnailLink;
+      } catch (err) {
+        handleError(err);
+      }
+    }
+ 
+    function getThumbnailLink(id) {
+      return "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + id;
+    }
 
     function handleError(err) {
       try {
