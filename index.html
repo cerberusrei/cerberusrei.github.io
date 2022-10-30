@@ -115,7 +115,8 @@
     }
 
     function onScroll() {
-      if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+      if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight) {
+      // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
         listFiles();
       }
     }
@@ -223,7 +224,7 @@
     }
 
     function getThumbnailLink(id) {
-      return "https://drive.google.com/thumbnail?authuser=0&sz=w640&id=" + id;
+      return "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + id;
     }
 
     function toFileCellHtml(file) {
@@ -306,16 +307,6 @@
       </button>
       <ul class="dropdown-menu" aria-labelledby="albumMenu">
         <li>
-          <a class="dropdown-item" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
-          20221008-tokyo-yosakoi
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
-          20221009-tokyo-yosakoi
-          </a>
-        </li>
-        <li>
           <a class="dropdown-item" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
           20221015-yokohama-yosakoi
           </a>
@@ -323,6 +314,16 @@
         <li>
           <a class="dropdown-item" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
           20221016-yokohama-yosakoi
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
+          20221008-tokyo-yosakoi
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
+          20221009-tokyo-yosakoi
           </a>
         </li>
       </ul>
@@ -338,7 +339,7 @@
   </div>
   
   <div class="container text-center">
-    <div id="fileListContainer" class="row row-cols-3">
+    <div id="fileListContainer" class="row row-cols-2">
     </div>
   </div>
 
