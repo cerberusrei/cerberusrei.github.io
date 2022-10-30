@@ -167,7 +167,7 @@
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
-        fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,thumbnailLink,webViewLink)",
+        fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,hasThumbnail,thumbnailLink,webViewLink)",
         pageSize: 3
       });
 
@@ -176,14 +176,17 @@
     }
 
    async function getFileInfo(id) {
-     debugAlert("getFileInfo: " + id);
-     let response = await gapi.client.drive.files.get({
-       fileId: id,
-       fields: "thumbnailLink, files(thumbnailLink)"
-     });
-     
-     debugAlert(response);
-     return response.thumbnailLink;
+     try {
+       let response = await gapi.client.drive.files.get({
+         fileId: id,
+         fields: "files(thumbnailLink,contentHints)"
+       });
+
+       debugAlert(response);
+       return response.thumbnailLink;
+     } catch (err) {
+       handleError(err);
+     }
    }
 
     function handleError(err) {
