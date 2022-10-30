@@ -170,7 +170,7 @@
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents" + criteria, // link ID
-        fields: `nextPageToken, files($fileFields)`,
+        fields: `nextPageToken, files(${fileFields})`,
         pageSize: pageSize,
         orderBy: "name",
         pageToken: nextPageToken || "",
@@ -183,7 +183,7 @@
       return response.result.files.map((file) => $.extend(file, {
         thumbnailLink: getThumbnailLink(file.id),
         isImage: function() {
-          return this.mimeType.contains("image");
+          return this.mimeType.includes("image");
         },
         getExifTime: function() {
           return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
@@ -206,7 +206,8 @@
     }
 
     function showPhoto(id) {
-      $('#photoFrame .modal-body img').src = `https://drive.google.com/uc?export=view&id=$id`;
+      $('#photoFrame .modal-body img').attr("src", `https://drive.google.com/uc?export=view&id=${id}`);
+      $('#photoFrame').modal({ show: true });
     }
 
     function handleError(err) {
