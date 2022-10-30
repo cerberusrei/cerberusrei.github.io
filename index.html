@@ -146,7 +146,7 @@
 //       }
     }
 
-    function getFileList() {
+    async function getFileList() {
       //         response = await gapi.client.drive.files.list({
 //           'pageSize': 10,
 //           'fields': 'files(id, name)',
@@ -190,7 +190,7 @@
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
   <input id="debugMode" type="checkbox" checked>Debug
-  version: 4
+  version: 5
   <div id="error" class="alert alert-danger" role="alert"></div>
 
   <div id="content" class="alert alert-info" role="alert"></div>
