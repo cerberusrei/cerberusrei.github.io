@@ -139,7 +139,7 @@
 
       try {
         let files = await getFileList();
-        alertDebug(typeof files);
+        debugAlert(typeof files);
 
         if (!files || files.length == 0) {
           $('#content').html('No files');
@@ -165,6 +165,7 @@
         fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,thumbnailLink,webViewLink)"
       });
 
+      debugAlert(response);
       return response.result.files;
     }
 
@@ -196,8 +197,9 @@
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+  <button onclick="listFiles()">Authorize</button>
   <input id="debugMode" type="checkbox" checked>Debug
-  version: 6
+  version: 7
 
   <div id="error" class="alert alert-danger" role="alert"></div>
 
