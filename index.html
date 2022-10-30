@@ -113,6 +113,8 @@
      *  Sign out the user upon button click.
      */
     function handleSignoutClick() {
+      debugAlert('signout');
+
       const token = gapi.client.getToken();
       if (token !== null) {
         google.accounts.oauth2.revoke(token.access_token);
@@ -127,21 +129,21 @@
      * Print metadata for first 10 files.
      */
     async function listFiles() {
-      hideError();
+//       hideError();
 
-      try {
-        let files = getFileList();
+//       try {
+//         let files = getFileList();
 
-        if (!files || files.length == 0) {
-          $('#content').html('No files');
-          return;
-        }
+//         if (!files || files.length == 0) {
+//           $('#content').html('No files');
+//           return;
+//         }
 
-        const output = files.map(JSON.stringify).join('<br/>');
-        $('#content').html(output);
-      } catch (err) {
-        handleError(err);
-      }
+//         const output = files.map(JSON.stringify).join('<br/>');
+//         $('#content').html(output);
+//       } catch (err) {
+//         handleError(err);
+//       }
     }
 
     function getFileList() {
@@ -151,12 +153,12 @@
 //         });
         
       // default fields: id, name, and mimeType
-      let response = await gapi.client.drive.files.list({
-        q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
-        fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,thumbnailLink,webViewLink)"
-      });
+//       let response = await gapi.client.drive.files.list({
+//         q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
+//         fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,thumbnailLink,webViewLink)"
+//       });
 
-      return response.result.files;
+//       return response.result.files;
     }
 
     function handleError(err) {
@@ -187,8 +189,8 @@
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
-  <input id="debugMode" type="checkbox">Debug
-  version: 2
+  <input id="debugMode" type="checkbox" checked>Debug
+  version: 3
   <div id="error" class="alert alert-danger" role="alert"></div>
 
   <div id="content" class="alert alert-info" role="alert"></div>
