@@ -27,6 +27,8 @@
   </script>
 
   <script type="text/javascript">
+    const CACHE_DEBUG_MODE = "debugMode";
+
     // Quick start: https://developers.google.com/drive/api/quickstart/js
     // File list: https://developers.google.com/drive/api/v3/reference/files/list
     
@@ -61,7 +63,7 @@
         discoveryDocs: [DISCOVERY_DOC],
       });
       gapiInited = true;
-      maybeEnableButtons();
+      initUi();
     }
 
     /**
@@ -74,16 +76,16 @@
         callback: '', // defined later
       });
       gisInited = true;
-      maybeEnableButtons();
+      initUi();
     }
 
-    /**
-     * Enables user interaction after all libraries are loaded.
-     */
-    function maybeEnableButtons() {
-      if (gapiInited && gisInited) {
-        document.getElementById('authorize_button').style.visibility = 'visible';
+    function initUi() {
+      if (!gapiInited || !gisInited) {
+        return; // not ready
       }
+
+      $('button').show();
+      $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) || true);
     }
 
     /**
@@ -148,6 +150,9 @@
 
         let output = files.map(JSON.stringify).join('<br/>');
         $('#content').html(output);
+
+        let thumbnails = files.map((file) => getFileInfo(file.id)).join('<br/>');
+        $('#content').html($('#content').html() + thumbnails);
       } catch (err) {
         handleError(err);
       }
@@ -169,6 +174,16 @@
       return response.result.files;
     }
 
+   async function getFileInfo(id) {
+     let response = await gapi.client.drive.files.get({
+       fileId: id,
+       fields: "thumbnailLink"
+     });
+     
+     debugAlert(response);
+     return response.thumbnailLink;
+   }
+
     function handleError(err) {
       try {
         debugAlert(err)
@@ -188,18 +203,32 @@
     }
 
     function debugAlert(message) {
-      if ($('#debugMode').is(':checked')) {
-        alert(message);
+      if (!isDebugModeEnabled()) {
+        return; // debug mode is disabled
       }
+
+      try {
+        alert(message instanceof String ? message : JSON.stringify(message));
+      } catch (err) {
+        alert("Not able to parse message: " + message);
+      }
+    }
+
+    function storeDebugMode() {
+      localStorage.setItem(CACHE_DEBUG_MODE, isDebugModeEnabled());
+    }
+    
+    function isDebugModeEnabled() {
+      return $('#debugMode').is(':checked');
     }
   </script>
 </head>
 <body>
-  <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
-  <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
-  <button onclick="listFiles()">Authorize</button>
+  <button id="authorize_button" onclick="handleAuthClick()" hidden>Authorize</button>
+  <button id="signout_button" onclick="handleSignoutClick()" hidden>Sign Out</button>
+  <button onclick="listFiles()" onchange="storeDebugMode" hidden>List Files</button>
   <input id="debugMode" type="checkbox" checked>Debug
-  version: 7
+  version: 1
 
   <div id="error" class="alert alert-danger" role="alert"></div>
 
