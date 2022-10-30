@@ -151,7 +151,7 @@
         let output = files.map(JSON.stringify).join('<br/>');
         $('#content').html(output);
 
-        let thumbnails = await files.map((file) => getFileInfo(file.id)).join('<br/>');
+        let thumbnails = files.map((file) => await getFileInfo(file.id)).join('<br/>');
         $('#content').html($('#content').html() + thumbnails);
       } catch (err) {
         handleError(err);
@@ -167,7 +167,8 @@
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
-        fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,thumbnailLink,webViewLink)"
+        fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,thumbnailLink,webViewLink)",
+        pageSize: 3
       });
 
       debugAlert(response);
@@ -228,7 +229,7 @@
   <button id="signout_button" class="action-button" onclick="handleSignoutClick()" hidden>Sign Out</button>
   <button onclick="listFiles()" class="action-button" onchange="storeDebugMode" hidden>List Files</button>
   <input id="debugMode" type="checkbox" checked>Debug
-  version: 2
+  version: 3
 
   <div id="error" class="alert alert-danger" role="alert"></div>
 
