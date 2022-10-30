@@ -138,7 +138,8 @@
       hideError();
 
       try {
-        let files = getFileList();
+        let files = await getFileList();
+        alertDebug(typeof files);
 
         if (!files || files.length == 0) {
           $('#content').html('No files');
