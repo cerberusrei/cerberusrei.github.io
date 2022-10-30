@@ -47,6 +47,17 @@
     let gisInited = false;
     let nextPageToken = ""; // token for pagination
     let pageSize = 20;
+    let fileFields = [
+      'id',
+      'name',
+      'mimeType',
+      'createdTime',
+      'modifiedTime',
+      'size',
+      'hasThumbnail',
+      'webViewLink',
+      'imageMediaMetadata(time)'
+    ].join(",");
 
     /**
      * Callback after api.js is loaded.
@@ -147,13 +158,7 @@
         }
 
         let html = files.map(toFileCellHtml).join('');
-        $('#file-list-container').html(html);
-        // let html = files.map(JSON.stringify).join('<br/>');
-        // $('#content').html(html);
-
-        // let thumbnails = files.map((file) => getFileInfo(file.id)).join('<br/>');
-        // let thumbnails = files.map((file) => getThumbnailLink()).join('<br/>');
-        // $('#content').html($('#content').html() + thumbnails);
+        $('#fileListContainer').html(html);
       } catch (err) {
         handleError(err);
       }
@@ -165,31 +170,25 @@
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents" + criteria, // link ID
-        fields: "nextPageToken, files(id, name, mimeType, createdTime, modifiedTime, size, hasThumbnail, webViewLink)",
+        fields: `nextPageToken, files($fileFields)`,
         pageSize: pageSize,
-        orderBy: "createdTime",
+        orderBy: "name",
         pageToken: nextPageToken || "",
       });
 
       debugAlert(response);
+
       nextPageToken = response.result.nextPageToken;
-      return response.result.files.map(
-        (file) => $.extend(file, {thumbnailLink: getThumbnailLink(file.id)})
-      );
-    }
 
-    async function getFileInfo(id) {
-      try {
-        let response = await gapi.client.drive.files.get({
-          fileId: id,
-          fields: "thumbnailLink,contentHints"
-        });
-
-        debugAlert(response);
-        return response.thumbnailLink;
-      } catch (err) {
-        handleError(err);
-      }
+      return response.result.files.map((file) => $.extend(file, {
+        thumbnailLink: getThumbnailLink(file.id),
+        isImage: function() {
+          return this.mimeType.contains("image");
+        },
+        getExifTime: function() {
+          return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
+        }
+      }));
     }
  
     function getThumbnailLink(id) {
@@ -197,7 +196,17 @@
     }
 
     function toFileCellHtml(file) {
-      return `<div class="col"><img src="${file.thumbnailLink}" alt="${file.name}" /></div>`;
+      let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
+
+      return `<figure class="figure">
+      <img src="${file.thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
+       data-bs-toggle="modal" data-bs-target="#photoFrame"
+       onclick="showPhoto('${file.id}')"/>
+      <figcaption class="figure-caption text-end">${datetime}</figcaption></figure>`;
+    }
+
+    function showPhoto(id) {
+      $('#photoFrame .modal-body img').src = `https://drive.google.com/uc?export=view&id=$id`;
     }
 
     function handleError(err) {
@@ -248,18 +257,36 @@
   </script>
 </head>
 <body>
-  <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
-  <button id="signout_button" class="action-button" onclick="handleSignoutClick()">Sign Out</button>
-  <button class="action-button" onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
-  <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode" checked>Debug
-  version: 7
+  <button id="authorize_button" class="btn btn-primary" onclick="handleAuthClick()">Authorize</button>
+  <button id="signout_button" class="action-button btn btn-primary" onclick="handleSignoutClick()">Sign Out</button>
+  <button class="action-button" class="action-button btn btn-primary" onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
+  <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug
+  version: 8
 
   <div id="info" class="alert alert-info" role="alert" hidden></div>
   <div id="error" class="alert alert-danger" role="alert" hidden></div>
   
-  <button class="action-button" onclick="listFiles()">Next Page</button>
+  <button class="action-button btn btn-primary" onclick="listFiles()">Next Page</button>
   <div class="container text-center">
-    <div id="file-list-container" class="row row-cols-5">
+    <div id="fileListContainer" class="row row-cols-5">
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="photoFrameLabel">Photo</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="" alt="" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 
