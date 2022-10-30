@@ -84,6 +84,8 @@
      *  Sign in the user upon button click.
      */
     function handleAuthClick() {
+      debugAlert("authClicked");
+
       try {
         tokenClient.callback = async (resp) => {
           if (resp.error !== undefined) {
@@ -159,6 +161,7 @@
 
     function handleError(err) {
       try {
+        debugAlert(err)
         $('#error').html(JSON.stringify(err) + "<br/>");
       } catch (err) {
         $('#error').html(err.message);
@@ -173,11 +176,18 @@
     function hideError() {
       $('#error').hide();
     }
+
+    function debugAlert(message) {
+      if ($('#debugMode').is(':checked')) {
+        alert(message);
+      }
+    }
   </script>
 </head>
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+  <input id="debugMode" type="checkbox">Debug
   version: 2
   <div id="error" class="alert alert-danger" role="alert"></div>
 
