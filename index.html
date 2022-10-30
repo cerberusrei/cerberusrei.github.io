@@ -172,7 +172,7 @@
         }
 
         let container = $('#fileListContainer');
-        let html = files.forEach((file) -> container.append(toFileCellHtml(file)));
+        let html = files.forEach((file) => container.append(toFileCellHtml(file)));
       } catch (err) {
         handleError(err);
       }
