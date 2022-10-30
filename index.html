@@ -45,6 +45,8 @@
     let tokenClient;
     let gapiInited = false;
     let gisInited = false;
+    let nextPageToken = ""; // token for pagination
+    let pageSize = 20;
 
     /**
      * Callback after api.js is loaded.
@@ -84,7 +86,10 @@
         return; // not ready
       }
 
-      $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) !== false);
+      $('#debugMode').prop(
+        'checked',
+        localStorage.getItem(CACHE_DEBUG_MODE) !== false
+      );
     }
 
     /**
@@ -125,52 +130,51 @@
       if (token !== null) {
         google.accounts.oauth2.revoke(token.access_token);
         gapi.client.setToken('');
-        $('#content').html('');
         document.getElementById('authorize_button').innerText = 'Authorize';
       }
     }
 
-    /**
-     * Print metadata for first 10 files.
-     */
     async function listFiles() {
       hideError();
+      hideInfo();
 
       try {
         let files = await getFileList();
         debugAlert(typeof files);
 
-        if (!files || files.length == 0) {
-          $('#content').html('No files');
+        if (files.length == 0) {
+          showInfo('No data');
           return;
         }
 
-        let output = files.map(JSON.stringify).join('<br/>');
-        $('#content').html(output);
+        let html = files.map(toFileCellHtml).join('');
+        $('#file-list-container').html(html);
+        // let html = files.map(JSON.stringify).join('<br/>');
+        // $('#content').html(html);
 
         // let thumbnails = files.map((file) => getFileInfo(file.id)).join('<br/>');
-        let thumbnails = files.map((file) => getThumbnailLink()).join('<br/>');
-        $('#content').html($('#content').html() + thumbnails);
+        // let thumbnails = files.map((file) => getThumbnailLink()).join('<br/>');
+        // $('#content').html($('#content').html() + thumbnails);
       } catch (err) {
         handleError(err);
       }
     }
 
     async function getFileList() {
-      //         response = await gapi.client.drive.files.list({
-//           'pageSize': 10,
-//           'fields': 'files(id, name)',
-//         });
-        
+      let criteria = " and createdTime > '2022-08-01T12:00:00'";
+
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
-        q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents", // link ID
-        fields: "nextPageToken, files(id,name,createdTime,modifiedTime,size,hasThumbnail,thumbnailLink,webViewLink)",
-        pageSize: 3
+        q: "'1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk' in parents" + criteria, // link ID
+        fields: "nextPageToken, files(id, name, mimeType, createdTime, modifiedTime, size, hasThumbnail, webViewLink)",
+        pageSize: pageSize,
+        orderBy: "createdTime",
+        pageToken: nextPageToken || "",
       });
 
       debugAlert(response);
-      return response.result.files;
+      nextPageToken = response.result.nextPageToken;
+      return response.result.files.map((file) -> file.thumbnailLink = getThumbnailLink(file.id));
     }
 
     async function getFileInfo(id) {
@@ -191,16 +195,29 @@
       return "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + id;
     }
 
-    function handleError(err) {
-      try {
-        $('#error').html(JSON.stringify(err) + "<br/>");
-      } catch (err) {
-        $('#error').html(err.message);
-      }
-      showError();
+    function toFileCellHtml(file) {
+      return `<div class="col"><img src="${file.thumbnailLink}" alt="${file.name}" /></div>`;
     }
 
-    function showError() {
+    function handleError(err) {
+      try {
+        showError(JSON.stringify(err) + "<br/>");
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    function showInfo(message) {
+      $('#info').html(message);
+      $('#info').show();
+    }
+
+    function hideInfo() {
+      $('#info').hide();
+    }
+
+    function showError(message) {
+      $('#error').html(message);
       $('#error').show();
     }
 
@@ -232,14 +249,18 @@
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" class="action-button" onclick="handleSignoutClick()">Sign Out</button>
-  <button class="action-button" onclick="listFiles()">List Files</button>
   <button class="action-button" onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
   <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode" checked>Debug
   version: 7
 
+  <div id="info" class="alert alert-info" role="alert" hidden></div>
   <div id="error" class="alert alert-danger" role="alert" hidden></div>
-
-  <div id="content" class="alert alert-info" role="alert"></div>
+  
+  <button class="action-button" onclick="listFiles()">Next Page</button>
+  <div class="container text-center">
+    <div id="file-list-container" class="row row-cols-2">
+    </div>
+  </div>
 
   <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
   <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
