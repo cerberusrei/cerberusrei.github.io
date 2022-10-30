@@ -84,7 +84,7 @@
         return; // not ready
       }
 
-      $(':action-button').show();
+      $('.action-button').show();
       $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) || true);
     }
 
@@ -176,6 +176,7 @@
     }
 
    async function getFileInfo(id) {
+     debugAlert("getFileInfo: " + id);
      let response = await gapi.client.drive.files.get({
        fileId: id,
        fields: "thumbnailLink, files(thumbnailLink)"
@@ -228,8 +229,9 @@
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" class="action-button" onclick="handleSignoutClick()" hidden>Sign Out</button>
   <button onclick="listFiles()" class="action-button" onchange="storeDebugMode" hidden>List Files</button>
+  <buttton onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
   <input id="debugMode" type="checkbox" checked>Debug
-  version: 4
+  version: 5
 
   <div id="error" class="alert alert-danger" role="alert"></div>
 
