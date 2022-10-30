@@ -111,12 +111,13 @@
       $(window).on('scroll', onScroll);
 
       // trigger selection by default album
-      $("albumMenu li:first a").click();
+      $(".album-menu:first").click();
     }
 
     function onScroll() {
       if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight) {
       // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+        debugAlert("scrolled to bottom");
         listFiles();
       }
     }
@@ -307,22 +308,22 @@
       </button>
       <ul class="dropdown-menu" aria-labelledby="albumMenu">
         <li>
-          <a class="dropdown-item" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
+          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
           20221015-yokohama-yosakoi
           </a>
         </li>
         <li>
-          <a class="dropdown-item" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
+          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
           20221016-yokohama-yosakoi
           </a>
         </li>
         <li>
-          <a class="dropdown-item" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
+          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
           20221008-tokyo-yosakoi
           </a>
         </li>
         <li>
-          <a class="dropdown-item" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
+          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
           20221009-tokyo-yosakoi
           </a>
         </li>
