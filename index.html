@@ -85,7 +85,7 @@
       }
 
       $('.action-button').show();
-      $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) || true);
+      $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) !== false);
     }
 
     /**
@@ -179,7 +179,7 @@
      try {
        let response = await gapi.client.drive.files.get({
          fileId: id,
-         fields: "files(thumbnailLink,contentHints)"
+         fields: "thumbnailLink,contentHints"
        });
 
        debugAlert(response);
@@ -191,7 +191,6 @@
 
     function handleError(err) {
       try {
-        debugAlert(err)
         $('#error').html(JSON.stringify(err) + "<br/>");
       } catch (err) {
         $('#error').html(err.message);
@@ -234,7 +233,7 @@
   <button onclick="listFiles()" class="action-button" onchange="storeDebugMode" hidden>List Files</button>
   <button onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
   <input id="debugMode" type="checkbox" onchange="storeDebugMode()" checked>Debug
-  version: 5
+  version: 6
 
   <div id="error" class="alert alert-danger" role="alert"></div>
 
