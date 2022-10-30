@@ -210,7 +210,7 @@
       }
 
       try {
-        alert(message instanceof String ? message : JSON.stringify(message));
+        alert(typeof message === "string" ? message : JSON.stringify(message));
       } catch (err) {
         alert("Not able to parse message: " + message);
       }
@@ -229,8 +229,8 @@
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" class="action-button" onclick="handleSignoutClick()" hidden>Sign Out</button>
   <button onclick="listFiles()" class="action-button" onchange="storeDebugMode" hidden>List Files</button>
-  <buttton onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
-  <input id="debugMode" type="checkbox" checked>Debug
+  <button onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
+  <input id="debugMode" type="checkbox" onchange="storeDebugMode()" checked>Debug
   version: 5
 
   <div id="error" class="alert alert-danger" role="alert"></div>
