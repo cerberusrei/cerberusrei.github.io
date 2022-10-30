@@ -84,7 +84,6 @@
         return; // not ready
       }
 
-      $('.action-button').prop('visibility', 'visible');
       $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) !== false);
     }
 
@@ -99,7 +98,6 @@
           if (resp.error !== undefined) {
             throw (resp);
           }
-          $('#signout_button').prop('visibility', 'visible');
           document.getElementById('authorize_button').innerText = 'Refresh';
           await listFiles();
         };
@@ -129,7 +127,6 @@
         gapi.client.setToken('');
         $('#content').html('');
         document.getElementById('authorize_button').innerText = 'Authorize';
-        $('#signout_button').prop('visibility', 'hidden');
       }
     }
 
@@ -234,13 +231,13 @@
 </head>
 <body>
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
-  <button id="signout_button" class="action-button" onclick="handleSignoutClick()" hidden>Sign Out</button>
-  <button class="action-button" onclick="listFiles()" hidden>List Files</button>
-  <button class="action-button" onclick="getFileInfo(prompt('Input file.id'))" hidden>Get File Info</button>
+  <button id="signout_button" class="action-button" onclick="handleSignoutClick()">Sign Out</button>
+  <button class="action-button" onclick="listFiles()">List Files</button>
+  <button class="action-button" onclick="getFileInfo(prompt('Input file.id'))">Get File Info</button>
   <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode" checked>Debug
   version: 7
 
-  <div id="error" class="alert alert-danger" role="alert"></div>
+  <div id="error" class="alert alert-danger" role="alert" hidden></div>
 
   <div id="content" class="alert alert-info" role="alert"></div>
 
