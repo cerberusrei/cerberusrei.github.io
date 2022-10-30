@@ -87,23 +87,23 @@
       debugAlert("authClicked");
 
       try {
-//         tokenClient.callback = async (resp) => {
-//           if (resp.error !== undefined) {
-//             throw (resp);
-//           }
-//           document.getElementById('signout_button').style.visibility = 'visible';
-//           document.getElementById('authorize_button').innerText = 'Refresh';
-//           await listFiles();
-//         };
+        tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          document.getElementById('signout_button').style.visibility = 'visible';
+          document.getElementById('authorize_button').innerText = 'Refresh';
+          await listFiles();
+        };
 
-//         if (gapi.client.getToken() === null) {
-//           // Prompt the user to select a Google Account and ask for consent to share their data
-//           // when establishing a new session.
-//           tokenClient.requestAccessToken({prompt: 'consent'});
-//         } else {
-//           // Skip display of account chooser and consent dialog for an existing session.
-//           tokenClient.requestAccessToken({prompt: ''});
-//         }
+        if (gapi.client.getToken() === null) {
+          // Prompt the user to select a Google Account and ask for consent to share their data
+          // when establishing a new session.
+          tokenClient.requestAccessToken({prompt: 'consent'});
+        } else {
+          // Skip display of account chooser and consent dialog for an existing session.
+          tokenClient.requestAccessToken({prompt: ''});
+        }
       } catch (err) {
         handleError(err);
       }
@@ -131,19 +131,19 @@
     async function listFiles() {
       hideError();
 
-//       try {
-//         let files = getFileList();
+      try {
+        let files = getFileList();
 
-//         if (!files || files.length == 0) {
-//           $('#content').html('No files');
-//           return;
-//         }
+        if (!files || files.length == 0) {
+          $('#content').html('No files');
+          return;
+        }
 
-//         let output = files.map(JSON.stringify).join('<br/>');
-//         $('#content').html(output);
-//       } catch (err) {
-//         handleError(err);
-//       }
+        let output = files.map(JSON.stringify).join('<br/>');
+        $('#content').html(output);
+      } catch (err) {
+        handleError(err);
+      }
     }
 
     async function getFileList() {
@@ -190,7 +190,8 @@
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
   <input id="debugMode" type="checkbox" checked>Debug
-  version: 5
+  version: 6
+
   <div id="error" class="alert alert-danger" role="alert"></div>
 
   <div id="content" class="alert alert-info" role="alert"></div>
