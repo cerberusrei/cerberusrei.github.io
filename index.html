@@ -22,7 +22,7 @@
   
   <script type="text/javascript">
     window.onerror = function(error) {
-      alert("window error..." + error );
+      alert("window error..." + error + "\n" + error.stack);
     }
   </script>
 
@@ -174,7 +174,7 @@
 
       debugAlert(response);
       nextPageToken = response.result.nextPageToken;
-      return response.result.files.map((file) -> file.thumbnailLink = getThumbnailLink(file.id));
+      return response.result.files.map((file) => file.thumbnailLink = getThumbnailLink(file.id));
     }
 
     async function getFileInfo(id) {
