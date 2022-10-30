@@ -88,7 +88,7 @@
 
       $('#debugMode').prop(
         'checked',
-        localStorage.getItem(CACHE_DEBUG_MODE) !== false
+        localStorage.getItem(CACHE_DEBUG_MODE) !== 'false'
       );
     }
 
@@ -140,7 +140,6 @@
 
       try {
         let files = await getFileList();
-        debugAlert(typeof files);
 
         if (files.length == 0) {
           showInfo('No data');
@@ -174,7 +173,9 @@
 
       debugAlert(response);
       nextPageToken = response.result.nextPageToken;
-      return response.result.files.map((file) => file.thumbnailLink = getThumbnailLink(file.id));
+      return response.result.files.map(
+        (file) => $.extend(file, {thumbnailLink: getThumbnailLink(file.id)})
+      );
     }
 
     async function getFileInfo(id) {
