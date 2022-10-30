@@ -223,7 +223,7 @@
     }
 
     function getThumbnailLink(id) {
-      return "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + id;
+      return "https://drive.google.com/thumbnail?authuser=0&sz=w640&id=" + id;
     }
 
     function toFileCellHtml(file) {
@@ -335,14 +335,10 @@
         </li>
       </ol>
     </nav>
-
-    <button class="action-button btn btn-primary" onclick="listFiles()">
-      <i class="bi bi-chevron-double-right"></i>
-    </button>
   </div>
   
   <div class="container text-center">
-    <div id="fileListContainer" class="row row-cols-5">
+    <div id="fileListContainer" class="row row-cols-3">
     </div>
   </div>
 
