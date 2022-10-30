@@ -84,7 +84,7 @@
         return; // not ready
       }
 
-      $('button').show();
+      $(':action-buttons').show();
       $('#debugMode').prop('checked', localStorage.getItem(CACHE_DEBUG_MODE) || true);
     }
 
@@ -224,11 +224,11 @@
   </script>
 </head>
 <body>
-  <button id="authorize_button" onclick="handleAuthClick()" hidden>Authorize</button>
-  <button id="signout_button" onclick="handleSignoutClick()" hidden>Sign Out</button>
-  <button onclick="listFiles()" onchange="storeDebugMode" hidden>List Files</button>
+  <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+  <button id="signout_button" class="action-buttons" onclick="handleSignoutClick()" hidden>Sign Out</button>
+  <button onclick="listFiles()" class="action-buttons" onchange="storeDebugMode" hidden>List Files</button>
   <input id="debugMode" type="checkbox" checked>Debug
-  version: 1
+  version: 2
 
   <div id="error" class="alert alert-danger" role="alert"></div>
 
