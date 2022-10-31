@@ -49,7 +49,8 @@
     let gapiInited = false;
     let gisInited = false;
     let albumId = "1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk";
-    let nextPageToken = ""; // token for pagination
+    let nextPageToken = ""; // token for loading next page
+    let currentPageToken = ""; // token for current page
     let pageSize = 20;
     let fileFields = [
       'id',
@@ -114,7 +115,7 @@
       $(".album-menu:first").click();
     }
 
-    function onScroll() {
+    async function onScroll() {
       if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight) {
       // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
         debugAlert("scrolled to bottom");
