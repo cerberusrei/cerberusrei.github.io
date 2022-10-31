@@ -63,6 +63,8 @@
       'imageMediaMetadata(time,width,height,cameraMake,cameraModel,exposureTime,isoSpeed,whiteBalance)'
     ].join(",");
 
+    let loading = false;
+
     /**
      * Callback after api.js is loaded.
      */
@@ -170,9 +172,13 @@
     }
 
     async function listFiles() {
+      if (loading) {
+        return; // ignore
+      }
+  
       hideError();
       hideInfo();
-      showLoadingIcon();
+      setLoading();
 
       try {
         let files = await getFileList();
@@ -187,7 +193,7 @@
       } catch (err) {
         handleError(err);
       } finally {
-        hideLoadingIcon();
+        finishLoading();
       }
     }
 
@@ -251,11 +257,14 @@
       //$('#photoFrame .modal-body img').attr("src", `https://drive.google.com/uc?export=view&id=${id}`);
     }
 
-    function showLoadingIcon() {
+    function setLoading() {
+      loading = true;
+      showLoadingIcon();
       $('#fileListContainer .spinner-border').show();
     }
 
-    function hideLoadingIcon() {
+    function finishLoading() {
+      loading = false;
       $('#fileListContainer .spinner-border').hide();
     }
 
