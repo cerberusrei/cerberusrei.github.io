@@ -19,6 +19,10 @@
         margin-top: 5px;
       }
     }
+
+    .modal-content {
+      background-color: transparent;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -373,19 +377,21 @@
 
     <!-- Modal -->
     <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen bg-transparent">
+      <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
-          <button type="button"
-                  class="btn-close fixed-top fixed-right"
-                  data-bs-dismiss="modal" aria-label="Close">
-          </button>
+          <div class="modal-body">
+            <button type="button"
+                    class="btn-close fixed-top fixed-right"
+                    data-bs-dismiss="modal" aria-label="Close">
+            </button>
 
-          <img class="img-fluid" src="" alt="" />
+            <img class="img-fluid" src="" alt="" />
 
-          <div class="fixed-bottom">
-            <a href="" class="download-link" download>
-              <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
-            </a>
+            <div class="fixed-bottom">
+              <a href="" class="download-link" download>
+                <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
