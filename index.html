@@ -172,6 +172,7 @@
     async function listFiles() {
       hideError();
       hideInfo();
+      showLoadingIcon();
 
       try {
         let files = await getFileList();
@@ -185,6 +186,8 @@
         files.forEach((file) => container.append(toFileCellHtml(file)));
       } catch (err) {
         handleError(err);
+      } finally {
+        hideLoadingIcon();
       }
     }
 
@@ -228,6 +231,10 @@
       return "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + id;
     }
 
+    function getFitScreenLink(id) {
+      return "https://drive.google.com/thumbnail?authuser=0&sz=w640&id=" + id;
+    }
+
     function toFileCellHtml(file) {
       let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
 
@@ -239,9 +246,17 @@
     }
 
     function showPhoto(id, thumbnailLink) {
-      $('#photoFrame .modal-body img').attr("src", thumbnailLink);
+      $('#photoFrame .modal-body img').attr("src", getFitScreenLink(id));
       $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
       //$('#photoFrame .modal-body img').attr("src", `https://drive.google.com/uc?export=view&id=${id}`);
+    }
+
+    function showLoadingIcon() {
+      $('#fileListContainer .spinner-border').show();
+    }
+
+    function hideLoadingIcon() {
+      $('#fileListContainer .spinner-border').hide();
     }
 
     function handleError(err) {
@@ -351,13 +366,13 @@
 
     <!-- Modal -->
     <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl">
+      <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
           <div class="modal-body">
             <img class="img-fluid" src="" alt="" /></a>
             <div class="fixed-bottom">
               <a href="" class="download-link" download>
-                <button class="btn"><i class="bi bi-download"></i></button>
+                <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
               </a>
             </div>
           </div>
