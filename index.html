@@ -11,14 +11,14 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
   <style>
-      @media screen {
-          .main-container {
-              width: 60%;
-              /* border-radius: 0.5%; */
-              padding: 5px;
-              margin-top: 5px;
-          }
+    @media screen {
+      .main-container {
+        width: 60%;
+        /* border-radius: 0.5%; */
+        padding: 5px;
+        margin-top: 5px;
       }
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -367,8 +367,14 @@
     <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
       <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
-          <div class="modal-body">
+          <div class="modal-body bg-transparent">
+            <button type="button"
+                    class="btn-close fixed-top fixed-right"
+                    data-bs-dismiss="modal" aria-label="Close">
+            </button>
+
             <img class="img-fluid" src="" alt="" /></a>
+
             <div class="fixed-bottom">
               <a href="" class="download-link" download>
                 <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
