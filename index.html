@@ -118,7 +118,7 @@
       if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight) {
       // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
         debugAlert("scrolled to bottom");
-        listFiles();
+        await listFiles();
       }
     }
 
@@ -234,12 +234,14 @@
       return `<figure class="figure">
       <img src="${file.thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
        data-bs-toggle="modal" data-bs-target="#photoFrame"
-       onclick="showPhoto('${file.id}')"/>
+       onclick="showPhoto('${file.id}', ${file.thumbnailLink})"/>
       <figcaption class="figure-caption text-end">${datetime}</figcaption></figure>`;
     }
 
-    function showPhoto(id) {
-      $('#photoFrame .modal-body img').attr("src", `https://drive.google.com/uc?export=view&id=${id}`);
+    function showPhoto(id, thumbnailLink) {
+      $('#photoFrame .modal-body img').attr("src", thumbnailLink);
+      $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
+      //$('#photoFrame .modal-body img').attr("src", `https://drive.google.com/uc?export=view&id=${id}`);
     }
 
     function handleError(err) {
@@ -348,12 +350,13 @@
   <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="photoFrameLabel">Photo</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
         <div class="modal-body">
-          <img class="img-fluid" src="" alt="" />
+          <img class="img-fluid" src="" alt="" /></a>
+          <div class="fixed-bottom">
+            <a href="" class="download-link" download>
+              <button class="btn"><i class="bi bi-download"></i></button>
+            </a>
+          </div>
         </div>
       </div>
     </div>
