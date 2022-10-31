@@ -50,7 +50,6 @@
     let gisInited = false;
     let albumId = "1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk";
     let nextPageToken = ""; // token for loading next page
-    let currentPageToken = ""; // token for current page
     let pageSize = 20;
     let fileFields = [
       'id',
@@ -235,7 +234,7 @@
       return `<figure class="figure">
       <img src="${file.thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
        data-bs-toggle="modal" data-bs-target="#photoFrame"
-       onclick="showPhoto('${file.id}', ${file.thumbnailLink})"/>
+       onclick="showPhoto('${file.id}', '${file.thumbnailLink}')"/>
       <figcaption class="figure-caption text-end">${datetime}</figcaption></figure>`;
     }
 
@@ -345,18 +344,22 @@
   <div class="container text-center">
     <div id="fileListContainer" class="row row-cols-2">
     </div>
-  </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-body">
-          <img class="img-fluid" src="" alt="" /></a>
-          <div class="fixed-bottom">
-            <a href="" class="download-link" download>
-              <button class="btn"><i class="bi bi-download"></i></button>
-            </a>
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-body">
+            <img class="img-fluid" src="" alt="" /></a>
+            <div class="fixed-bottom">
+              <a href="" class="download-link" download>
+                <button class="btn"><i class="bi bi-download"></i></button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
