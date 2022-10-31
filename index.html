@@ -259,7 +259,6 @@
 
     function setLoading() {
       loading = true;
-      showLoadingIcon();
       $('#fileListContainer .spinner-border').show();
     }
 
@@ -374,9 +373,9 @@
 
     <!-- Modal -->
     <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
+      <div class="modal-dialog modal-fullscreen bg-transparent">
         <div class="modal-content">
-          <div class="modal-body bg-transparent">
+          <div class="modal-body">
             <button type="button"
                     class="btn-close fixed-top fixed-right"
                     data-bs-dismiss="modal" aria-label="Close">
