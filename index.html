@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <title>Google Drive Gallery</title>
   <meta charset="utf-8">
@@ -11,22 +11,37 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
   <style>
-    @media screen {
-      .main-container {
-        width: 60%;
-        /* border-radius: 0.5%; */
-        padding: 5px;
-        margin-top: 5px;
-      }
-    }
-
     .modal-content {
       background-color: transparent;
+    }
+
+    /* customize for popover info content */
+    .custom-popover {
+      min-width: 400px;
+      --bs-popover-max-width: 100%;
+      --bs-popover-border-color: var(--bs-primary);
+      --bs-popover-header-bg: var(--bs-primary);
+      --bs-popover-header-color: var(--bs-white);
+      --bs-popover-body-padding-x: 1rem;
+      --bs-popover-body-padding-y: .5rem;
+    }
+
+    /* Default style for non-image items */
+    .default-thumbnail {
+      height: 124px;
+    }
+
+    .video-play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
     }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  
+
   <script type="text/javascript">
     window.onerror = function(error) {
       alert("window error..." + error + "\n" + error.stack);
@@ -38,10 +53,10 @@
 
     // Quick start: https://developers.google.com/drive/api/quickstart/js
     // File list: https://developers.google.com/drive/api/v3/reference/files/list
-    
+
     const CLIENT_ID="1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
-    const API_KEY="AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
-    //const API_KEY="AIzaSyCKIA6PZIy_6Y92eISUn7XyIFk_DxRFBEQ";
+    // const API_KEY="AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
+    const API_KEY="AIzaSyDZi4pFkXdEKXDyY2y7Ad0t_YVp4O5awHo"; // local
 
     // Discovery doc URL for APIs used by the quickstart
     const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
@@ -55,19 +70,51 @@
     let albumId = "1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk";
     let nextPageToken = ""; // token for loading next page
     let pageSize = 20;
-    let fileFields = [
-      'id',
-      'name',
-      'mimeType',
-      'createdTime',
-      'modifiedTime',
-      'size',
-      'hasThumbnail',
-      'webViewLink',
-      'imageMediaMetadata(time,width,height,cameraMake,cameraModel,exposureTime,isoSpeed,whiteBalance)'
-    ].join(",");
+
+    // Define the fields to fetch from the API
+    // See https://developers.google.com/drive/api/v3/reference/files
+    const imageMediaFields = {
+      'width': {},
+      'height': {},
+      'rotation': {},
+      'location': {}, // {"latitude": double, "longitude": double, "altitude": double}
+      'time': {},
+      'cameraMake': {},
+      'cameraModel': {},
+      'exposureTime': {},
+      'aperture': {},
+      'flashUsed': {},
+      'focalLength': {},
+      'isoSpeed': {},
+      'meteringMode': {},
+      'sensor': {},
+      'exposureMode': {},
+      'colorSpace': {},
+      'whiteBalance': {},
+      'exposureBias': {},
+      'maxApertureValue': {},
+      'subjectDistance': {},
+      'lens': {}
+    };
+
+    const fileFields = {
+      'id': { hidden: true },
+      'name': {},
+      'mimeType': { hidden: true },
+      'createdTime': {},
+      'modifiedTime': {},
+      'size': {},
+      'hasThumbnail': { hidden: true },
+      'webViewLink': { hidden: true }
+    };
+
+    const fileFieldsCriteria =
+            Object.keys(fileFields).join(',')
+            + ',imageMediaMetadata(' + Object.keys(imageMediaFields).join(',') + ')';
 
     let loading = false;
+
+    let currentFileInfo;
 
     /**
      * Callback after api.js is loaded.
@@ -108,21 +155,57 @@
       }
 
       $('#debugMode').prop(
-        'checked',
-        localStorage.getItem(CACHE_DEBUG_MODE) === 'true'
+              'checked',
+              localStorage.getItem(CACHE_DEBUG_MODE) === 'true'
       );
 
       // register listener to load more images when scrolling to bottom
       $(document.body).on('touchmove', onScroll); // for mobile
       $(window).on('scroll', onScroll);
 
+      // prevent modal dialog to be closed after functional button is clicked
+      $(".fixed-bottom button").click(function (event) {
+        event.stopPropagation();
+      });
+
       // trigger selection by default album
       $(".album-menu:first").click();
+
+      // initialize for bootstrap popover components
+      new bootstrap.Popover('.file-info-btn', {
+        container: 'body',
+        html: true,
+        content: function() {
+          let info = JSON.parse(atob(currentFileInfo));
+          let mediaInfo = info['imageMediaMetadata'];
+          if (!mediaInfo) {
+            return ''; // ignore file without media info
+          }
+
+          let html = '';
+          for (key in imageMediaFields) {
+            if (imageMediaFields[key].hidden) {
+              continue; // ignore hidden information
+            }
+            if (!(key in mediaInfo) || mediaInfo[key] === null) {
+              continue; // ignore null value
+            }
+
+            let fieldName = key.replace(/([A-Z])/g, " $1");
+            fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+            html += '<div class="row">'
+                    + '<div class="col-6">' + fieldName + '</div>'
+                    + '<div class="col">' + mediaInfo[key] + '</div>'
+                    + '</div>';
+          }
+          return '<div class="container">' + html + '</div>';
+        }
+      });
     }
 
     async function onScroll() {
       if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight) {
-      // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+        // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
         debugAlert("scrolled to bottom");
         await listFiles();
       }
@@ -163,31 +246,32 @@
       }
     }
 
-    async function switchAlbum(id) {
+    async function switchPath(id) {
       albumId = id;
       nextPageToken = "";
 
       let name = await getAlbumName(id);
       $("#albumName").html(name);
 
-      // reload from new album 
+      // reload from new album
       $('#fileListContainer').html('');
-      listFiles();
+      await listFiles(true); // list folders first
+      listFiles(false); // list files
     }
 
-    async function listFiles() {
+    async function listFiles(forFolder) {
       if (loading) {
         return; // ignore
       }
-  
+
       hideError();
       hideInfo();
       setLoading();
 
       try {
-        let files = await getFileList();
+        let files = await getFileList(forFolder);
 
-        if (files.length == 0) {
+        if (files.length === 0) {
           showInfo('No data');
           return;
         }
@@ -201,29 +285,42 @@
       }
     }
 
-    async function getFileList() {
-      let criteria = " and createdTime > '2022-08-01T12:00:00'";
+    async function getFileList(forFolder) {
+      //let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
+      let criteria = "and trashed=false and mimeType " + (forFolder ? "=" : "!=") + " 'application/vnd.google-apps.folder'";
 
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: `'${albumId}' in parents ${criteria}`, // link ID
-        fields: `nextPageToken, files(${fileFields})`,
-        pageSize: pageSize,
+        fields: `nextPageToken, files(${fileFieldsCriteria})`,
+        pageSize: forFolder ? 1000 : pageSize,
         orderBy: "name",
         pageToken: nextPageToken || "",
       });
 
       debugAlert(response);
 
-      nextPageToken = response.result.nextPageToken;
+      // folders are listed at once, so we don't keep the page token and avoid to impact pagination of files
+      if (forFolder) {
+        nextPageToken = response.result.nextPageToken;
+      }
 
       return response.result.files.map((file) => $.extend(file, {
-        thumbnailLink: getThumbnailLink(file.id),
+        // see: https://developers.google.com/drive/api/guides/mime-types
         isImage: function() {
-          return this.mimeType.includes("image");
+          return this.mimeType.includes("image") || this.mimeType.includes("photo");
+        },
+        isVideo: function() {
+          return this.mimeType.includes("video");
+        },
+        isFolder: function() {
+          return this.mimeType.includes("folder");
         },
         getExifTime: function() {
           return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
+        },
+        toText: function() {
+          return btoa(JSON.stringify(this, null, 4));
         }
       }));
     }
@@ -237,28 +334,51 @@
       }
     }
 
-    function getThumbnailLink(id) {
-      return "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + id;
-    }
-
     function getFitScreenLink(id) {
       return "https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=" + id;
     }
 
     function toFileCellHtml(file) {
-      let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
+      // let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
 
-      return `<figure class="figure">
-      <img src="${file.thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
-       data-bs-toggle="modal" data-bs-target="#photoFrame"
-       onclick="showPhoto('${file.id}', '${file.thumbnailLink}')"/>
-      <figcaption class="figure-caption text-end">${datetime}</figcaption></figure>`;
+      if (file.isImage()) {
+        let thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id;
+        return `<figure class="figure">
+                    <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
+                            data-bs-toggle="modal" data-bs-target="#photoFrame"
+                            onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+                    <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
+                </figure>`;
+      }
+
+      if (file.isVideo()) {
+        let thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id;
+        return `<figure class="figure">
+                    <div style="background: url(${thumbnailLink}) no-repeat center;">
+                      <i class="bi bi-play-circle-fill" style="font-size: 6em;"
+                        onclick="window.open('${file.webViewLink}')"></i>
+                    </div>
+                    <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
+                </figure>`;
+      }
+
+      if (file.isFolder()) {
+        return `<figure class="figure">
+                    <button type="button"
+                            class="btn btn-lg btn-secondary default-thumbnail"
+                            onclick="switchPath('${file.id}')">
+                            <i class="bi bi-folder2">${file.name}</i>
+                    </button>
+                </figure>`;
+      }
+
+      return `<figure class="figure default-thumbnail"><i class="bi bi-file-earmark"></i>${file.name}</figure>`;
     }
 
-    function showPhoto(id, thumbnailLink) {
+    function showPhoto(id, fileInfo) {
       $('#photoFrame .modal-body img').attr("src", getFitScreenLink(id));
       $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
-      //$('#photoFrame .modal-body img').attr("src", `https://drive.google.com/uc?export=view&id=${id}`);
+      currentFileInfo = fileInfo;
     }
 
     function dismissPhoto() {
@@ -267,12 +387,12 @@
 
     function setLoading() {
       loading = true;
-      $('#fileListContainer .spinner-border').show();
+      $('.spinner-border').show();
     }
 
     function finishLoading() {
       loading = false;
-      $('#fileListContainer .spinner-border').hide();
+      $('.spinner-border').hide();
     }
 
     function handleError(err) {
@@ -284,8 +404,7 @@
     }
 
     function showInfo(message) {
-      $('#info').html(message);
-      $('#info').show();
+      $('#info').html(message).show();
     }
 
     function hideInfo() {
@@ -293,8 +412,7 @@
     }
 
     function showError(message) {
-      $('#error').html(message);
-      $('#error').show();
+      $('#error').html(message).show();
     }
 
     function hideError() {
@@ -316,97 +434,103 @@
     function storeDebugMode() {
       localStorage.setItem(CACHE_DEBUG_MODE, isDebugModeEnabled());
     }
-    
+
     function isDebugModeEnabled() {
       return $('#debugMode').is(':checked');
     }
   </script>
 </head>
 <body>
-  <div class="container text-center">
-    <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
-      <i class="bi bi-person-x-fill"></i>
+<div class="container text-center">
+  <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
+    <i class="bi bi-person-x-fill"></i>
+  </button>
+  <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug
+
+  <div id="info" class="alert alert-info" role="alert" hidden></div>
+  <div id="error" class="alert alert-danger" role="alert" hidden></div>
+</div>
+
+<div class="container">
+  <div class="dropdown">
+    <button id="albumMenu" class="btn btn-secondary dropdown-toggle" type="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-journal-album"></i>
     </button>
-    <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug
-
-    <div id="info" class="alert alert-info" role="alert" hidden></div>
-    <div id="error" class="alert alert-danger" role="alert" hidden></div>
-  </div>
-  
-  <div class="container">
-    <div class="dropdown">
-      <button id="albumMenu" class="btn btn-secondary dropdown-toggle" type="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-journal-album"></i>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="albumMenu">
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
+    <ul class="dropdown-menu" aria-labelledby="albumMenu">
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
           20221015-yokohama-yosakoi
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i')">
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i')">
           20221016-yokohama-yosakoi
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
           20221008-tokyo-yosakoi
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
           20221009-tokyo-yosakoi
-          </a>
+        </a>
+      </li>
+    </ul>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">
+          <span id="albumName"></span>
         </li>
-      </ul>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">
-            <span id="albumName"></span>
-          </li>
-        </ol>
-      </nav>
-    </div>
+      </ol>
+    </nav>
   </div>
-  
-  <div class="container text-center">
-    <div id="fileListContainer" class="row row-cols-2">
-    </div>
+</div>
 
-    <div class="spinner-border" role="status">
-      <span class="sr-only"></span>
-    </div>
+<div class="container text-center">
+  <div id="fileListContainer" class="row row-cols-2">
+  </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content" onclick="dismissPhoto()">
-          <div class="modal-body">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content" onclick="dismissPhoto()">
+        <div class="modal-body d-flex align-items-center justify-content-center">
+          <div>
             <button type="button"
                     class="btn-close fixed-top fixed-right"
                     data-bs-dismiss="modal" aria-label="Close">
             </button>
 
-            <img class="img-fluid align-middle" src="" alt="" />
-
-            <div class="fixed-bottom">
-              <a href="" class="download-link" download>
-                <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
-              </a>
-            </div>
+            <img class="img-fluid align-middle align-items-center" src="" alt=""/>
+          </div>
+          <div class="fixed-bottom">
+            <a href="" class="download-link" download>
+              <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
+            </a>
+            <button type="button" class="file-info-btn btn btn-lg btn-light"
+                    data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-custom-class="custom-popover"
+                    data-bs-title="Info" data-bs-placement="top">
+              <i class="bi bi-info-square"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-          crossorigin="anonymous"></script>
-  <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-  <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+<!-- scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>
 </html>
