@@ -49,41 +49,44 @@
 
     // Define the fields to fetch from the API
     // See https://developers.google.com/drive/api/v3/reference/files
-    let imageMediaFields = [
-      'width',
-      'height',
-      'rotation',
-      'location', // {"latitude": double, "longitude": double, "altitude": double}
-      'time',
-      'cameraMake',
-      'cameraModel',
-      'exposureTime',
-      'aperture',
-      'flashUsed',
-      'focalLength',
-      'isoSpeed',
-      'meteringMode',
-      'sensor',
-      'exposureMode',
-      'colorSpace',
-      'whiteBalance',
-      'exposureBias',
-      'maxApertureValue',
-      'subjectDistance',
-      'lens'
-    ].join(",");
+    const imageMediaFields = {
+      'width': {},
+      'height': {},
+      'rotation': {},
+      'location': {}, // {"latitude": double, "longitude": double, "altitude": double}
+      'time': {},
+      'cameraMake': {},
+      'cameraModel': {},
+      'exposureTime': {},
+      'aperture': {},
+      'flashUsed': {},
+      'focalLength': {},
+      'isoSpeed': {},
+      'meteringMode': {},
+      'sensor': {},
+      'exposureMode': {},
+      'colorSpace': {},
+      'whiteBalance': {},
+      'exposureBias': {},
+      'maxApertureValue': {},
+      'subjectDistance': {},
+      'lens': {}
+    };
 
-    let fileFields = [
-      'id',
-      'name',
-      'mimeType',
-      'createdTime',
-      'modifiedTime',
-      'size',
-      'hasThumbnail',
-      'webViewLink',
-      'imageMediaMetadata(' + imageMediaFields + ')'
-    ].join(",");
+    const fileFields = {
+      'id': { hidden: true },
+      'name': {},
+      'mimeType': { hidden: true },
+      'createdTime': {},
+      'modifiedTime': {},
+      'size': {},
+      'hasThumbnail': { hidden: true },
+      'webViewLink': { hidden: true }
+    };
+
+    const fileFieldsCriteria = 
+    Object.keys(fileFields).join(',') 
+      + ',imageMediaMetadata(' + Object.keys(imageMediaFields).join(',') + ')';
 
     let loading = false;
 
@@ -149,7 +152,29 @@
         container: 'body',
         html: true,
         content: function() {
-          return atob(currentFileInfo);
+          let info = JSON.parse(atob(currentFileInfo));
+          let mediaInfo = info['imageMediaMetadata'];
+          if (!mediaInfo) {
+            return ''; // ignore file without media info
+          }
+
+          let html = '';
+          for (key in imageMediaFields) {
+            if (imageMediaFields[key].hidden) {
+              continue; // ignore hidden information
+            }
+            if (!(key in mediaInfo) || mediaInfo[key] === null) {
+              continue; // ignore null value
+            }
+
+            let fieldName = key.replace(/([A-Z])/g, " $1");
+            fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+            html += '<div class="row">'
+              + '<div class="col-4">' + fieldName + '</div>'
+              + '<div class="col">' + mediaInfo[key] + '</div>'
+              + '</div>';
+          }
+          return '<div class="container">' + html + '</div>';
         }
       });
     }
@@ -241,7 +266,7 @@
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: `'${albumId}' in parents ${criteria}`, // link ID
-        fields: `nextPageToken, files(${fileFields})`,
+        fields: `nextPageToken, files(${fileFieldsCriteria})`,
         pageSize: pageSize,
         orderBy: "name",
         pageToken: nextPageToken || "",
@@ -419,14 +444,14 @@
     <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
       <div class="modal-dialog modal-fullscreen">
         <div class="modal-content" onclick="dismissPhoto()">
-          <div class="modal-body">
+          <div class="modal-body d-flex align-items-center">
             <div>
               <button type="button"
                       class="btn-close fixed-top fixed-right"
                       data-bs-dismiss="modal" aria-label="Close">
               </button>
 
-              <img class="img-fluid align-middle" src="" alt=""/>
+              <img class="img-fluid align-middle align-items-center" src="" alt=""/>
             </div>
             <div class="fixed-bottom">
               <a href="" class="download-link" download>
