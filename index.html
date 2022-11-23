@@ -30,6 +30,14 @@
     .default-thumbnail {
       height: 124px;
     }
+
+    .video-play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -238,7 +246,7 @@
       }
     }
 
-    async function switchAlbum(id) {
+    async function switchPath(id) {
       albumId = id;
       nextPageToken = "";
 
@@ -247,10 +255,11 @@
 
       // reload from new album
       $('#fileListContainer').html('');
-      listFiles();
+      await listFiles(true); // list folders first
+      listFiles(false); // list files
     }
 
-    async function listFiles() {
+    async function listFiles(forFolder) {
       if (loading) {
         return; // ignore
       }
@@ -260,7 +269,7 @@
       setLoading();
 
       try {
-        let files = await getFileList();
+        let files = await getFileList(forFolder);
 
         if (files.length === 0) {
           showInfo('No data');
@@ -276,26 +285,33 @@
       }
     }
 
-    async function getFileList() {
+    async function getFileList(forFolder) {
       //let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
-      let criteria = "";
+      let criteria = "and trashed=false and mimeType " + (forFolder ? "=" : "!=") + " 'application/vnd.google-apps.folder'";
 
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: `'${albumId}' in parents ${criteria}`, // link ID
         fields: `nextPageToken, files(${fileFieldsCriteria})`,
-        pageSize: pageSize,
+        pageSize: forFolder ? 1000 : pageSize,
         orderBy: "name",
         pageToken: nextPageToken || "",
       });
 
       debugAlert(response);
 
-      nextPageToken = response.result.nextPageToken;
+      // folders are listed at once, so we don't keep the page token and avoid to impact pagination of files
+      if (forFolder) {
+        nextPageToken = response.result.nextPageToken;
+      }
 
       return response.result.files.map((file) => $.extend(file, {
+        // see: https://developers.google.com/drive/api/guides/mime-types
         isImage: function() {
-          return this.mimeType.includes("image");
+          return this.mimeType.includes("image") || this.mimeType.includes("photo");
+        },
+        isVideo: function() {
+          return this.mimeType.includes("video");
         },
         isFolder: function() {
           return this.mimeType.includes("folder");
@@ -335,11 +351,22 @@
                 </figure>`;
       }
 
+      if (file.isVideo()) {
+        let thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id;
+        return `<figure class="figure">
+                    <div style="background: url(${thumbnailLink}) no-repeat center;">
+                      <i class="bi bi-play-circle-fill" style="font-size: 6em;"
+                        onclick="window.open('${file.webViewLink}')"></i>
+                    </div>
+                    <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
+                </figure>`;
+      }
+
       if (file.isFolder()) {
         return `<figure class="figure">
                     <button type="button"
                             class="btn btn-lg btn-secondary default-thumbnail"
-                            onclick="switchAlbum('${file.id}')">
+                            onclick="switchPath('${file.id}')">
                             <i class="bi bi-folder2">${file.name}</i>
                     </button>
                 </figure>`;
@@ -432,22 +459,22 @@
     </button>
     <ul class="dropdown-menu" aria-labelledby="albumMenu">
       <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
           20221015-yokohama-yosakoi
         </a>
       </li>
       <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i')">
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i')">
           20221016-yokohama-yosakoi
         </a>
       </li>
       <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
           20221008-tokyo-yosakoi
         </a>
       </li>
       <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
+        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
           20221009-tokyo-yosakoi
         </a>
       </li>
