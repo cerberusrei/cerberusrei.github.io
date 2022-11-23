@@ -293,7 +293,7 @@
       debugAlert(response);
 
       // folders are listed at once, so we don't keep the page token and avoid to impact pagination of files
-      if (forFolder) {
+      if (!forFolder) {
         nextPageToken = response.result.nextPageToken;
       }
 
