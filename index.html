@@ -14,10 +14,21 @@
     .modal-content {
       background-color: transparent;
     }
+
+    /* customize for popover info content */
+    .custom-popover {
+      min-width: 400px;
+      --bs-popover-max-width: 100%;
+      --bs-popover-border-color: var(--bs-primary);
+      --bs-popover-header-bg: var(--bs-primary);
+      --bs-popover-header-color: var(--bs-white);
+      --bs-popover-body-padding-x: 1rem;
+      --bs-popover-body-padding-y: .5rem;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  
+
   <script type="text/javascript">
     window.onerror = function(error) {
       alert("window error..." + error + "\n" + error.stack);
@@ -29,7 +40,7 @@
 
     // Quick start: https://developers.google.com/drive/api/quickstart/js
     // File list: https://developers.google.com/drive/api/v3/reference/files/list
-    
+
     const CLIENT_ID="1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
     // const API_KEY="AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
     const API_KEY="AIzaSyDZi4pFkXdEKXDyY2y7Ad0t_YVp4O5awHo"; // local
@@ -84,9 +95,9 @@
       'webViewLink': { hidden: true }
     };
 
-    const fileFieldsCriteria = 
-    Object.keys(fileFields).join(',') 
-      + ',imageMediaMetadata(' + Object.keys(imageMediaFields).join(',') + ')';
+    const fileFieldsCriteria =
+            Object.keys(fileFields).join(',')
+            + ',imageMediaMetadata(' + Object.keys(imageMediaFields).join(',') + ')';
 
     let loading = false;
 
@@ -131,8 +142,8 @@
       }
 
       $('#debugMode').prop(
-        'checked',
-        localStorage.getItem(CACHE_DEBUG_MODE) === 'true'
+              'checked',
+              localStorage.getItem(CACHE_DEBUG_MODE) === 'true'
       );
 
       // register listener to load more images when scrolling to bottom
@@ -170,9 +181,9 @@
             let fieldName = key.replace(/([A-Z])/g, " $1");
             fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
             html += '<div class="row">'
-              + '<div class="col-4">' + fieldName + '</div>'
-              + '<div class="col">' + mediaInfo[key] + '</div>'
-              + '</div>';
+                    + '<div class="col-4">' + fieldName + '</div>'
+                    + '<div class="col">' + mediaInfo[key] + '</div>'
+                    + '</div>';
           }
           return '<div class="container">' + html + '</div>';
         }
@@ -181,7 +192,7 @@
 
     async function onScroll() {
       if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight) {
-      // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+        // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
         debugAlert("scrolled to bottom");
         await listFiles();
       }
@@ -229,7 +240,7 @@
       let name = await getAlbumName(id);
       $("#albumName").html(name);
 
-      // reload from new album 
+      // reload from new album
       $('#fileListContainer').html('');
       listFiles();
     }
@@ -238,7 +249,7 @@
       if (loading) {
         return; // ignore
       }
-  
+
       hideError();
       hideInfo();
       setLoading();
@@ -378,102 +389,103 @@
     function storeDebugMode() {
       localStorage.setItem(CACHE_DEBUG_MODE, isDebugModeEnabled());
     }
-    
+
     function isDebugModeEnabled() {
       return $('#debugMode').is(':checked');
     }
   </script>
 </head>
 <body>
-  <div class="container text-center">
-    <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
-      <i class="bi bi-person-x-fill"></i>
+<div class="container text-center">
+  <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
+    <i class="bi bi-person-x-fill"></i>
+  </button>
+  <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug
+
+  <div id="info" class="alert alert-info" role="alert" hidden></div>
+  <div id="error" class="alert alert-danger" role="alert" hidden></div>
+</div>
+
+<div class="container">
+  <div class="dropdown">
+    <button id="albumMenu" class="btn btn-secondary dropdown-toggle" type="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-journal-album"></i>
     </button>
-    <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug
-
-    <div id="info" class="alert alert-info" role="alert" hidden></div>
-    <div id="error" class="alert alert-danger" role="alert" hidden></div>
-  </div>
-  
-  <div class="container">
-    <div class="dropdown">
-      <button id="albumMenu" class="btn btn-secondary dropdown-toggle" type="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-journal-album"></i>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="albumMenu">
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
+    <ul class="dropdown-menu" aria-labelledby="albumMenu">
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
           20221015-yokohama-yosakoi
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i')">
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i')">
           20221016-yokohama-yosakoi
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
           20221008-tokyo-yosakoi
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item album-menu" href="#" onclick="switchAlbum('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
           20221009-tokyo-yosakoi
-          </a>
+        </a>
+      </li>
+    </ul>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">
+          <span id="albumName"></span>
         </li>
-      </ul>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">
-            <span id="albumName"></span>
-          </li>
-        </ol>
-      </nav>
-    </div>
+      </ol>
+    </nav>
   </div>
-  
-  <div class="container text-center">
-    <div id="fileListContainer" class="row row-cols-2">
-    </div>
+</div>
 
-    <div class="spinner-border" role="status">
-      <span class="sr-only"></span>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content" onclick="dismissPhoto()">
-          <div class="modal-body d-flex align-items-center">
-            <div>
-              <button type="button"
-                      class="btn-close fixed-top fixed-right"
-                      data-bs-dismiss="modal" aria-label="Close">
-              </button>
+<div class="container text-center">
+  <div id="fileListContainer" class="row row-cols-2">
+  </div>
 
-              <img class="img-fluid align-middle align-items-center" src="" alt=""/>
-            </div>
-            <div class="fixed-bottom">
-              <a href="" class="download-link" download>
-                <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
-              </a>
-              <button type="button" class="file-info-btn btn btn-lg btn-light"
-                      data-bs-container="body" data-bs-toggle="popover"
-                      data-bs-title="Info" data-bs-placement="top">
-                <i class="bi bi-info-square"></i>
-              </button>
-            </div>
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content" onclick="dismissPhoto()">
+        <div class="modal-body d-flex align-items-center justify-content-center">
+          <div>
+            <button type="button"
+                    class="btn-close fixed-top fixed-right"
+                    data-bs-dismiss="modal" aria-label="Close">
+            </button>
+
+            <img class="img-fluid align-middle align-items-center" src="" alt=""/>
+          </div>
+          <div class="fixed-bottom">
+            <a href="" class="download-link" download>
+              <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
+            </a>
+            <button type="button" class="file-info-btn btn btn-lg btn-light"
+                    data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-custom-class="custom-popover"
+                    data-bs-title="Info" data-bs-placement="top">
+              <i class="bi bi-info-square"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-          crossorigin="anonymous"></script>
-  <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-  <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+<!-- scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>
 </html>
