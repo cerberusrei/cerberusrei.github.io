@@ -46,6 +46,33 @@
     let albumId = "1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk";
     let nextPageToken = ""; // token for loading next page
     let pageSize = 20;
+
+    // Define the fields to fetch from the API
+    // See https://developers.google.com/drive/api/v3/reference/files
+    let imageMediaFields = [
+      'width',
+      'height',
+      'rotation',
+      'location', // {"latitude": double, "longitude": double, "altitude": double}
+      'time',
+      'cameraMake',
+      'cameraModel',
+      'exposureTime',
+      'aperture',
+      'flashUsed',
+      'focalLength',
+      'isoSpeed',
+      'meteringMode',
+      'sensor',
+      'exposureMode',
+      'colorSpace',
+      'whiteBalance',
+      'exposureBias',
+      'maxApertureValue',
+      'subjectDistance',
+      'lens'
+    ].join(",");
+
     let fileFields = [
       'id',
       'name',
@@ -55,10 +82,12 @@
       'size',
       'hasThumbnail',
       'webViewLink',
-      'imageMediaMetadata(time,width,height,cameraMake,cameraModel,exposureTime,isoSpeed,whiteBalance)'
+      'imageMediaMetadata(' + imageMediaFields + ')'
     ].join(",");
 
     let loading = false;
+
+    let currentFileInfo;
 
     /**
      * Callback after api.js is loaded.
@@ -118,7 +147,10 @@
       // initialize for bootstrap popover components
       new bootstrap.Popover('.file-info-btn', {
         container: 'body',
-        html: true
+        html: true,
+        content: function() {
+          return atob(currentFileInfo);
+        }
       });
     }
 
@@ -228,7 +260,7 @@
           return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
         },
         toText: function() {
-          return btoa(JSON.stringify(this));
+          return btoa(JSON.stringify(this, null, 4));
         }
       }));
     }
@@ -260,12 +292,10 @@
       <figcaption class="figure-caption text-end">${datetime}</figcaption></figure>`;
     }
 
-    function showPhoto(id, data) {
+    function showPhoto(id, fileInfo) {
       $('#photoFrame .modal-body img').attr("src", getFitScreenLink(id));
       $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
-      //$('#photoFrame .modal-body [data-bs-title=Info]').attr("data-bs-content", atob(data));
-      $('#photoFrame .modal-body .file-info').html(atob(data));
-      //$('#photoFrame .modal-body img').attr("src", `https://drive.google.com/uc?export=view&id=${file.id}`);
+      currentFileInfo = fileInfo;
     }
 
     function dismissPhoto() {
@@ -402,8 +432,9 @@
               <a href="" class="download-link" download>
                 <button class="btn btn-light btn-lg"><i class="bi bi-download"></i></button>
               </a>
-              <button type="button" class="file-info-btn btn btn-lg btn-light" data-bs-container="body" data-bs-toggle="popover"
-                      data-bs-title="<span class='file-info'></span>" data-bs-placement="top" data-bs-content="<span class='file-info'></span>">
+              <button type="button" class="file-info-btn btn btn-lg btn-light"
+                      data-bs-container="body" data-bs-toggle="popover"
+                      data-bs-title="Info" data-bs-placement="top">
                 <i class="bi bi-info-square"></i>
               </button>
             </div>
