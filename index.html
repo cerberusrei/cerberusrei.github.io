@@ -25,6 +25,11 @@
       --bs-popover-body-padding-x: 1rem;
       --bs-popover-body-padding-y: .5rem;
     }
+
+    /* Default style for non-image items */
+    .default-thumbnail {
+      height: 124px;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -181,7 +186,7 @@
             let fieldName = key.replace(/([A-Z])/g, " $1");
             fieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
             html += '<div class="row">'
-                    + '<div class="col-4">' + fieldName + '</div>'
+                    + '<div class="col-6">' + fieldName + '</div>'
                     + '<div class="col">' + mediaInfo[key] + '</div>'
                     + '</div>';
           }
@@ -272,7 +277,8 @@
     }
 
     async function getFileList() {
-      let criteria = " and createdTime > '2022-08-01T12:00:00'";
+      //let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
+      let criteria = "";
 
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
@@ -288,9 +294,11 @@
       nextPageToken = response.result.nextPageToken;
 
       return response.result.files.map((file) => $.extend(file, {
-        thumbnailLink: getThumbnailLink(file.id),
         isImage: function() {
           return this.mimeType.includes("image");
+        },
+        isFolder: function() {
+          return this.mimeType.includes("folder");
         },
         getExifTime: function() {
           return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
@@ -310,22 +318,34 @@
       }
     }
 
-    function getThumbnailLink(id) {
-      return "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + id;
-    }
-
     function getFitScreenLink(id) {
       return "https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=" + id;
     }
 
     function toFileCellHtml(file) {
-      let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
+      // let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
 
-      return `<figure class="figure">
-      <img src="${file.thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
-       data-bs-toggle="modal" data-bs-target="#photoFrame"
-       onclick="showPhoto('${file.id}', '${file.toText()}')"/>
-      <figcaption class="figure-caption text-end">${datetime}</figcaption></figure>`;
+      if (file.isImage()) {
+        let thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id;
+        return `<figure class="figure">
+                    <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
+                            data-bs-toggle="modal" data-bs-target="#photoFrame"
+                            onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+                    <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
+                </figure>`;
+      }
+
+      if (file.isFolder()) {
+        return `<figure class="figure">
+                    <button type="button"
+                            class="btn btn-lg btn-secondary default-thumbnail"
+                            onclick="switchAlbum('${file.id}')">
+                            <i class="bi bi-folder2">${file.name}</i>
+                    </button>
+                </figure>`;
+      }
+
+      return `<figure class="figure default-thumbnail"><i class="bi bi-file-earmark"></i>${file.name}</figure>`;
     }
 
     function showPhoto(id, fileInfo) {
@@ -340,12 +360,12 @@
 
     function setLoading() {
       loading = true;
-      $('#fileListContainer .spinner-border').show();
+      $('.spinner-border').show();
     }
 
     function finishLoading() {
       loading = false;
-      $('#fileListContainer .spinner-border').hide();
+      $('.spinner-border').hide();
     }
 
     function handleError(err) {
@@ -357,8 +377,7 @@
     }
 
     function showInfo(message) {
-      $('#info').html(message);
-      $('#info').show();
+      $('#info').html(message).show();
     }
 
     function hideInfo() {
@@ -366,8 +385,7 @@
     }
 
     function showError(message) {
-      $('#error').html(message);
-      $('#error').show();
+      $('#error').html(message).show();
     }
 
     function hideError() {
