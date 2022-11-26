@@ -187,6 +187,13 @@
       // initialize for bootstrap popover components
       initFileInfoPopovers();
 
+      $(function () {
+        $('.help-info').popover({
+          container: 'body',
+          html: true
+        })
+      });
+
       initMenu();
 
       // load content for default album
@@ -543,9 +550,19 @@
   </script>
 </head>
 <body>
-<div class="container text-center">
+<div class="container">
   <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
     <i class="bi bi-person-x-fill"></i>
+  </button>
+  <button class="btn btn-primary help-info"
+    data-bs-container="body" data-bs-toggle="popover"
+    data-bs-title="Info" data-bs-placement="bottom"
+    data-bs-content="
+      This is simple photo/video viewer which loads files from Google Drive.
+      <br/><br/>
+      Author: cerberusreijp@gmail.com
+    ">
+    <i class="bi bi-info-square"></i>
   </button>
   <!--input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug-->
 
