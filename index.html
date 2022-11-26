@@ -30,6 +30,10 @@
     .default-thumbnail {
       height: 124px;
     }
+
+    .breadcrumb-item:not(.active) {
+      font-weight: bolder;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -122,7 +126,7 @@
     let tokenClient;
     let gapiInited = false;
     let gisInited = false;
-    let albumId;
+    let currentPaths = []; // [root, sub1, sub2, ...]
     let nextPageToken = ""; // token for loading next page
     let pageSize = 20;
     let loading = false;
@@ -280,17 +284,68 @@
       }
     }
 
-    async function switchPath(id) {
-      albumId = id;
-      nextPageToken = "";
+    function getCurrentPath() {
+      return currentPaths[currentPaths.length - 1];
+    }
 
-      let name = await getAlbumName(id);
-      $("#albumName").html(name);
+    async function switchPath(id, toSubFolder) {
+      if (toSubFolder) {
+        currentPaths.push({ id: id, name: await getAlbumName(id) });
+      } else {
+        let pathIndex = currentPaths.findIndex(path => path.id == id);
+
+        if (pathIndex > 0) {
+          // change to another path in the same root path
+          currentPaths.length = pathIndex;
+        } else {
+          // change to another root path
+          currentPaths.length = 0; // clear paths
+          currentPaths.push({ id: id, name: await getAlbumName(id) });
+        }
+      }
+
+      // update breadcrumb
+      $('.breadcrumb').html(''); // clear content
+      currentPaths.forEach(
+        (path, index) => addBreadcrumbContent(path, index == currentPaths.length - 1, index == 0)
+      );
+
+      $(".source-link").attr("link", getSharedLink(id)); // change shared link
 
       // reload from new album
       $('#fileListContainer').html('');
+      nextPageToken = "";
       await listFiles(true); // list folders first
       listFiles(false); // list files
+    }
+
+    function addBreadcrumbContent(path, isActive, isDriveLinkRequired) {
+      // generate shared link for drive
+      let driveLink = '';
+      if (isDriveLinkRequired) {
+        driveLink =
+        `
+          <a class="source-link" href="${getSharedLink(path.id)}" target="_blank">
+          [<i class="bi bi-link-45deg"></i>元画像]</a>
+        `;
+      }
+
+      let onclickHandler = isActive ? '' : `switchPath('${path.id}')`;
+
+      // update breadcrumb
+      let breadcrumb = $('.breadcrumb');
+      breadcrumb.html(
+        breadcrumb.html() + 
+        `
+        <li class="breadcrumb-item ${isActive ? 'active' : ''}" aria-current="page"
+            onclick="${onclickHandler}">
+          ${driveLink}
+          <span class="d-inline-block align-middle  text-truncate" style="max-width: 300px;">
+            ${path.name}
+          </span>
+        </li>
+        `
+      );
     }
 
     async function listFiles(forFolder) {
@@ -327,7 +382,7 @@
 
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
-        q: `'${albumId}' in parents ${criteria}`, // link ID
+        q: `'${getCurrentPath().id}' in parents ${criteria}`, // link ID
         fields: `nextPageToken, files(${FILE_FIELDS_CRITERIA})`,
         pageSize: forFolder ? 1000 : pageSize,
         orderBy: "name",
@@ -362,11 +417,18 @@
     }
 
     async function getAlbumName(id) {
+      let album = ALBUM_LIST.find(album => album.id == id);
+      if (album) {
+        return album.name;
+      }
+
+      // get name from google drive
       try {
         let response = await gapi.client.drive.files.get({ fileId: id });
         return response.result.name;
       } catch (err) {
         handleError(err);
+        return "unknown-folder-name";
       }
     }
 
@@ -391,7 +453,7 @@
         let thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id;
         return `<figure class="figure">
                     <div style="background: url(${thumbnailLink}) no-repeat center;">
-                      <i class="bi bi-play-circle-fill" style="font-size: 6em;"
+                      <i class="bi bi-play-circle-fill" style="font-size: 4em;"
                         onclick="window.open('${file.webViewLink}')"></i>
                     </div>
                     <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
@@ -402,13 +464,17 @@
         return `<figure class="figure">
                     <button type="button"
                             class="btn btn-lg btn-secondary default-thumbnail"
-                            onclick="switchPath('${file.id}')">
+                            onclick="switchPath('${file.id}', true)">
                             <i class="bi bi-folder2">${file.name}</i>
                     </button>
                 </figure>`;
       }
 
       return `<figure class="figure default-thumbnail"><i class="bi bi-file-earmark"></i>${file.name}</figure>`;
+    }
+
+    function getSharedLink(id) {
+      return `https://drive.google.com/drive/folders/${id}`;
     }
 
     function showPhoto(id, fileInfo) {
@@ -481,25 +547,24 @@
   <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
     <i class="bi bi-person-x-fill"></i>
   </button>
-  <input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug
+  <!--input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug-->
 
   <div id="info" class="alert alert-info" role="alert" hidden></div>
   <div id="error" class="alert alert-danger" role="alert" hidden></div>
 </div>
 
-<div class="container">
-  <div class="dropdown album-menu">
+<div class="container row">
+  <div class="dropdown col-2 album-menu">
     <button id="albumMenuBtn" class="btn btn-secondary dropdown-toggle" type="button"
             data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-journal-album"></i>
     </button>
     <ul class="dropdown-menu" aria-labelledby="albumMenuBtn">
     </ul>
+  </div>
+  <div class="col">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">
-          <span id="albumName"></span>
-        </li>
+      <ol class="breadcrumb align-middle align-items-center">
       </ol>
     </nav>
   </div>
