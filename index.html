@@ -55,16 +55,9 @@
     // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
     const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
 
-    let tokenClient;
-    let gapiInited = false;
-    let gisInited = false;
-    let albumId = "1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk";
-    let nextPageToken = ""; // token for loading next page
-    let pageSize = 20;
-
     // Define the fields to fetch from the API
     // See https://developers.google.com/drive/api/v3/reference/files
-    const imageMediaFields = {
+    const IMAGE_MEDIA_FIELDS = {
       'width': {},
       'height': {},
       'rotation': {},
@@ -88,7 +81,7 @@
       'lens': {}
     };
 
-    const fileFields = {
+    const FILE_FIELDS = {
       'id': { hidden: true },
       'name': {},
       'mimeType': { hidden: true },
@@ -99,12 +92,40 @@
       'webViewLink': { hidden: true }
     };
 
-    const fileFieldsCriteria =
-            Object.keys(fileFields).join(',')
-            + ',imageMediaMetadata(' + Object.keys(imageMediaFields).join(',') + ')';
+    const FILE_FIELDS_CRITERIA =
+            Object.keys(FILE_FIELDS).join(',')
+            + ',imageMediaMetadata(' + Object.keys(IMAGE_MEDIA_FIELDS).join(',') + ')';
 
+    const ALBUM_LIST = [
+      {
+        id: '1YVu9fL7bqQ4c8CkcyIt93idVnScq-K2x',
+        name: '20221113-町田夢舞生ッスイ祭 2022'
+      },
+      {
+        id: '1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5',
+        name: '20221015-横浜よさこい祭り 2022'
+      },
+      {
+        id: '1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i',
+        name: '20221016-横浜よさこい祭り 2022'
+      },
+      {
+        id: '1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk',
+        name: '20221008-原宿表参道元氣祭 スーパーよさこい 2022'
+      },
+      {
+        id: '1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT',
+        name: '20221009-原宿表参道元氣祭 スーパーよさこい 2022'
+      }
+    ];
+
+    let tokenClient;
+    let gapiInited = false;
+    let gisInited = false;
+    let albumId;
+    let nextPageToken = ""; // token for loading next page
+    let pageSize = 20;
     let loading = false;
-
     let currentFileInfo;
 
     /**
@@ -159,10 +180,16 @@
         event.stopPropagation();
       });
 
-      // trigger selection by default album
-      $(".album-menu:first").click();
-
       // initialize for bootstrap popover components
+      initFileInfoPopovers();
+
+      initMenu();
+
+      // load content for default album
+      switchPath(ALBUM_LIST[0].id);
+    }
+
+    function initFileInfoPopovers() {
       new bootstrap.Popover('.file-info-btn', {
         container: 'body',
         html: true,
@@ -174,8 +201,8 @@
           }
 
           let html = '';
-          for (key in imageMediaFields) {
-            if (imageMediaFields[key].hidden) {
+          for (key in IMAGE_MEDIA_FIELDS) {
+            if (IMAGE_MEDIA_FIELDS[key].hidden) {
               continue; // ignore hidden information
             }
             if (!(key in mediaInfo) || mediaInfo[key] === null) {
@@ -194,10 +221,26 @@
       });
     }
 
+    function initMenu() {
+      let menu = $('.album-menu .dropdown-menu');
+
+      ALBUM_LIST.forEach(album => {
+        let menuItem = 
+        `
+        <li>
+          <a class="dropdown-item album-menu" href="#"
+            onclick="switchPath('${album.id}')">
+            ${album.name}
+          </a>
+        </li>
+        `
+        menu.html(menu.html() + menuItem);
+      });
+    }
+
     async function onScroll() {
       if ($(window).scrollTop() + window.innerHeight >= document.body.scrollHeight - 50) {
         // if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-        debugAlert("scrolled to bottom");
         await listFiles();
       }
     }
@@ -278,12 +321,14 @@
 
     async function getFileList(forFolder) {
       //let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
-      let criteria = "and trashed=false and mimeType " + (forFolder ? "=" : "!=") + " 'application/vnd.google-apps.folder'";
+      let criteria = "and trashed=false and mimeType " 
+                        + (forFolder ? "=" : "!=")
+                        + " 'application/vnd.google-apps.folder'";
 
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
         q: `'${albumId}' in parents ${criteria}`, // link ID
-        fields: `nextPageToken, files(${fileFieldsCriteria})`,
+        fields: `nextPageToken, files(${FILE_FIELDS_CRITERIA})`,
         pageSize: forFolder ? 1000 : pageSize,
         orderBy: "name",
         pageToken: nextPageToken || "",
@@ -443,37 +488,12 @@
 </div>
 
 <div class="container">
-  <div class="dropdown">
-    <button id="albumMenu" class="btn btn-secondary dropdown-toggle" type="button"
+  <div class="dropdown album-menu">
+    <button id="albumMenuBtn" class="btn btn-secondary dropdown-toggle" type="button"
             data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-journal-album"></i>
     </button>
-    <ul class="dropdown-menu" aria-labelledby="albumMenu">
-      <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1YVu9fL7bqQ4c8CkcyIt93idVnScq-K2x')">
-          20221113-町田夢舞生ッスイ祭 2022
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1ytzgYQc_SBp-PRTmbwb24PXJ9pWRMHL5')">
-          20221015-横浜よさこい祭り 2022
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1yrIXKE-5XKQOe7_pmLduVFynqpk_z68i')">
-          20221016-横浜よさこい祭り 2022
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1eHo-uOU1LTHQKFJhhd8BpMwiF81NTYmk')">
-          20221008-原宿表参道元氣祭 スーパーよさこい 2022
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item album-menu" href="#" onclick="switchPath('1yrx_QkJ14QCjcHYYoO1p_8CdZRVOpPPT')">
-          20221009-原宿表参道元氣祭 スーパーよさこい 2022
-        </a>
-      </li>
+    <ul class="dropdown-menu" aria-labelledby="albumMenuBtn">
     </ul>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
