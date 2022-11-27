@@ -34,6 +34,13 @@
     .breadcrumb-item:not(.active) {
       font-weight: bolder;
     }
+
+    .source-image-spinner {
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+    }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -299,7 +306,7 @@
       if (toSubFolder) {
         currentPaths.push({ id: id, name: await getAlbumName(id) });
       } else {
-        let pathIndex = currentPaths.findIndex(path => path.id == id);
+        let pathIndex = currentPaths.findIndex(path => path.id === id);
 
         if (pathIndex > 0) {
           // change to another path in the same root path
@@ -314,7 +321,7 @@
       // update breadcrumb
       $('.breadcrumb').html(''); // clear content
       currentPaths.forEach(
-        (path, index) => addBreadcrumbContent(path, index == currentPaths.length - 1, index == 0)
+        (path, index) => addBreadcrumbContent(path, index === currentPaths.length - 1, index === 0)
       );
 
       $(".source-link").attr("link", getSharedLink(id)); // change shared link
@@ -424,7 +431,7 @@
     }
 
     async function getAlbumName(id) {
-      let album = ALBUM_LIST.find(album => album.id == id);
+      let album = ALBUM_LIST.find(album => album.id === id);
       if (album) {
         return album.name;
       }
@@ -439,8 +446,12 @@
       }
     }
 
-    function getFitScreenLink(id) {
+    function getPreviewImageLink(id) {
       return "https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=" + id;
+    }
+
+    function getSourceImageLink(id) {
+      return "https://drive.google.com/uc?export=view&id=" + id;
     }
 
     function toFileCellHtml(file) {
@@ -485,9 +496,24 @@
     }
 
     function showPhoto(id, fileInfo) {
-      $('#photoFrame .modal-body img').attr("src", getFitScreenLink(id));
+      let previewImage = $('#photoFrame .modal-body .preview-image');
+      previewImage.show();
+
+      let sourceImage = $('#photoFrame .modal-body .source-image');
+      sourceImage.hide();
+      $('#photoFrame .modal-body .source-image-spinner').show();
+
+      previewImage.attr("src", getPreviewImageLink(id));
+      sourceImage.attr("src", getSourceImageLink(id));
+
       $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
       currentFileInfo = fileInfo;
+    }
+
+    function onSourceImageLoaded() {
+      $('#photoFrame .modal-body .preview-image').hide();
+      $('#photoFrame .modal-body .source-image-spinner').hide();
+      $('#photoFrame .modal-body .source-image').show();
     }
 
     function dismissPhoto() {
@@ -605,7 +631,12 @@
                     data-bs-dismiss="modal" aria-label="Close">
             </button>
 
-            <img class="img-fluid align-middle align-items-center" src="" alt=""/>
+            <img class="img-fluid align-middle align-items-center preview-image" src="" alt=""/>
+            <img class="img-fluid align-middle align-items-center source-image" src="" alt=""
+                 onload="onSourceImageLoaded()"/>
+          </div>
+          <div class="spinner-border source-image-spinner" role="status">
+            <span class="sr-only"></span>
           </div>
           <div class="fixed-bottom">
             <a href="" class="download-link" download>
