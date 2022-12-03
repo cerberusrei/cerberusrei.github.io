@@ -139,6 +139,7 @@
     let gisInited = false;
     let currentPaths = []; // [root, sub1, sub2, ...]
     let nextPageToken = ""; // token for loading next page
+    let isNoMoreData = false; // true when reach end of the file list
     let pageSize = 20;
     let loading = false;
     let currentFileInfo;
@@ -333,6 +334,7 @@
       // reload from new album
       $('#fileListContainer').html('');
       nextPageToken = "";
+      isNoMoreData = false;
       await listFiles(true); // list folders first
       listFiles(false); // list files
     }
@@ -379,7 +381,7 @@
         let files = await getFileList(forFolder);
 
         if (files.length === 0) {
-          showInfo('No data');
+          showInfo('No more data to load');
           return;
         }
 
@@ -393,6 +395,10 @@
     }
 
     async function getFileList(forFolder) {
+      if (isNoMoreData) {
+        return [];
+      }
+
       //let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
       let criteria = "and trashed=false and mimeType " 
                         + (forFolder ? "=" : "!=")
@@ -412,6 +418,9 @@
       // folders are listed at once, so we don't keep the page token and avoid to impact pagination of files
       if (!forFolder) {
         nextPageToken = response.result.nextPageToken;
+        if (!nextPageToken) {
+          isNoMoreData = true; // all files are loaded
+        }
       }
 
       return response.result.files.map((file) => $.extend(file, {
@@ -462,7 +471,7 @@
       // let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
 
       if (file.isImage()) {
-        let thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id;
+        let thumbnailLink = getPreviewImageLink(file.id);
         return `<figure class="figure">
                     <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
                             data-bs-toggle="modal" data-bs-target="#photoFrame"
@@ -472,20 +481,28 @@
       }
 
       if (file.isVideo()) {
-        let thumbnailLink = "https://drive.google.com/thumbnail?authuser=0&sz=w320&id=" + file.id;
+        let thumbnailLink = getPreviewImageLink(file.id);
         return `<figure class="figure">
-                    <div style="background: url(${thumbnailLink}) no-repeat center;">
-                      <i class="bi bi-play-circle-fill" style="font-size: 4em;"
-                        onclick="window.open('${file.webViewLink}')"></i>
+                    <div class="container" style="position: relative">
+                      <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="thumbnail" />
+
+                      <div class="d-flex align-items-center justify-content-center"
+                        style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+                        <button class="btn btn-dark"
+                          onclick="window.open('${file.webViewLink}')">
+                          <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
+                        </button>
+                      </div>
                     </div>
                     <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
                 </figure>`;
       }
 
       if (file.isFolder()) {
-        return `<figure class="figure">
+        return `<figure class="figure" style="width: 100%">
                     <button type="button"
                             class="btn btn-lg btn-secondary default-thumbnail"
+                            style="width: 100%"
                             onclick="switchPath('${file.id}', true)">
                             <i class="bi bi-folder2">${file.name}</i>
                     </button>
@@ -618,7 +635,7 @@
 </div>
 
 <div class="container text-center">
-  <div id="fileListContainer" class="row row-cols-2">
+  <div id="fileListContainer" class="row>
   </div>
 
   <div class="spinner-border" role="status">
