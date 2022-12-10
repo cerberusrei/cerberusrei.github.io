@@ -43,6 +43,7 @@
     }
   </style>
 
+  <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <script type="text/javascript">
@@ -460,11 +461,63 @@
     }
 
     function getPreviewImageLink(id) {
-      return "https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=" + id;
+      return "https://drive.google.com/thumbnail?authuser=0&sz=w512&id=" + id;
     }
 
     function getSourceImageLink(id) {
       return "https://drive.google.com/uc?export=view&id=" + id;
+    }
+
+    function displayFocusRange(id) {
+      let img = $("#preview-" + id)[0];
+      if (!$("#preview-" + id)[0].src.startsWith("http")) {
+        return;
+      }
+      // https://www.googleapis.com/drive/v3/files/${fileId}?key=${driveInfo.key}&alt=media
+      // let src = `https://www.googleapis.com/drive/v3/files/135mySkwCIdDS-Yn2fS1YSe6YzKkVA1fX?key=AIzaSyD6tDosGMgPK33O8K7yWhXbaMvXim121yY&alt=media`;
+      // https://drive.google.com/thumbnail?authuser=0&sz=w512&id=135mySkwCIdDS-Yn2fS1YSe6YzKkVA1fX&key=AIzaSyD6tDosGMgPK33O8K7yWhXbaMvXim121yY
+      //let src = getPreviewImageLink(id) + "&key=" + API_KEY;
+      //let src = "https://lh3.googleusercontent.com/d/13tSxqdzEGvc655wcizzLe3nXO3l2trko=w1024?authuser=0";
+      //let src = getSourceImageLink(id);
+      let src = `https://www.googleapis.com/drive/v3/files/${id}?key=${API_KEY}&alt=media`;
+      prompt("fetch", src);
+      fetch(src, {redirect: 'follow'})
+        .then((res) => res.blob())
+        .then((blob) => {
+            // Read the Blob as DataURL using the FileReader API
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                prompt("y", src + "=>" +reader.result.substring(0,20));
+                //$("#preview-" + id)[0].src=reader.result;
+
+                let isExifAvailable = EXIF.getData({src : reader.result}, function() {
+                  alert("get exif" + this.constructor.name)
+                  //alert("get exif " + img.src.substring(0, 20));
+                  var make = EXIF.getTag(this, "Make");
+                  var model = EXIF.getTag(this, "Model");
+                  var subjectArea = EXIF.getTag(this, "SubjectArea");
+                  var subjectDistance = EXIF.getTag(this, "SubjectDistance");
+                  var subjectLocation = EXIF.getTag(this, "SubjectLocation");
+                  var exifVersion = EXIF.getTag(this, "ExifVersion");
+                  var makerNote = EXIF.getTag(this, "MakerNote");
+                  alert(make + "," + model + "," + subjectArea + "," + subjectDistance + "," 
+                  + subjectLocation
+                  + "," + exifVersion
+                  + "," + makerNote);
+                });
+                // Logs data:image/jpeg;base64,wL2dvYWwgbW9yZ...
+
+                // Convert to Base64 string
+                // const base64 = getBase64StringFromDataURL(reader.result);
+                // console.log(base64);
+                // Logs wL2dvYWwgbW9yZ...
+            };
+            reader.readAsDataURL(blob);
+        }).catch(function(error) {
+            alert(error.message);
+        });
+
+      // alert("done " + img.src + "=" + isExifAvailable);
     }
 
     function toFileCellHtml(file) {
@@ -473,9 +526,10 @@
       if (file.isImage()) {
         let thumbnailLink = getPreviewImageLink(file.id);
         return `<figure class="figure">
-                    <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
+                    <img id="preview-${file.id}" src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
                             data-bs-toggle="modal" data-bs-target="#photoFrame"
-                            onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+                            onclick="showPhoto('${file.id}', '${file.toText()}')"
+                            onload="displayFocusRange('${file.id}')"/>
                     <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
                 </figure>`;
       }
@@ -517,24 +571,29 @@
     }
 
     function showPhoto(id, fileInfo) {
+      
       let previewImage = $('#photoFrame .modal-body .preview-image');
-      previewImage.show();
+      displayFocusRange(previewImage[0]);
+      //previewImage[0].src = getSourceImageLink(id);
+      // previewImage.show();
 
-      let sourceImage = $('#photoFrame .modal-body .source-image');
-      sourceImage.hide();
-      $('#photoFrame .modal-body .source-image-spinner').show();
+      // let sourceImage = $('#photoFrame .modal-body .source-image');
+      // sourceImage.hide();
+      // $('#photoFrame .modal-body .source-image-spinner').show();
 
-      previewImage.attr("src", getPreviewImageLink(id));
-      sourceImage.attr("src", getSourceImageLink(id));
+      // previewImage.attr("src", getPreviewImageLink(id));
+      // sourceImage.attr("src", getSourceImageLink(id));
 
-      $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
-      currentFileInfo = fileInfo;
+      // $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
+      // currentFileInfo = fileInfo;
     }
 
     function onSourceImageLoaded() {
       $('#photoFrame .modal-body .preview-image').hide();
       $('#photoFrame .modal-body .source-image-spinner').hide();
       $('#photoFrame .modal-body .source-image').show();
+ alert("loaded " + $('#photoFrame .modal-body .source-image')[0]);
+      //displayFocusRange($('#photoFrame .modal-body .source-image')[0]);
     }
 
     function dismissPhoto() {
