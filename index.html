@@ -209,8 +209,8 @@
 
       initMenu();
 
-      // load content for default album
-      switchPath(ALBUM_LIST[0].id);
+      // load content of a album randomly
+      switchPath(ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
     }
 
     function initFileInfoPopovers() {
