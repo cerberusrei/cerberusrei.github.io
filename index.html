@@ -77,7 +77,7 @@
       }
 
       getOffsets(targetImageWidth) {
-        let ratio = Math.floor(this.imageWidth / targetImageWidth);
+        let ratio = this.imageWidth / targetImageWidth;
 
         let offsets = $.extend({}, this.offsets);
         for (let key in offsets) {
@@ -185,6 +185,7 @@
     let loading = false;
     let currentFileInfo;
     let fileMeta = {};
+    let fileListContainer = null;
 
     /**
      * Callback after api.js is loaded.
@@ -249,6 +250,8 @@
       });
 
       initMenu();
+
+      fileListContainer = $('#fileListContainer');
 
       // load content of a album randomly
       switchPath(ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
@@ -619,30 +622,36 @@
     }
 
     function toImageFileCellHtml(file) {
-      let thumbnailWidth = null;
       let focusPortion = getThumbnailFocusPortion(file);
+      let thumbnailWidth = focusPortion ? 1024 : null;
+      let thumbnailLink = getPreviewImageLink(file.id, thumbnailWidth);
       let imageStyle = "width: 100%";
       let divSizeStyle = "max-width: 100%; overflow: hidden; margin-top: 5px;";
-      if (focusPortion) {
-        thumbnailWidth = 1024;
-        let offsets = focusPortion.getOffsets(thumbnailWidth);
-        let offsetsStr = `${offsets.top}px ${offsets.right}px ${offsets.bottom}px ${offsets.left}px`;
-        imageStyle = `position: relative; left: -${offsets.left}px; top: -${offsets.top}px;
-        -webkit-clip-path: inset(${offsetsStr}); clip-path: inset(${offsetsStr});`;
 
-        let container = $('#fileListContainer');
+      if (focusPortion) {
+        let imageWidth = thumbnailWidth; // set width of thumbnail as default image width
+        let actualPortionWidth = Math.floor(
+          focusPortion.portionWidth * imageWidth / focusPortion.imageWidth
+        );
+        if (actualPortionWidth < fileListContainer.innerWidth()) {
+          imageWidth *= fileListContainer.innerWidth() / actualPortionWidth;
+        }
+
+        let offsets = focusPortion.getOffsets(imageWidth);
+        let offsetsStr = `${offsets.top}px ${offsets.right}px ${offsets.bottom}px ${offsets.left}px`;
+        imageStyle = `position: relative;
+        width: ${imageWidth}px; left: -${offsets.left}px; top: -${offsets.top}px;
+        -webkit-clip-path: inset(${offsetsStr}); clip-path: inset(${offsetsStr});`;
         
         let divWidth = focusPortion.portionWidth;
-        if (divWidth > container.innerWidth()) {
-          divWidth = container.innerWidth();
+        if (divWidth > fileListContainer.innerWidth()) {
+          divWidth = fileListContainer.innerWidth();
         }
         
         let ratio = divWidth / focusPortion.portionWidth;
         let divHeight = Math.floor(focusPortion.portionHeight * ratio);
         divSizeStyle += `width: ${divWidth}px; height: ${divHeight}px;`;
       }
-
-      let thumbnailLink = getPreviewImageLink(file.id, thumbnailWidth);
 
       return `<div class="rounded" style="${divSizeStyle}">
                   <img src="${thumbnailLink}" class="" alt="${file.name}"
@@ -845,7 +854,7 @@
 </div>
 
 <div class="container text-center">
-  <div id="fileListContainer" class="row>
+  <div id="fileListContainer">
   </div>
 
   <div class="spinner-border" role="status">
