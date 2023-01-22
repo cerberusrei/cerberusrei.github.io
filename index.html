@@ -52,6 +52,43 @@
   </script>
 
   <script type="text/javascript">
+    class FocusPortion {
+      constructor(
+        imageWidth,
+        imageHeight,
+        portionWidth,
+        portionHeight,
+        offsetTop,
+        offsetRight,
+        offsetBottom,
+        offsetLeft
+      ) {
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
+        this.portionWidth = portionWidth;
+        this.portionHeight = portionHeight;
+
+        this.offsets = {
+          top: offsetTop,
+          right: offsetRight,
+          bottom: offsetBottom,
+          left: offsetLeft
+        };
+      }
+
+      getOffsets(targetImageWidth) {
+        let ratio = this.imageWidth / targetImageWidth;
+
+        let offsets = $.extend({}, this.offsets);
+        for (let key in offsets) {
+          offsets[key] = Math.floor(offsets[key] / ratio);
+        }
+        return offsets;
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
     const CACHE_DEBUG_MODE = "debugMode";
 
     // Quick start: https://developers.google.com/drive/api/quickstart/js
@@ -147,6 +184,8 @@
     let pageSize = 20;
     let loading = false;
     let currentFileInfo;
+    let fileMeta = {};
+    let fileListContainer = null;
 
     /**
      * Callback after api.js is loaded.
@@ -212,8 +251,10 @@
 
       initMenu();
 
-      // load content for default album
-      switchPath(ALBUM_LIST[0].id);
+      fileListContainer = $('#fileListContainer');
+
+      // load content of a album randomly
+      switchPath(ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
     }
 
     function initFileInfoPopovers() {
@@ -243,6 +284,14 @@
                     + '<div class="col">' + mediaInfo[key] + '</div>'
                     + '</div>';
           }
+
+          if (info.focusInfo) {
+            html += `<div class="row">
+              <div class="col-6">Focus Info</div>
+              <div class="col">${JSON.stringify(info.focusInfo, null, 2)}</div>
+            </div>`;
+          }
+
           return '<div class="container">' + html + '</div>';
         }
       });
@@ -339,8 +388,20 @@
       $('#fileListContainer').html('');
       nextPageToken = "";
       isNoMoreData = false;
+
       await listFiles(true); // list folders first
-      listFiles(false); // list files
+
+      if (currentPaths.length == 1) {
+        // load meta when switching to root directory
+        let googleFileInfo = await getGoogleFileInfo(currentPaths[0].id);
+        loadMeta(googleFileInfo.name)
+          .then(function(meta) {
+            fileMeta = meta;
+            listFiles(false);
+          });
+      } else {
+        listFiles(false); // list files, meta should be already loaded
+      }
     }
 
     function addBreadcrumbContent(path, isActive, isDriveLinkRequired) {
@@ -390,7 +451,9 @@
         }
 
         let container = $('#fileListContainer');
-        files.forEach((file) => container.append(toFileCellHtml(file)));
+        files
+          .filter((file) => !file.isUnsupportedFile())
+          .forEach((file) => container.append(toFileCellHtml(file)));
       } catch (err) {
         handleError(err);
       } finally {
@@ -403,7 +466,7 @@
         return [];
       }
 
-      //let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
+      // let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
       let criteria = "and trashed=false and mimeType " 
                         + (forFolder ? "=" : "!=")
                         + " 'application/vnd.google-apps.folder'";
@@ -427,7 +490,11 @@
         }
       }
 
-      return response.result.files.map((file) => $.extend(file, {
+      return response.result.files.map((file) => buildFile(file));
+    }
+
+    function buildFile(googleDriveFile) {
+      let file = $.extend(googleDriveFile, {
         // see: https://developers.google.com/drive/api/guides/mime-types
         isImage: function() {
           return this.mimeType.includes("image") || this.mimeType.includes("photo");
@@ -438,13 +505,26 @@
         isFolder: function() {
           return this.mimeType.includes("folder");
         },
+        isUnsupportedFile: function() {
+          // avoid displaying system files
+          return file.name.startsWith(".") || file.name.endsWith(".ini");
+        },
         getExifTime: function() {
           return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
         },
         toText: function() {
-          return btoa(JSON.stringify(this, null, 4));
+          return btoa(JSON.stringify(this));
         }
-      }));
+      });
+
+      if (file.isImage()) {
+        let meta = fileMeta[file.name];
+        if (meta) {
+          file.focusInfo = meta.focus;
+        }
+      }
+
+      return file;
     }
 
     async function getAlbumName(id) {
@@ -453,71 +533,246 @@
         return album.name;
       }
 
-      // get name from google drive
+      // get name from google drive (for case when going to sub-folder)
       try {
-        let response = await gapi.client.drive.files.get({ fileId: id });
-        return response.result.name;
+        let info = await getGoogleFileInfo(id);
+        return info.name;
       } catch (err) {
         handleError(err);
         return "unknown-folder-name";
       }
     }
 
-    function getPreviewImageLink(id) {
-      return "https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=" + id;
+    async function getGoogleFileInfo(id) {
+      let response = await gapi.client.drive.files.get({ fileId: id });
+      return response.result;
+    }
+
+    function getPreviewImageLink(id, width) {
+      if (!width) {
+        width = 512;
+      }
+      return `https://drive.google.com/thumbnail?authuser=0&sz=w${width}&id=${id}`;
     }
 
     function getSourceImageLink(id) {
-      return "https://drive.google.com/uc?export=view&id=" + id;
+      return `https://drive.google.com/uc?export=view&id=${id}`;
+    }
+
+    function getThumbnailFocusPortion(file) {
+      let meta = fileMeta[file.name];
+      if (!meta) {
+        return null;
+      }
+
+      switch (file.imageMediaMetadata.focalLength) {
+        case 70:
+          return get70mmFocusPortion(file, meta);
+        default:
+          return null; // not supported
+      }
+    }
+
+    function get70mmFocusPortion(file, meta) {
+      let focusDistance = meta.getFocusDistance();
+      let imageWidth = file.imageMediaMetadata.width;
+      let imageHeight = file.imageMediaMetadata.height;
+
+      if (focusDistance >= 120) {
+        return getFocusPortion(imageWidth, imageHeight, meta.focus.location, 4);
+      } else if (focusDistance >= 70) {
+        return getFocusPortion(imageWidth, imageHeight, meta.focus.location, 3);
+      } else if (focusDistance >= 50) {
+        return getFocusPortion(imageWidth, imageHeight, meta.focus.location, 2);
+      } else if (focusDistance >= 20) {
+        return getFocusPortion(imageWidth, imageHeight, meta.focus.location, 2);
+      }
+      return null; // focus portion is not useful
+    }
+
+    function getFocusPortion(imageWidth, imageHeight, focusPoint, denominator) {
+      // -webkit-clip-path: inset(30px 10px 30px 10px);
+      // clip-path: inset(30px 10px 30px 10px);
+      // top right bottom left
+      // let isLandscape = imageWidth > imageHeight;
+      let portionWidth = Math.floor(imageWidth / denominator);
+      let portionHeight = Math.floor(imageHeight / denominator);
+
+      let top = focusPoint.y - Math.floor(portionHeight / 2);
+      if (top < 0) {
+        top = 0;
+      }
+
+      let left = focusPoint.x - Math.floor(portionWidth / 2);
+      if (left < 0) {
+        left = 0;
+      }
+
+      //  left   portion width  right
+      // |-----|---------------|-----|
+      let right = imageWidth - portionWidth - left;
+      let bottom = imageHeight - portionHeight - top;
+      return new FocusPortion(
+        imageWidth, imageHeight,
+        portionWidth, portionHeight,
+        top, right, bottom, left,
+      );
     }
 
     function toFileCellHtml(file) {
-      // let datetime = file.isImage() ? file.getExifTime() : new Date(file.createdTime).toLocaleString();
-
       if (file.isImage()) {
-        let thumbnailLink = getPreviewImageLink(file.id);
-        return `<figure class="figure">
-                    <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
-                            data-bs-toggle="modal" data-bs-target="#photoFrame"
-                            onclick="showPhoto('${file.id}', '${file.toText()}')"/>
-                    <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
-                </figure>`;
+        return toImageFileCellHtml(file);
       }
 
       if (file.isVideo()) {
-        let thumbnailLink = getPreviewImageLink(file.id);
-        return `<figure class="figure">
-                    <div class="container" style="position: relative">
-                      <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="thumbnail" />
-
-                      <div class="d-flex align-items-center justify-content-center"
-                        style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
-                        <button class="btn btn-dark"
-                          onclick="window.open('${file.webViewLink}')">
-                          <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
-                </figure>`;
+        return toVideoFileCellHtml(file);
       }
 
       if (file.isFolder()) {
-        return `<figure class="figure" style="width: 100%">
-                    <button type="button"
-                            class="btn btn-lg btn-secondary default-thumbnail"
-                            style="width: 100%"
-                            onclick="switchPath('${file.id}', true)">
-                            <i class="bi bi-folder2">${file.name}</i>
-                    </button>
-                </figure>`;
+        return toFolderCellHtml(file);
       }
 
-      return `<figure class="figure default-thumbnail"><i class="bi bi-file-earmark"></i>${file.name}</figure>`;
+      return `<figure class="figure default-thumbnail">
+                <i class="bi bi-file-earmark"></i>${file.name}
+              </figure>`;
+    }
+
+    function toImageFileCellHtml(file) {
+      let focusPortion = getThumbnailFocusPortion(file);
+      let thumbnailWidth = focusPortion ? 1024 : null;
+      let thumbnailLink = getPreviewImageLink(file.id, thumbnailWidth);
+      let imageStyle = "width: 100%";
+      let divSizeStyle = "max-width: 100%; overflow: hidden; margin-top: 5px;";
+
+      if (focusPortion) {
+        let imageWidth = thumbnailWidth; // set width of thumbnail as default image width
+        let actualPortionWidth = Math.floor(
+          focusPortion.portionWidth * imageWidth / focusPortion.imageWidth
+        );
+        if (actualPortionWidth < fileListContainer.innerWidth()) {
+          imageWidth *= fileListContainer.innerWidth() / actualPortionWidth;
+        }
+
+        let offsets = focusPortion.getOffsets(imageWidth);
+        let offsetsStr = `${offsets.top}px ${offsets.right}px ${offsets.bottom}px ${offsets.left}px`;
+        imageStyle = `position: relative;
+        width: ${imageWidth}px; left: -${offsets.left}px; top: -${offsets.top}px;
+        -webkit-clip-path: inset(${offsetsStr}); clip-path: inset(${offsetsStr});`;
+        
+        let divWidth = focusPortion.portionWidth;
+        if (divWidth > fileListContainer.innerWidth()) {
+          divWidth = fileListContainer.innerWidth();
+        }
+        
+        let ratio = divWidth / focusPortion.portionWidth;
+        let divHeight = Math.floor(focusPortion.portionHeight * ratio);
+        divSizeStyle += `width: ${divWidth}px; height: ${divHeight}px;`;
+      }
+
+      return `<div class="rounded" style="${divSizeStyle}">
+                  <img src="${thumbnailLink}" class="" alt="${file.name}"
+                          style="${imageStyle}"
+                          data-bs-toggle="modal" data-bs-target="#photoFrame"
+                          onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+              </div>`;
+    }
+
+    function toVideoFileCellHtml(file) {
+      let thumbnailLink = getPreviewImageLink(file.id);
+      return `<figure class="figure">
+                  <div class="container" style="position: relative">
+                    <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="thumbnail" />
+
+                    <div class="d-flex align-items-center justify-content-center"
+                      style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+                      <button class="btn btn-dark"
+                        onclick="window.open('${file.webViewLink}')">
+                        <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
+              </figure>`;
+    }
+
+    function toFolderCellHtml(file) {
+      return `<figure class="figure" style="width: 100%">
+                  <button type="button"
+                          class="btn btn-lg btn-secondary default-thumbnail"
+                          style="width: 100%"
+                          onclick="switchPath('${file.id}', true)">
+                          <i class="bi bi-folder2">${file.name}</i>
+                  </button>
+              </figure>`;
     }
 
     function getSharedLink(id) {
       return `https://drive.google.com/drive/folders/${id}`;
+    }
+
+    function loadMeta(name) {
+      if (!name) {
+        return {}; // ignore invalid input
+      }
+
+      let deffered = $.Deferred();
+
+      $.get(
+        `https://cerberusrei.github.io/resources/meta/${name}.csv`,
+        function(data) {
+          let meta = {};
+
+          data.split("\n")
+            .slice(1) // skip header
+            .forEach(line => {
+              let parsed = parseMeta(line);
+              if (parsed) {
+                meta[parsed.fileName] = parsed.meta;
+              }
+            });
+
+            deffered.resolve(meta);
+        }
+      ).fail(function() {
+        deffered.resolve({});
+        console.log("Failed to get meta");
+      });
+
+      return deffered;
+    }
+
+    function parseMeta(line) {
+      let values = line.split(",");
+      if (!/\d+ {1}\d+ {1}\d+ {1}\d+/.test(values[1])) {
+        return null; // not expected values like "7008 3944 3044 1963"
+      }
+
+      let fileName = values[0];
+      let focusLocation = values[1].split(' ');
+
+      return {
+        fileName: fileName,
+        meta: {
+          focus: {
+            location: {
+              x: focusLocation[2],
+              y: focusLocation[3]
+            },
+            distance: {
+              // Focus Distance 2 e.g. "125.6 m" or "inf"
+              value: values[2].split(' ')[0],
+              // Hyperfocus Distance e.g. "12.6 m"
+              hyper: values[3].split(' ')[0]
+            }
+          },
+          getFocusDistance: function() {
+            if (/^\d+(\.\d+)?$/.test(this.focus.distance.value)) {
+              return parseFloat(this.focus.distance.value);
+            }
+            return parseFloat(this.focus.distance.hyper);
+          }
+        }
+      }
     }
 
     function showPhoto(id, fileInfo) {
@@ -639,7 +894,7 @@
 </div>
 
 <div class="container text-center">
-  <div id="fileListContainer" class="row>
+  <div id="fileListContainer">
   </div>
 
   <div class="spinner-border" role="status">
