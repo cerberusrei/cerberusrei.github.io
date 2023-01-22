@@ -391,11 +391,17 @@
 
       await listFiles(true); // list folders first
 
-      loadMeta()
-        .then(function(meta) {
-          fileMeta = meta;
-          listFiles(false); // list files
-        });
+      if (currentPaths.length == 1) {
+        // load meta when switching to root directory
+        let googleFileInfo = await getGoogleFileInfo(currentPaths[0].id);
+        loadMeta(googleFileInfo.name)
+          .then(function(meta) {
+            fileMeta = meta;
+            listFiles(false);
+          });
+      } else {
+        listFiles(false); // list files, meta should be already loaded
+      }
     }
 
     function addBreadcrumbContent(path, isActive, isDriveLinkRequired) {
@@ -522,14 +528,19 @@
         return album.name;
       }
 
-      // get name from google drive
+      // get name from google drive (for case when going to sub-folder)
       try {
-        let response = await gapi.client.drive.files.get({ fileId: id });
-        return response.result.name;
+        let info = await getGoogleFileInfo(id);
+        return info.name;
       } catch (err) {
         handleError(err);
         return "unknown-folder-name";
       }
+    }
+
+    async function getGoogleFileInfo(id) {
+      let response = await gapi.client.drive.files.get({ fileId: id });
+      return response.result;
     }
 
     function getPreviewImageLink(id, width) {
@@ -694,34 +705,24 @@
       return `https://drive.google.com/drive/folders/${id}`;
     }
 
-    function loadMeta() {
+    function loadMeta(name) {
+      if (!name) {
+        return {}; // ignore invalid input
+      }
+
       let deffered = $.Deferred();
 
       $.get(
-        'https://cerberusrei.github.io/resources/meta/test.csv',
+        `https://cerberusrei.github.io/resources/meta/${name}.csv`,
         function(data) {
           let meta = {};
 
-          data.split("\n").slice(1)
-            .forEach(function(line) {
-              let values = line.split(",");
-              meta[values[0]] = {
-                focus: {
-                  location: {
-                    x: values[1],
-                    y: values[2]
-                  },
-                  distance: {
-                    value: values[3], // Focus Distance 2
-                    hyper: values[4] // Hyperfocus Distance
-                  }
-                },
-                getFocusDistance: function() {
-                  if (/^\d+(\.\d+)?$/.test(this.focus.distance.value)) {
-                    return parseFloat(this.focus.distance.value);
-                  }
-                  return parseFloat(this.focus.distance.hyper);
-                }
+          data.split("\n")
+            .slice(1) // skip header
+            .forEach(line => {
+              let parsed = parseMeta(line);
+              if (parsed) {
+                meta[parsed.fileName] = parsed.meta;
               }
             });
 
@@ -733,6 +734,40 @@
       });
 
       return deffered;
+    }
+
+    function parseMeta(line) {
+      let values = line.split(",");
+      if (!/\d+ {1}\d+ {1}\d+ {1}\d+/.test(values[1])) {
+        return null; // not expected values like "7008 3944 3044 1963"
+      }
+
+      let fileName = values[0];
+      let focusLocation = values[1].split(' ');
+
+      return {
+        fileName: fileName,
+        meta: {
+          focus: {
+            location: {
+              x: focusLocation[2],
+              y: focusLocation[3]
+            },
+            distance: {
+              // Focus Distance 2 e.g. "125.6 m" or "inf"
+              value: values[2].split(' ')[0],
+              // Hyperfocus Distance e.g. "12.6 m"
+              hyper: values[3].split(' ')[0]
+            }
+          },
+          getFocusDistance: function() {
+            if (/^\d+(\.\d+)?$/.test(this.focus.distance.value)) {
+              return parseFloat(this.focus.distance.value);
+            }
+            return parseFloat(this.focus.distance.hyper);
+          }
+        }
+      }
     }
 
     function showPhoto(id, fileInfo) {
