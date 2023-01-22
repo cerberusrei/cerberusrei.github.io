@@ -451,7 +451,9 @@
         }
 
         let container = $('#fileListContainer');
-        files.forEach((file) => container.append(toFileCellHtml(file)));
+        files
+          .filter((file) => !file.isUnsupportedFile())
+          .forEach((file) => container.append(toFileCellHtml(file)));
       } catch (err) {
         handleError(err);
       } finally {
@@ -464,11 +466,10 @@
         return [];
       }
 
-      //let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
+      // let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
       let criteria = "and trashed=false and mimeType " 
                         + (forFolder ? "=" : "!=")
-                        + " 'application/vnd.google-apps.folder'"
-                        + (forFolder ? "" : " and (name contains 'DSC06306' or name contains 'DSC02522' or name contains 'DSC02765' or name contains 'DSC02822' or name contains 'DSC02696' or name contains 'DSC02653' or name contains 'DSC02611' or name contains 'DSC02578' or name contains 'DSC02566')");
+                        + " 'application/vnd.google-apps.folder'";
 
       // default fields: id, name, and mimeType
       let response = await gapi.client.drive.files.list({
@@ -503,6 +504,10 @@
         },
         isFolder: function() {
           return this.mimeType.includes("folder");
+        },
+        isUnsupportedFile: function() {
+          // avoid displaying system files
+          return file.name.startsWith(".") || file.name.endsWith(".ini");
         },
         getExifTime: function() {
           return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
