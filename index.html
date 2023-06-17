@@ -45,6 +45,8 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+  <script src="js/env.js"></script>
+
   <script type="text/javascript">
     window.onerror = function(error) {
       alert("window error..." + error + "\n" + error.stack);
@@ -94,8 +96,8 @@
     // Quick start: https://developers.google.com/drive/api/quickstart/js
     // File list: https://developers.google.com/drive/api/v3/reference/files/list
 
-    const CLIENT_ID="1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
-    const API_KEY="AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
+    const CLIENT_ID = "1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
+    const API_KEY = SPECIFIC_API_KEY || "AIzaSyD6tDosGMgPK33O8K7yWhXbaMvXim121yY";
 
     // Discovery doc URL for APIs used by the quickstart
     const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
