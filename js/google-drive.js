@@ -12,7 +12,10 @@
 // Quick start: https://developers.google.com/drive/api/quickstart/js
 // File list: https://developers.google.com/drive/api/v3/reference/files/list
 const CLIENT_ID = "1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
-const API_KEY = SPECIFIC_API_KEY || "AIzaSyD6tDosGMgPK33O8K7yWhXbaMvXim121yY";
+let API_KEY = "AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
+if (typeof SPECIFIC_API_KEY != "undefined") {
+    API_KEY = SPECIFIC_API_KEY;
+}
 
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
