@@ -97,3 +97,35 @@ function signOut() {
         gapi.client.setToken('');
     }
 }
+
+async function getAlbumName(id) {
+    let album = ALBUM_LIST.find(album => album.id === id);
+    if (album) {
+        return album.name;
+    }
+
+    // get name from Google Drive (for case when going to sub-folder)
+    try {
+        let info = await getGoogleFileInfo(id);
+        return info.name;
+    } catch (err) {
+        handleError(err);
+        return "unknown-folder-name";
+    }
+}
+
+async function getGoogleFileInfo(id) {
+    let response = await gapi.client.drive.files.get({ fileId: id });
+    return response.result;
+}
+
+function getPreviewImageLink(id, width) {
+    if (!width) {
+        width = 512;
+    }
+    return `https://drive.google.com/thumbnail?authuser=0&sz=w${width}&id=${id}`;
+}
+
+function getSourceImageLink(id) {
+    return `https://drive.google.com/uc?export=view&id=${id}`;
+}
