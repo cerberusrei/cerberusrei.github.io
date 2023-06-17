@@ -129,3 +129,7 @@ function getPreviewImageLink(id, width) {
 function getSourceImageLink(id) {
     return `https://drive.google.com/uc?export=view&id=${id}`;
 }
+
+function getSharedLink(id) {
+    return `https://drive.google.com/drive/folders/${id}`;
+}
