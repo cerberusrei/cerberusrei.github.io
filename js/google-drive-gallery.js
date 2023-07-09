@@ -9,6 +9,10 @@ let currentFileInfo;
 let fileMeta = {};
 let fileListContainer = null;
 
+// for testing
+let queryParams = new URLSearchParams(window.location.search);
+let autoFocusEnabled= queryParams.get('autoFocusEnabled') === 'true';
+
 function initUi() {
     $('#debugMode').prop(
         'checked',
@@ -278,6 +282,10 @@ function buildFile(googleDriveFile) {
 }
 
 function getThumbnailFocusPortion(file) {
+    if (!autoFocusEnabled) {
+        return; // return null to skip the process since the feature is disabled
+    }
+
     let meta = fileMeta[file.name];
     if (!meta) {
         return null;
