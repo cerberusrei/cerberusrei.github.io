@@ -137,7 +137,8 @@ async function switchPath(id, toSubFolder) {
     // update breadcrumb
     $('.breadcrumb').html(''); // clear content
     currentPaths.forEach(
-        (path, index) => addBreadcrumbContent(path, index === currentPaths.length - 1, index === 0)
+        (path, index) =>
+            addBreadcrumbContent(path, index === currentPaths.length - 1, index === 0)
     );
 
     $(".source-link").attr("link", getSharedLink(id)); // change shared link
@@ -162,10 +163,10 @@ async function switchPath(id, toSubFolder) {
     }
 }
 
-function addBreadcrumbContent(path, isActive, isDriveLinkRequired) {
+function addBreadcrumbContent(path, isActive, isRootPath) {
     // generate shared link for drive
     let driveLink = '';
-    if (isDriveLinkRequired) {
+    if (isRootPath && mgmtModeEnabled) {
         driveLink =
             `
           <a class="source-link" href="${getSharedLink(path.id)}" target="_blank">
@@ -328,10 +329,10 @@ function toFileCellHtml(file) {
 
 function toImageFileCellHtml(file) {
     let focusPortion = getThumbnailFocusPortion(file);
-    let thumbnailWidth = focusPortion ? 1024 : null;
+    let thumbnailWidth = focusPortion ? 512 : null;
     let thumbnailLink = getPreviewImageLink(file.id, thumbnailWidth);
-    let imageStyle = "width: 100%";
-    let divSizeStyle = "max-width: 100%; overflow: hidden; margin-top: 5px;";
+    let imageStyle = "margin-bottom: 0;"; // override the value in .figure-img to avoid space in bottom
+    let divSizeStyle;
 
     if (focusPortion) {
         let imageWidth = thumbnailWidth; // set width of thumbnail as default image width
@@ -344,7 +345,7 @@ function toImageFileCellHtml(file) {
 
         let offsets = focusPortion.getOffsets(imageWidth);
         let offsetsStr = `${offsets.top}px ${offsets.right}px ${offsets.bottom}px ${offsets.left}px`;
-        imageStyle = `position: relative;
+        imageStyle += `position: relative;
         width: ${imageWidth}px; left: -${offsets.left}px; top: -${offsets.top}px;
         -webkit-clip-path: inset(${offsetsStr}); clip-path: inset(${offsetsStr});`;
 
@@ -355,17 +356,25 @@ function toImageFileCellHtml(file) {
 
         let ratio = divWidth / focusPortion.portionWidth;
         let divHeight = Math.floor(focusPortion.portionHeight * ratio);
-        divSizeStyle += `width: ${divWidth}px; height: ${divHeight}px;`;
+        divSizeStyle += `max-width: 100%; overflow: hidden; margin-top: 5px; 
+                            width: ${divWidth}px; height: ${divHeight}px;`;
+    } else {
+        divSizeStyle = "width: fit-content; overflow: hidden; margin-top: 5px;";
     }
 
     let sharingOption = buildSharingOption(file);
-    return `<div class="rounded container" style="position: relative; ${divSizeStyle}">
-                  <img src="${thumbnailLink}" class="img-fluid" alt="${file.name}"
-                          style="${imageStyle}"
-                          data-bs-toggle="modal" data-bs-target="#photoFrame"
-                          onclick="showPhoto('${file.id}', '${file.toText()}')"/>
-                  ${sharingOption}
-              </div>`;
+    return `<figure class="figure">
+                <div class="container" style="position: relative;  ${divSizeStyle}">
+                    <div class="card" style="width: 18rem;">
+                        <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
+                              style="${imageStyle}"
+                              data-bs-toggle="modal" data-bs-target="#photoFrame"
+                              onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+                        ${sharingOption}
+                    </div>
+                </div>
+                  <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
+              </figure>`;
 }
 
 function toVideoFileCellHtml(file) {
@@ -374,16 +383,21 @@ function toVideoFileCellHtml(file) {
 
     return `<figure class="figure">
                   <div class="container" style="position: relative">
-                    <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="thumbnail" />
+                      <div class="card" style="width: 18rem;">
+                          <img src="${thumbnailLink}"
+                               class="figure-img img-fluid rounded"
+                               style="margin-bottom: 0"
+                               alt="thumbnail" />
 
-                    <div class="d-flex align-items-center justify-content-center"
-                      style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
-                      <button class="btn btn-dark"
-                        onclick="window.open('${file.webViewLink}')">
-                        <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
-                      </button>
-                    </div>
-                    ${sharingOption}
+                          <div class="d-flex align-items-center justify-content-center"
+                              style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+                              <button class="btn btn-dark"
+                                onclick="window.open('${file.webViewLink}')">
+                                <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
+                              </button>
+                          </div>
+                          ${sharingOption}
+                      </div>
                   </div>
                   <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
               </figure>`;
@@ -391,17 +405,18 @@ function toVideoFileCellHtml(file) {
 
 function toFolderCellHtml(file) {
     let sharingOption = buildSharingOption(file);
-
-    return `<figure class="figure" style="width: 100%">
-                <div class="container" style="position: relative">
-                    <button type="button"
-                          class="btn btn-lg btn-secondary default-thumbnail"
-                          style="width: 100%"
-                          onclick="switchPath('${file.id}', true)">
-                          <i class="bi bi-folder2">${file.name}</i>
-                    </button>
-                    ${sharingOption}
-                </div>
+    return `<figure class="figure">
+                  <div class="container" style="position: relative">
+                      <div class="card" style="width: 18rem;">
+                          <img src=""
+                               class="card-img-top" alt="${file.name}"
+                               onclick="switchPath('${file.id}', true)">
+                          <div class="card-body">
+                               <p class="card-text">${sharingOption}${file.name}</p>
+                          </div>
+                      </div>
+                  </div>
+                  <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
               </figure>`;
 }
 
@@ -413,9 +428,9 @@ function buildSharingOption(file) {
     let sharingIcon = createSharingIconHtml(file);
 
     return `<div class="d-flex align-items-center justify-content-center"
-         style="position: absolute; bottom: 10px; right: 15px;">
+         style="position: absolute; bottom: 0px; right: 0px;">
         <button id="${SHARE_BUTTON_ID_PREFIX}${file.id}"
-                class="btn" style="background-color: rgba(255, 255, 255, 0.5)"
+                class="btn btn-danger transparent-button"
                 onClick="switchSharingMode('${file.id}', ${file.isShared})">
             ${sharingIcon}
         </button>
@@ -433,7 +448,8 @@ function showPhoto(id, fileInfo) {
     previewImage.attr("src", getPreviewImageLink(id));
     sourceImage.attr("src", getSourceImageLink(id));
 
-    $('#photoFrame .modal-body .download-link').attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
+    $('#photoFrame .modal-body .download-link')
+        .attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
     currentFileInfo = fileInfo;
 }
 
