@@ -32,7 +32,9 @@ const FILE_FIELDS = {
     'modifiedTime': {},
     'size': {},
     'hasThumbnail': { hidden: true },
-    'webViewLink': { hidden: true }
+    'webViewLink': { hidden: true },
+    'properties': {},
+    'permissions': { hidden: true } // should be better not to query this for public user
 };
 
 const FILE_FIELDS_CRITERIA =
