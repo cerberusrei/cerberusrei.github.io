@@ -1,4 +1,6 @@
 const CACHE_DEBUG_MODE = "debugMode";
+const SHARE_ICON_ID_PREFIX = 'share-icon-';
+const SHARE_BUTTON_ID_PREFIX = 'share-button-';
 
 let currentPaths = []; // [root, sub1, sub2, ...]
 let nextPageToken = ""; // token for loading next page
@@ -9,8 +11,10 @@ let currentFileInfo;
 let fileMeta = {};
 let fileListContainer = null;
 
-// for testing
 let queryParams = new URLSearchParams(window.location.search);
+let mgmtModeEnabled= queryParams.get('mgmtModeEnabled') === 'true';
+
+// for testing
 let autoFocusEnabled= queryParams.get('autoFocusEnabled') === 'true';
 
 function initUi() {
@@ -58,7 +62,7 @@ function initFileInfoPopovers() {
             }
 
             let html = '';
-            for (key in IMAGE_MEDIA_FIELDS) {
+            for (let key in IMAGE_MEDIA_FIELDS) {
                 if (IMAGE_MEDIA_FIELDS[key].hidden) {
                     continue; // ignore hidden information
                 }
@@ -145,7 +149,7 @@ async function switchPath(id, toSubFolder) {
 
     await listFiles(true); // list folders first
 
-    if (currentPaths.length == 1) {
+    if (currentPaths.length === 1) {
         // load meta when switching to root directory
         let googleFileInfo = await getGoogleFileInfo(currentPaths[0].id);
         loadMeta(googleFileInfo.name)
@@ -225,6 +229,10 @@ async function getFileList(forFolder) {
         + (forFolder ? "=" : "!=")
         + " 'application/vnd.google-apps.folder'";
 
+    if (mgmtModeEnabled !== true) {
+        //criteria += " and properties has { key='visible' and value='true'}";
+    }
+
     // default fields: id, name, and mimeType
     let response = await gapi.client.drive.files.list({
         q: `'${getCurrentPath().id}' in parents ${criteria}`, // link ID
@@ -263,6 +271,7 @@ function buildFile(googleDriveFile) {
             // avoid displaying system files
             return file.name.startsWith(".") || file.name.endsWith(".ini");
         },
+        isShared: isSharedToEveryone(googleDriveFile),
         getExifTime: function() {
             return this.imageMediaMetadata ? this.imageMediaMetadata.time : "";
         },
@@ -349,16 +358,20 @@ function toImageFileCellHtml(file) {
         divSizeStyle += `width: ${divWidth}px; height: ${divHeight}px;`;
     }
 
-    return `<div class="rounded" style="${divSizeStyle}">
-                  <img src="${thumbnailLink}" class="" alt="${file.name}"
+    let sharingOption = buildSharingOption(file);
+    return `<div class="rounded container" style="position: relative; ${divSizeStyle}">
+                  <img src="${thumbnailLink}" class="img-fluid" alt="${file.name}"
                           style="${imageStyle}"
                           data-bs-toggle="modal" data-bs-target="#photoFrame"
                           onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+                  ${sharingOption}
               </div>`;
 }
 
 function toVideoFileCellHtml(file) {
     let thumbnailLink = getPreviewImageLink(file.id);
+    let sharingOption = buildSharingOption(file);
+
     return `<figure class="figure">
                   <div class="container" style="position: relative">
                     <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="thumbnail" />
@@ -370,20 +383,43 @@ function toVideoFileCellHtml(file) {
                         <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
                       </button>
                     </div>
+                    ${sharingOption}
                   </div>
                   <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
               </figure>`;
 }
 
 function toFolderCellHtml(file) {
+    let sharingOption = buildSharingOption(file);
+
     return `<figure class="figure" style="width: 100%">
-                  <button type="button"
+                <div class="container" style="position: relative">
+                    <button type="button"
                           class="btn btn-lg btn-secondary default-thumbnail"
                           style="width: 100%"
                           onclick="switchPath('${file.id}', true)">
                           <i class="bi bi-folder2">${file.name}</i>
-                  </button>
+                    </button>
+                    ${sharingOption}
+                </div>
               </figure>`;
+}
+
+function buildSharingOption(file) {
+    if (!mgmtModeEnabled) {
+        return ""; // do not display sharing options
+    }
+
+    let sharingIcon = createSharingIconHtml(file);
+
+    return `<div class="d-flex align-items-center justify-content-center"
+         style="position: absolute; bottom: 10px; right: 15px;">
+        <button id="${SHARE_BUTTON_ID_PREFIX}${file.id}"
+                class="btn" style="background-color: rgba(255, 255, 255, 0.5)"
+                onClick="switchSharingMode('${file.id}', ${file.isShared})">
+            ${sharingIcon}
+        </button>
+    </div>`
 }
 
 function showPhoto(id, fileInfo) {
@@ -401,6 +437,68 @@ function showPhoto(id, fileInfo) {
     currentFileInfo = fileInfo;
 }
 
+function createSharingIconHtml(file) {
+    let iconId = getSharingIconId(file.id, file.isShared);
+    return `<i id='${SHARE_ICON_ID_PREFIX}${file.id}' class="bi ${iconId}"></i>`;
+}
+
+function getSharingIconId(fileId, isShared) {
+    if (isShared === true) {
+        return 'bi-unlock';
+    }
+
+    if (isShared === false) {
+        return 'bi-lock-fill';
+    }
+
+    return 'bi-question-diamond';
+}
+
+// TODO: file object is inconsistent since it is not bound with UI
+async function switchSharingMode(fileId, isShared) {
+    let icon = $(`#${SHARE_ICON_ID_PREFIX}${fileId}`);
+    if (icon.hasClass('bi-question-diamond')) {
+        return; // ignore since we are not sure what is the current status
+    }
+
+    isShared = icon.hasClass('bi-unlock');
+
+    if (isShared) {
+        await unshare(fileId);
+    } else {
+        await share(fileId);
+    }
+
+    icon.removeClass();
+    icon.addClass('bi');
+    icon.addClass(getSharingIconId(fileId, !isShared));
+
+    // the part of re-binding onclick handler is not working, use workaround for now
+    // if (isShared === undefined || isShared == null) {
+    //     return; // ignore since we are not sure what is the current status
+    // }
+    //
+    // if (isShared === true) {
+    //     await unshare(fileId);
+    // } else {
+    //     await share(fileId);
+    // }
+
+    // change icon
+    // let icon = $(`#${SHARE_ICON_ID_PREFIX}${fileId}`);
+    // icon.removeClass();
+    // icon.addClass('bi');
+    // icon.addClass(getSharingIconId(fileId, !isShared));
+
+    // re-register onclick event
+    // let button = $(`#${SHARE_BUTTON_ID_PREFIX}${fileId}`);
+    // button.removeAttr('onclick');
+    // button.unbind('click')
+    // button.click(function () {
+    //     switchSharingMode(fileId, !isShared);
+    // });
+}
+
 function onSourceImageLoaded() {
     $('#photoFrame .modal-body .preview-image').hide();
     $('#photoFrame .modal-body .source-image-spinner').hide();
@@ -409,6 +507,15 @@ function onSourceImageLoaded() {
 
 function dismissPhoto() {
     $("#photoFrame").modal('hide');
+}
+
+/**
+ * Update visibility of the file by adding/removing custom properties.
+ *
+ * @see https://developers.google.com/drive/api/guides/properties
+ */
+function setVisibility(fileId, visible) {
+    setCustomProperties(fileId, 'visible', visible);
 }
 
 function setLoading() {

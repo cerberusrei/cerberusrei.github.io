@@ -11,7 +11,11 @@
 
 // Quick start: https://developers.google.com/drive/api/quickstart/js
 // File list: https://developers.google.com/drive/api/v3/reference/files/list
-const CLIENT_ID = "1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
+let CLIENT_ID = "1015092151085-osb88kjq9jtmve4hv2bisa0ugda4iun0.apps.googleusercontent.com";
+if (typeof SPECIFIC_OAUTH_CLIENT_ID != "undefined") {
+    CLIENT_ID = SPECIFIC_OAUTH_CLIENT_ID;
+}
+
 let API_KEY = "AIzaSyC-AjutFl4UADerP1ybHDY3CGvHyUnJKSA";
 if (typeof SPECIFIC_API_KEY != "undefined") {
     API_KEY = SPECIFIC_API_KEY;
@@ -21,7 +25,10 @@ if (typeof SPECIFIC_API_KEY != "undefined") {
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
 // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
-const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+let SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'].join(' ');
+if (SPECIFIC_SCOPES !== "undefined") {
+    SCOPES = SPECIFIC_SCOPES;
+}
 
 let tokenClient;
 let gapiInited = false;
@@ -117,8 +124,9 @@ async function getAlbumName(id) {
     }
 }
 
-async function getGoogleFileInfo(id) {
-    let response = await gapi.client.drive.files.get({ fileId: id });
+async function getGoogleFileInfo(id, fields) {
+    let request = fields ? {fileId: id, fields: 'permissions'} : {fileId: id};
+    let response = await gapi.client.drive.files.get(request);
     return response.result;
 }
 
@@ -135,4 +143,59 @@ function getSourceImageLink(id) {
 
 function getSharedLink(id) {
     return `https://drive.google.com/drive/folders/${id}`;
+}
+
+function setCustomProperties(fileId, propertyName, propertyValue) {
+    gapi.client.drive.files.update({
+        fileId: fileId,
+        resource: {
+            properties: {
+                propertyName: propertyValue
+            }
+        },
+        fields: 'id, properties'
+    }).then((response) => {
+        console.log('Custom properties updated:', response.result);
+    }).catch((error) => {
+        console.error('Error adding custom properties:', error);
+    });
+}
+
+async function share(fileId) {
+    let response = await gapi.client.drive.permissions.create({
+        'fileId': fileId,
+        'resource': {
+            'role': 'reader', // 'reader' or 'writer'
+            'type': 'anyone'
+        }
+    });
+
+    return response.result;
+}
+
+async function unshare(fileId) {
+    let currentData = await getGoogleFileInfo(fileId, 'permissions');
+    let permission = currentData.permissions.find(p => p.type === 'anyone');
+
+    if (!permission) {
+        console.warn('The file is not shared to anyone');
+        return;
+    }
+
+    let response = await gapi.client.drive.permissions.delete({
+        'fileId': fileId,
+        'permissionId': permission.id
+    });
+
+    return response.result;
+}
+
+/**
+ * Returns null if unable to determine it.
+ */
+function isSharedToEveryone(file) {
+    if (!file.permissions) {
+        return null;
+    }
+    return file.permissions.some(p => p.type === 'anyone');
 }
