@@ -407,12 +407,15 @@ function toFolderCellHtml(file) {
     let sharingOption = buildSharingOption(file);
     return `<figure class="figure">
                   <div class="container" style="position: relative">
-                      <div class="card" style="width: 18rem;">
-                          <img src=""
-                               class="card-img-top" alt="${file.name}"
-                               onclick="switchPath('${file.id}', true)">
+                      <div class="card img-fluid align-middle align-items-center" style="width: 18rem;">
+                          <button class="btn btn-light btn-lg transparent-button"
+                                  onclick="switchPath('${file.id}', true)">
+                              <img src="https://cdn-icons-png.flaticon.com/512/7757/7757558.png"
+                                   class="card-img-top" alt="${file.name}"
+                                   style="max-width: 50%"/>
+                          </button>
                           <div class="card-body">
-                               <p class="card-text">${sharingOption}${file.name}</p>
+                              <p class="card-text">${sharingOption}${file.name}</p>
                           </div>
                       </div>
                   </div>
@@ -428,13 +431,13 @@ function buildSharingOption(file) {
     let sharingIcon = createSharingIconHtml(file);
 
     return `<div class="d-flex align-items-center justify-content-center"
-         style="position: absolute; bottom: 0px; right: 0px;">
-        <button id="${SHARE_BUTTON_ID_PREFIX}${file.id}"
-                class="btn btn-danger transparent-button"
-                onClick="switchSharingMode('${file.id}', ${file.isShared})">
-            ${sharingIcon}
-        </button>
-    </div>`
+                style="position: absolute; bottom: 0px; right: 0px;">
+                <button id="${SHARE_BUTTON_ID_PREFIX}${file.id}"
+                        class="btn btn-danger transparent-button"
+                        onClick="switchSharingMode('${file.id}', ${file.isShared})">
+                    ${sharingIcon}
+                </button>
+            </div>`
 }
 
 function showPhoto(id, fileInfo) {
