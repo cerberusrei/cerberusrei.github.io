@@ -76,26 +76,6 @@
 </head>
 <body>
 <div class="container">
-  <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
-    <i class="bi bi-person-x-fill"></i>
-  </button>
-  <button class="btn btn-primary help-info"
-    data-bs-container="body" data-bs-toggle="popover"
-    data-bs-title="Info" data-bs-placement="bottom"
-    data-bs-content="
-      This is simple photo/video viewer which loads files from Google Drive.
-      <br/><br/>
-      Author: cerberusreijp@gmail.com
-    ">
-    <i class="bi bi-info-square"></i>
-  </button>
-  <!--input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug-->
-
-  <div id="info" class="alert alert-info" role="alert" hidden></div>
-  <div id="error" class="alert alert-danger" role="alert" hidden></div>
-</div>
-
-<div class="container row">
   <div class="dropdown col-2 album-menu">
     <button id="albumMenuBtn" class="btn btn-secondary dropdown-toggle" type="button"
             data-bs-toggle="dropdown" aria-expanded="false">
@@ -103,6 +83,19 @@
     </button>
     <ul class="dropdown-menu" aria-labelledby="albumMenuBtn">
     </ul>
+    <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
+      <i class="bi bi-person-x-fill"></i>
+    </button>
+    <button class="btn btn-primary help-info"
+            data-bs-container="body" data-bs-toggle="popover"
+            data-bs-title="Info" data-bs-placement="bottom"
+            data-bs-content="
+      This is simple photo/video viewer which loads files from Google Drive.
+      <br/><br/>
+      Author: cerberusreijp@gmail.com
+    ">
+      <i class="bi bi-info-square"></i>
+    </button>
   </div>
   <div class="col">
     <nav aria-label="breadcrumb">
@@ -110,6 +103,10 @@
       </ol>
     </nav>
   </div>
+  <!--input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug-->
+
+  <div id="info" class="alert alert-info" role="alert" hidden></div>
+  <div id="error" class="alert alert-danger" role="alert" hidden></div>
 </div>
 
 <div class="container text-center">
