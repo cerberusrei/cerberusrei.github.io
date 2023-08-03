@@ -13,6 +13,7 @@ let fileListContainer = null;
 
 let queryParams = new URLSearchParams(window.location.search);
 let mgmtModeEnabled= queryParams.get('mgmtModeEnabled') === 'true';
+let gaDisabled= queryParams.get('gaDisabled') === 'true';
 
 // for testing
 let autoFocusEnabled= queryParams.get('autoFocusEnabled') === 'true';
@@ -98,7 +99,7 @@ function initMenu() {
             `
         <li>
           <a class="dropdown-item album-menu" href="#"
-            onclick="switchPath('${album.id}')">
+            onclick="onFolderChanged('${album.id}');switchPath('${album.id}')">
             ${album.name}
           </a>
         </li>
@@ -392,7 +393,7 @@ function toVideoFileCellHtml(file) {
                           <div class="d-flex align-items-center justify-content-center"
                               style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
                               <button class="btn btn-dark"
-                                onclick="window.open('${file.webViewLink}')">
+                                onclick="onVideoView(${file.id}); window.open('${file.webViewLink}')">
                                 <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
                               </button>
                           </div>
@@ -409,7 +410,7 @@ function toFolderCellHtml(file) {
                   <div class="container" style="position: relative">
                       <div class="card img-fluid align-middle align-items-center" style="width: 18rem;">
                           <button class="btn btn-light btn-lg transparent-button"
-                                  onclick="switchPath('${file.id}', true)">
+                                  onclick="onFolderChanged('${file.id}');switchPath('${file.id}', true)">
                               <img src="https://cdn-icons-png.flaticon.com/512/7757/7757558.png"
                                    class="card-img-top" alt="${file.name}"
                                    style="max-width: 50%"/>
@@ -441,6 +442,8 @@ function buildSharingOption(file) {
 }
 
 function showPhoto(id, fileInfo) {
+    onImageView(id);
+
     let previewImage = $('#photoFrame .modal-body .preview-image');
     previewImage.show();
 
@@ -589,4 +592,23 @@ function storeDebugMode() {
 
 function isDebugModeEnabled() {
     return $('#debugMode').is(':checked');
+}
+
+function onImageView(fileId) {
+    onViewingGoogleDriveFile('image', fileId);
+}
+
+function onVideoView(fileId) {
+    onViewingGoogleDriveFile('video', fileId);
+}
+
+function onFolderChanged(fileId) {
+    onViewingGoogleDriveFile('folder', fileId);
+}
+
+function onViewingGoogleDriveFile(fileType, fileId) {
+    if (gaDisabled) {
+        return; // do nothing
+    }
+    AnalyticsUtil.trackEvent('view', fileType, fileId)
 }
