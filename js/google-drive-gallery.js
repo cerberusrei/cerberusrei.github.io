@@ -185,8 +185,8 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
         <li class="breadcrumb-item ${isActive ? 'active' : ''}" aria-current="page"
             onclick="${onclickHandler}">
           ${driveLink}
-          <span class="d-inline-block align-middle  text-truncate" style="max-width: 300px;">
-            ${path.name}
+          <span class="d-inline-block align-middle text-truncate" style="max-width: 300px;">
+            <button class="btn btn-light">${path.name}</button>
           </span>
         </li>
         `
