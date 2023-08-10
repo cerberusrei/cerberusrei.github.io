@@ -14,6 +14,7 @@ let fileListContainer = null;
 let queryParams = new URLSearchParams(window.location.search);
 let mgmtModeEnabled= queryParams.get('mgmtModeEnabled') === 'true';
 let gaDisabled= queryParams.get('gaDisabled') === 'true';
+let initFileId= queryParams.get('fileId');
 
 // for testing
 let autoFocusEnabled= queryParams.get('autoFocusEnabled') === 'true';
@@ -47,8 +48,8 @@ function initUi() {
 
     fileListContainer = $('#fileListContainer');
 
-    // load content of a album randomly
-    switchPath(ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
+    // load content of an album randomly
+    switchPath(initFileId || ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
 }
 
 function initFileInfoPopovers() {
