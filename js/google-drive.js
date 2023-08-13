@@ -125,7 +125,7 @@ async function getAlbumName(id) {
 }
 
 async function getGoogleFileInfo(id, fields) {
-    let request = fields ? {fileId: id, fields: 'permissions'} : {fileId: id};
+    let request = fields ? {fileId: id, fields: fields} : {fileId: id};
     let response = await gapi.client.drive.files.get(request);
     return response.result;
 }
