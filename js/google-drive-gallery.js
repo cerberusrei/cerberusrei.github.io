@@ -132,15 +132,26 @@ async function switchPath(id, toSubFolder) {
         } else {
             // change to another root path
             currentPaths.length = 0; // clear paths
-            currentPaths.push({ id: id, name: await getAlbumName(id) });
+
+            let rootPathInfo = null;
+            if (mgmtModeEnabled) {
+                rootPathInfo = await getGoogleFileInfo(id, 'permissions');
+            }
+
+            currentPaths.push({
+                id: id,
+                name: await getAlbumName(id),
+                isShared: rootPathInfo ? isSharedToEveryone(rootPathInfo) : null
+            });
         }
     }
 
     // update breadcrumb
     $('.breadcrumb').html(''); // clear content
     currentPaths.forEach(
-        (path, index) =>
-            addBreadcrumbContent(path, index === currentPaths.length - 1, index === 0)
+        (path, index) => {
+            addBreadcrumbContent(path, index === currentPaths.length - 1, index === 0);
+        }
     );
 
     $(".source-link").attr("link", getSharedLink(id)); // change shared link
@@ -153,13 +164,15 @@ async function switchPath(id, toSubFolder) {
     await listFiles(true); // list folders first
 
     if (currentPaths.length === 1) {
+        // TODO: auto-focus by loading meta is not used now
         // load meta when switching to root directory
-        let googleFileInfo = await getGoogleFileInfo(currentPaths[0].id);
-        loadMeta(googleFileInfo.name)
-            .then(function(meta) {
-                fileMeta = meta;
-                listFiles(false);
-            });
+        // let googleFileInfo = await getGoogleFileInfo(currentPaths[0].id);
+        // loadMeta(googleFileInfo.name)
+        //     .then(function(meta) {
+        //         fileMeta = meta;
+        //         listFiles(false);
+        //     });
+        listFiles(false);
     } else {
         listFiles(false); // list files, meta should be already loaded
     }
@@ -176,6 +189,8 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
         `;
     }
 
+    let sharingButtonHtml = mgmtModeEnabled && isRootPath ? buildSharingButton(path) : "";
+
     let onclickHandler = isActive ? '' : `switchPath('${path.id}')`;
 
     // update breadcrumb
@@ -186,6 +201,7 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
         <li class="breadcrumb-item ${isActive ? 'active' : ''}" aria-current="page"
             onclick="${onclickHandler}">
           ${driveLink}
+          ${sharingButtonHtml}
           <span class="d-inline-block align-middle text-truncate" style="max-width: 300px;">
             <button class="btn btn-light">${path.name}</button>
           </span>
@@ -368,10 +384,11 @@ function toImageFileCellHtml(file) {
     return `<figure class="figure">
                 <div class="container" style="position: relative;  ${divSizeStyle}">
                     <div class="card" style="width: 18rem;">
-                        <img src="${thumbnailLink}" class="figure-img img-fluid rounded" alt="${file.name}"
-                              style="${imageStyle}"
-                              data-bs-toggle="modal" data-bs-target="#photoFrame"
-                              onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+                        <img id="img-${file.id}" src="${thumbnailLink}"
+                            class="figure-img img-fluid rounded" alt="${file.name}"
+                            style="${imageStyle}"
+                            data-bs-toggle="modal" data-bs-target="#photoFrame"
+                            onclick="showPhoto('${file.id}', '${file.toText()}')"/>
                         ${sharingOption}
                     </div>
                 </div>
@@ -394,7 +411,7 @@ function toVideoFileCellHtml(file) {
                           <div class="d-flex align-items-center justify-content-center"
                               style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
                               <button class="btn btn-dark"
-                                onclick="onVideoView(${file.id}); window.open('${file.webViewLink}')">
+                                onclick="onVideoView('${file.id}'); window.open('${file.webViewLink}')">
                                 <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
                               </button>
                           </div>
@@ -430,16 +447,21 @@ function buildSharingOption(file) {
         return ""; // do not display sharing options
     }
 
-    let sharingIcon = createSharingIconHtml(file);
+    let sharingButton = buildSharingButton(file);
 
     return `<div class="d-flex align-items-center justify-content-center"
-                style="position: absolute; bottom: 0px; right: 0px;">
-                <button id="${SHARE_BUTTON_ID_PREFIX}${file.id}"
+                style="position: absolute; bottom: 0; right: 0;">
+                ${sharingButton}
+            </div>`
+}
+
+function buildSharingButton(file) {
+    let sharingIcon = createSharingIconHtml(file);
+    return `<button id="${SHARE_BUTTON_ID_PREFIX}${file.id}"
                         class="btn btn-danger transparent-button"
                         onClick="switchSharingMode('${file.id}', ${file.isShared})">
                     ${sharingIcon}
-                </button>
-            </div>`
+                </button>`;
 }
 
 function showPhoto(id, fileInfo) {
@@ -456,7 +478,40 @@ function showPhoto(id, fileInfo) {
     sourceImage.attr("src", getSourceImageLink(id));
 
     $('#photoFrame .modal-body .download-link')
-        .attr("href", `https://drive.google.com/uc?export=download&id=${id}`);
+        .attr("href", `https://drive.google.com/uc?export=download&id=${id}`)
+        .attr("download", `${id}.jpg`); // not work due to CORS issue
+    // $('#photoFrame .modal-body .download-button')
+    //     .click(function() {
+    //         let image = $(`#img-${id}`)[0];
+    //         let canvas = document.createElement('canvas');
+    //         canvas.width = image.naturalWidth;
+    //         canvas.height = image.naturalHeight;
+    //
+    //         let context = canvas.getContext('2d');
+    //         context.drawImage(image, 0, 0);
+    //
+    //         canvas.toBlob(function(blob) {
+    //             let link = $('#photoFrame .modal-body .download-link');
+    //             link.attr("href", URL.createObjectURL(blob))
+    //                 .attr("download", `${id}.jpg`);
+    //             link.click();
+    //         });
+    //         // $.ajax(
+    //         //     {
+    //         //         url: `https://drive.google.com/uc?export=download&id=${id}`,
+    //         //         method: 'GET',
+    //         //         xhrFields: {
+    //         //             responseType: "blob"
+    //         //         },
+    //         //         success: function (data) {
+    //         //             let link = $('#photoFrame .modal-body .download-link');
+    //         //             link.attr("href", URL.createObjectURL(data))
+    //         //                 .attr("download", `${id}.jpg`);
+    //         //             link.click();
+    //         //         }
+    //         //     }
+    //         // );
+    //     });
     currentFileInfo = fileInfo;
 }
 
@@ -490,6 +545,7 @@ async function switchSharingMode(fileId, isShared) {
         await unshare(fileId);
     } else {
         await share(fileId);
+        unshareChildren(fileId);
     }
 
     icon.removeClass();
@@ -520,6 +576,37 @@ async function switchSharingMode(fileId, isShared) {
     // button.click(function () {
     //     switchSharingMode(fileId, !isShared);
     // });
+}
+
+async function unshareChildren(fileId) {
+    let fileInfo = await getGoogleFileInfo(fileId);
+    if (!fileInfo.mimeType.includes("folder")) {
+        return; // not a folder
+    }
+
+    let updatedCount = 0;
+    let nextPageToken = "";
+
+    do {
+        let response = await gapi.client.drive.files.list({
+            q: `'${fileId}' in parents and name!='post-production'`,
+            fields: `nextPageToken, files(id,name)`,
+            pageSize: 1000,
+            orderBy: "name",
+            pageToken: nextPageToken,
+        });
+
+        nextPageToken = response.result.nextPageToken;
+
+        response.result.files.map((file) => {
+            unshare(file.id);
+            updatedCount++;
+        })
+
+        console.log("updated " + updatedCount + " children are updated to be unshared");
+    } while (nextPageToken)
+
+    alert(updatedCount + " files are changed to be unshared");
 }
 
 function onSourceImageLoaded() {
