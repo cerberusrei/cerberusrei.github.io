@@ -32,7 +32,7 @@ let SCOPES = [
 if (typeof SPECIFIC_SCOPES !== "undefined") {
     SCOPES = SPECIFIC_SCOPES;
 } else if (new URLSearchParams(window.location.search).get('mgmtModeEnabled') === 'true') {
-    SCOPES += "https://www.googleapis.com/auth/drive";
+    SCOPES += " https://www.googleapis.com/auth/drive";
 }
 
 let tokenClient;
