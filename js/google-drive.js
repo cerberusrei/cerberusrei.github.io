@@ -134,9 +134,6 @@ async function getGoogleFileInfo(id, fields) {
 }
 
 function getPreviewImageLink(id, width) {
-    if (!width) {
-        width = 512;
-    }
     return `https://drive.google.com/thumbnail?authuser=0&sz=w${width}&id=${id}`;
 }
 

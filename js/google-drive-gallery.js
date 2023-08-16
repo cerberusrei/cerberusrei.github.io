@@ -377,7 +377,7 @@ function toFileCellHtml(file) {
 
 function toImageFileCellHtml(file) {
     let focusPortion = getThumbnailFocusPortion(file);
-    let thumbnailWidth = focusPortion ? 512 : null;
+    let thumbnailWidth = 1024;
     let thumbnailLink = getPreviewImageLink(file.id, thumbnailWidth);
     let imageStyle = "margin-bottom: 0;"; // override the value in .figure-img to avoid space in bottom
     let divSizeStyle;
@@ -413,7 +413,7 @@ function toImageFileCellHtml(file) {
     let sharingOption = buildSharingOption(file);
     return `<figure class="figure">
                 <div class="container" style="position: relative;  ${divSizeStyle}">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card" style="max-width: 100%;">
                         <img id="img-${file.id}" src="${thumbnailLink}"
                             class="figure-img img-fluid rounded" alt="${file.name}"
                             style="${imageStyle}"
