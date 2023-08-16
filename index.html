@@ -16,6 +16,12 @@
       background-color: rgba(255, 255, 255, 0.9);
     }
 
+    .header {
+      background-color: rgba(200, 200, 200, 0.5);
+      z-index: 1000;
+      width: 100%;
+    }
+
     .modal-content {
       background-color: transparent;
     }
@@ -91,7 +97,7 @@
   </script>
 </head>
 <body>
-<div class="container">
+<div class="container position-fixed header" style="max-width: 100%">
   <div class="dropdown col-4 album-menu">
     <button id="albumMenuBtn" class="btn btn-secondary dropdown-toggle" type="button"
             data-bs-toggle="dropdown" aria-expanded="false">
