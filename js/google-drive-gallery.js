@@ -256,37 +256,32 @@ async function getFileList(forFolder, postProductionFolder) {
 
     // TODO: workaround for pagination, need to refactor...
     let request = paginationRequest;
-    let response = null;
-    if (request) {
-        response = await gapi.client.drive.files.list(request);
-    } else {
-        // let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
-        let criteria = "and trashed=false and mimeType "
-            + (forFolder ? "=" : "!=")
-            + " 'application/vnd.google-apps.folder'";
-
-        if (mgmtModeEnabled !== true) {
-            //criteria += " and properties has { key='visible' and value='true'}";
-        }
-
-        let folderIdCriteria = `'${getCurrentPath().id}' in parents`;
-        if (!forFolder && postProductionFolder) {
-            folderIdCriteria += ` or '${postProductionFolder.id}' in parents`
-        }
-
+    if (!request) {
         // default fields: id, name, and mimeType
-
         request = {
-            q: `(${folderIdCriteria}) ${criteria}`, // link ID
-            fields: `nextPageToken, files(${FILE_FIELDS_CRITERIA})`,
-            pageSize: forFolder ? 1000 : pageSize,
-            orderBy: "name",
-            pageToken: "",
+            fileId: getCurrentPath().id,
+            nextPageToken: "",
+            postProductionFolder: postProductionFolder,
+            toGoogleApiPayload: function () {
+                // let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
+                let criteria = "and trashed=false and mimeType "
+                    + (forFolder ? "=" : "!=")
+                    + " 'application/vnd.google-apps.folder'";
+
+                return {
+                    q: `'${this.fileId}' in parents ${criteria}`, // link ID
+                    fields: `nextPageToken, files(${FILE_FIELDS_CRITERIA})`,
+                    pageSize: forFolder ? 1000 : pageSize,
+                    orderBy: "name",
+                    pageToken: this.nextPageToken
+                }
+            }
         };
-        response = await gapi.client.drive.files.list(request);
     }
 
+    let response = await gapi.client.drive.files.list(request.toGoogleApiPayload());
     debugAlert(response);
+    let fileList = response.result.files.map((file) => buildFile(file));
 
     // folders are listed at once, so we don't keep the page token and avoid to impact pagination of files
     if (!forFolder) {
@@ -294,14 +289,25 @@ async function getFileList(forFolder, postProductionFolder) {
 
         let nextPageToken = response.result.nextPageToken;
         if (nextPageToken) {
-            paginationRequest.pageToken = nextPageToken;
+            paginationRequest.nextPageToken = nextPageToken;
+        } else if (paginationRequest.postProductionFolder) {
+            // files in root folder are all loaded, start loading from sub-folder
+            paginationRequest.fileId = paginationRequest.postProductionFolder.id;
+            paginationRequest.nextPageToken = "";
+            paginationRequest.postProductionFolder = null;
+
+            if (fileList.length < pageSize) {
+                // TODO: should change page size
+                fileList = fileList.concat(await getFileList(false, null));
+            }
         } else {
-            isNoMoreData = true; // all files are loaded
+            // all files are loaded
+            isNoMoreData = true;
             paginationRequest = null;
         }
     }
 
-    return response.result.files.map((file) => buildFile(file));
+    return fileList;
 }
 
 function buildFile(googleDriveFile) {
