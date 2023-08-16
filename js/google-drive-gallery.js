@@ -128,7 +128,7 @@ async function switchPath(id, toSubFolder) {
 
         if (pathIndex > 0) {
             // change to another path in the same root path
-            currentPaths.length = pathIndex;
+            currentPaths.length = pathIndex + 1;
         } else {
             // change to another root path
             currentPaths.length = 0; // clear paths
