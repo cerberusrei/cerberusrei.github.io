@@ -25,7 +25,7 @@ if (typeof SPECIFIC_API_KEY != "undefined") {
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
 // Authorization scopes required by the API; multiple scopes can be included, separated by spaces.
-let SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'].join(' ');
+let SCOPES = ['https://www.googleapis.com/auth/drive.metadata' + (!isMgmtModeEnabled ? '.readonly' : '')].join(' ');
 if (typeof SPECIFIC_SCOPES !== "undefined") {
     SCOPES = SPECIFIC_SCOPES;
 }
