@@ -1,9 +1,10 @@
 const CACHE_DEBUG_MODE = "debugMode";
 const SHARE_ICON_ID_PREFIX = 'share-icon-';
 const SHARE_BUTTON_ID_PREFIX = 'share-button-';
+const postProductionFolderName = 'post-production';
 
 let currentPaths = []; // [root, sub1, sub2, ...]
-let nextPageToken = ""; // token for loading next page
+let paginationRequest = null; // current query criteria for pagination request
 let isNoMoreData = false; // true when reach end of the file list
 let pageSize = 20;
 let loading = false;
@@ -162,10 +163,10 @@ async function switchPath(id, toSubFolder) {
 
     // reload from new album
     $('#fileListContainer').html('');
-    nextPageToken = "";
+    paginationRequest = null;
     isNoMoreData = false;
 
-    await listFiles(true); // list folders first
+    let postProductionFolder = await listFiles(true); // list folders first
 
     if (currentPaths.length === 1) {
         // TODO: auto-focus by loading meta is not used now
@@ -176,9 +177,9 @@ async function switchPath(id, toSubFolder) {
         //         fileMeta = meta;
         //         listFiles(false);
         //     });
-        listFiles(false);
+        listFiles(false, postProductionFolder);
     } else {
-        listFiles(false); // list files, meta should be already loaded
+        listFiles(false, postProductionFolder); // list files, meta should be already loaded
     }
 }
 
@@ -214,7 +215,10 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
     );
 }
 
-async function listFiles(forFolder) {
+/**
+ * Returns the Google file object of "post-production" folder if found.
+ */
+async function listFiles(forFolder, postProductionFolder) {
     if (loading) {
         return; // ignore
     }
@@ -224,7 +228,7 @@ async function listFiles(forFolder) {
     setLoading();
 
     try {
-        let files = await getFileList(forFolder);
+        let files = await getFileList(forFolder, postProductionFolder);
 
         if (files.length === 0) {
             showInfo('No more data to load');
@@ -234,7 +238,10 @@ async function listFiles(forFolder) {
         let container = $('#fileListContainer');
         files
             .filter((file) => !file.isUnsupportedFile())
+            .filter((file) => file.name !== postProductionFolderName)
             .forEach((file) => container.append(toFileCellHtml(file)));
+
+        return (forFolder ? files.find((file) => file.name === postProductionFolderName) : null);
     } catch (err) {
         handleError(err);
     } finally {
@@ -242,36 +249,55 @@ async function listFiles(forFolder) {
     }
 }
 
-async function getFileList(forFolder) {
+async function getFileList(forFolder, postProductionFolder) {
     if (isNoMoreData) {
         return [];
     }
 
-    // let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
-    let criteria = "and trashed=false and mimeType "
-        + (forFolder ? "=" : "!=")
-        + " 'application/vnd.google-apps.folder'";
+    // TODO: workaround for pagination, need to refactor...
+    let request = paginationRequest;
+    let response = null;
+    if (request) {
+        response = await gapi.client.drive.files.list(request);
+    } else {
+        // let criteria = " and createdTime > '2022-08-01T12:00:00' and mimeType = 'application/vnd.google-apps.folder'";
+        let criteria = "and trashed=false and mimeType "
+            + (forFolder ? "=" : "!=")
+            + " 'application/vnd.google-apps.folder'";
 
-    if (mgmtModeEnabled !== true) {
-        //criteria += " and properties has { key='visible' and value='true'}";
+        if (mgmtModeEnabled !== true) {
+            //criteria += " and properties has { key='visible' and value='true'}";
+        }
+
+        let folderIdCriteria = `'${getCurrentPath().id}' in parents`;
+        if (!forFolder && postProductionFolder) {
+            folderIdCriteria += ` or '${postProductionFolder.id}' in parents`
+        }
+
+        // default fields: id, name, and mimeType
+
+        request = {
+            q: `(${folderIdCriteria}) ${criteria}`, // link ID
+            fields: `nextPageToken, files(${FILE_FIELDS_CRITERIA})`,
+            pageSize: forFolder ? 1000 : pageSize,
+            orderBy: "name",
+            pageToken: "",
+        };
+        response = await gapi.client.drive.files.list(request);
     }
-
-    // default fields: id, name, and mimeType
-    let response = await gapi.client.drive.files.list({
-        q: `'${getCurrentPath().id}' in parents ${criteria}`, // link ID
-        fields: `nextPageToken, files(${FILE_FIELDS_CRITERIA})`,
-        pageSize: forFolder ? 1000 : pageSize,
-        orderBy: "name",
-        pageToken: nextPageToken || "",
-    });
 
     debugAlert(response);
 
     // folders are listed at once, so we don't keep the page token and avoid to impact pagination of files
     if (!forFolder) {
-        nextPageToken = response.result.nextPageToken;
-        if (!nextPageToken) {
+        paginationRequest = request;
+
+        let nextPageToken = response.result.nextPageToken;
+        if (nextPageToken) {
+            paginationRequest.pageToken = nextPageToken;
+        } else {
             isNoMoreData = true; // all files are loaded
+            paginationRequest = null;
         }
     }
 
