@@ -50,6 +50,10 @@ function initUi() {
 
     // load content of an album randomly
     switchPath(initFileId || ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
+
+    if (mgmtModeEnabled) {
+        $('#btnSwitchAccount').show();
+    }
 }
 
 function initFileInfoPopovers() {
