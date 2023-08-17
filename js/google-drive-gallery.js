@@ -47,14 +47,15 @@ function initUi() {
 
     initMenu();
 
-    fileListContainer = $('#fileListContainer');
-
     // load content of an album randomly
     switchPath(initFileId || ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
 
     if (mgmtModeEnabled) {
         $('#btnSwitchAccount').show();
     }
+
+    let headerHeight = $('.header').height();
+    $('#fileListContainer').css('margin', `${headerHeight + 10}px 0px`);
 }
 
 function initFileInfoPopovers() {
@@ -194,6 +195,7 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
         `;
     }
 
+    let displayName = path.name.length > 20 ? path.name.substring(0, 20) + '...' : path.name;
     let sharingButtonHtml = mgmtModeEnabled && isRootPath ? buildSharingButton(path) : "";
 
     let onclickHandler = isActive ? '' : `switchPath('${path.id}')`;
@@ -208,7 +210,7 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
           ${driveLink}
           ${sharingButtonHtml}
           <span class="d-inline-block align-middle text-truncate" style="max-width: 300px;">
-            <button class="btn btn-light">${path.name}</button>
+            <button class="btn btn-light" style="font-size: 0.8rem" title="${path.name}">${displayName}</button>
           </span>
         </li>
         `
