@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '1OMw2FxZioAuy6RkTUULQA5-4IPq8MaiO',
+        name: '20230819 ライオンズよさこい'
+    },
+    {
         id: '1KCNC8iZm0FKGTmDvQ6MOXnQLzNK8-0xz',
         name: '20230810 高知よさこい祭り 本祭'
     },
