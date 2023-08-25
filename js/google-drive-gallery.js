@@ -419,6 +419,17 @@ function toImageFileCellHtml(file) {
     }
 
     let sharingOption = buildSharingOption(file);
+    let downloadButton = `
+        <div class="d-flex align-items-center justify-content-center"
+            style="position: absolute; bottom: 0; right: 0;">
+            <a href="https://drive.google.com/uc?export=download&id=${file.id}"
+                class="download-link" download="${file.id}">
+                <button class="btn btn-light btn-lg transparent-button">
+                    <i class="bi bi-download"></i>
+                </button>
+            </a>
+        </div>`;
+
     return `<figure class="figure">
                 <div class="container" style="position: relative;  ${divSizeStyle}">
                     <div class="card" style="max-width: 100%;">
@@ -428,9 +439,11 @@ function toImageFileCellHtml(file) {
                             data-bs-toggle="modal" data-bs-target="#photoFrame"
                             onclick="showPhoto('${file.id}', '${file.toText()}')"/>
                         ${sharingOption}
+                        ${downloadButton}
                     </div>
                 </div>
-                  <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
+                <figcaption class="figure-caption text-end">
+                </figcaption>
               </figure>`;
 }
 
