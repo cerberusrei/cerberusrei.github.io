@@ -30,5 +30,9 @@ const ALBUM_LIST = [
     {
         id: '1jxKcXZLTzLKvIkW1NTO7rGhqiVdGcbK-',
         name: '20230610 YOSAKOIソーラン祭り'
+    },
+    {
+        id: '1ONe2fK-XFGutLYMin-vgKKcwNv3OpCEj',
+        name: '20230401 さくよさ'
     }
 ];
