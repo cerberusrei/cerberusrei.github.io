@@ -1,5 +1,13 @@
 const ALBUM_LIST = [
     {
+        id: '12zp2V-NPSBsq97pSsMQX93taH5yv9ctC',
+        name: '20230827 スパよさ'
+    },
+    {
+        id: '1mFcV8ATpw0IMDQuuEhpV1COxJTJLIlI8',
+        name: '20230826 スパよさ'
+    },
+    {
         id: '18Bec-kh3bFD3FIRNlKsWvtyp0W_nACj-',
         name: '20230820 ライオンズよさこい'
     },
