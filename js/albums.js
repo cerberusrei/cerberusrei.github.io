@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '1KhfZQrlL_TW4IJWfLIyIdJuB9HbZAmwl',
+        name: '20230903 羽田エアポートガーデン'
+    },
+    {
         id: '12zp2V-NPSBsq97pSsMQX93taH5yv9ctC',
         name: '20230827 スパよさ'
     },
