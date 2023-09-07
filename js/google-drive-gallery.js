@@ -420,7 +420,7 @@ function toImageFileCellHtml(file) {
 
         let ratio = divWidth / focusPortion.portionWidth;
         let divHeight = Math.floor(focusPortion.portionHeight * ratio);
-        divSizeStyle += `max-width: 100%; overflow: hidden; margin-top: 5px; 
+        divSizeStyle = `max-width: 100%; overflow: hidden; margin-top: 5px; 
                             width: ${divWidth}px; height: ${divHeight}px;`;
     } else {
         divSizeStyle = "width: fit-content; overflow: hidden; margin-top: 5px;";
@@ -438,9 +438,11 @@ function toImageFileCellHtml(file) {
             </a>
         </div>`;
 
+    let cardWidth = getImageCardWidth();
+
     return `<figure class="figure">
                 <div class="container" style="position: relative;  ${divSizeStyle}">
-                    <div class="card" style="max-width: 100%;">
+                    <div class="card" style="${cardWidth}">
                         <img id="img-${file.id}" src="${thumbnailLink}"
                             class="figure-img img-fluid rounded" alt="${file.name}"
                             style="${imageStyle}"
@@ -453,6 +455,16 @@ function toImageFileCellHtml(file) {
                 <figcaption class="figure-caption text-end">
                 </figcaption>
               </figure>`;
+}
+
+function getImageCardWidth() {
+    if (window.innerWidth <= 576) {
+        return "width: 100%;"; // mobile
+    } else if (window.innerWidth <= 992) {
+        return "width: 18rem;"; // Tablet
+    } else {
+        return "width: 18rem;"; // Desktop
+    }
 }
 
 function toVideoFileCellHtml(file) {
