@@ -22,7 +22,7 @@
       width: 100%;
     }
 
-    .modal-content {
+    #photoFrame .modal-content {
       background-color: transparent;
     }
 
@@ -108,18 +108,8 @@
     <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
       <i class="bi bi-person-x-fill"></i>
     </button>
-    <button class="btn btn-primary help-info"
-            data-bs-container="body" data-bs-toggle="popover"
-            data-bs-title="Info" data-bs-placement="bottom"
-            data-bs-content="
-      This is simple photo/video viewer which loads files from Google Drive.
-      <br/>
-      Anyone can view and download these files for personal use.
-      <br/><br/>
-      BUT! <b>Do NOT</b> use these files anywhere if you are not the person being photographed or their affiliated groups.
-      <br/><br/>
-      Author: cerberusreijp@gmail.com
-    ">
+    <button class="btn btn-primary"
+            data-bs-toggle="modal" data-bs-target="#infoFrame">
       <i class="bi bi-info-square"></i>
     </button>
   </div>
@@ -143,7 +133,7 @@
   <div class="spinner-border" role="status">
     <span class="sr-only"></span>
   </div>
-  <!-- Modal -->
+  <!-- Photo Modal -->
   <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content" onclick="dismissPhoto()">
@@ -177,6 +167,23 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Info Modal -->
+<div class="modal modal-dialog-scrollable fade" id="infoFrame"
+     tabindex="-1" aria-labelledby="infoFrameLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Info</h5>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

@@ -1,4 +1,6 @@
 const CACHE_DEBUG_MODE = "debugMode";
+const CACHE_INFO_READ = "infoRead";
+const INFO_VERSION = '1';
 const SHARE_ICON_ID_PREFIX = 'share-icon-';
 const SHARE_BUTTON_ID_PREFIX = 'share-button-';
 const postProductionFolderName = 'post-production';
@@ -38,11 +40,17 @@ function initUi() {
     // initialize for bootstrap popover components
     initFileInfoPopovers();
 
-    $(function () {
-        $('.help-info').popover({
-            container: 'body',
-            html: true
-        })
+    $.get('./info.html', function (data) {
+        $(function () {
+            $('#infoFrame .modal-body').html(data);
+            if (localStorage.getItem(CACHE_INFO_READ) !== INFO_VERSION) {
+                $('#infoFrame').modal('show');
+            }
+        });
+    });
+
+    $('#infoFrame').on('hidden.bs.modal', function () {
+        localStorage.setItem(CACHE_INFO_READ, INFO_VERSION);
     });
 
     initMenu();
