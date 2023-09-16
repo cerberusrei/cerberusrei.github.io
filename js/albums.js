@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '14lkVqEc6D6_wdnIQ9AxHzlg6ytZm2iXk',
+        name: '20230916 不破八幡宮大祭'
+    },
+    {
         id: '1nPSCEJm0kFr1lBNA7vSP_Xqh7yUeqglY',
         name: '20230910 こいや祭り'
     },
