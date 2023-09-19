@@ -4,7 +4,7 @@ const ALBUM_LIST = [
         name: '20230918 渋谷ストリーム感謝祭'
     },
     {
-        id: '1o2qFbfp1ugV569ssHwJnIPQrCRbsyB7C',
+        id: '18mmxEAn3gxKYxdtgVfVYJ3ZFjSV51XWz',
         name: '20230917 よさこい四万十'
     },
     {
