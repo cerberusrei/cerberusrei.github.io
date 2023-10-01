@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '1HrQNjZIpxa4MyGEvozcM3im9gcXWQo56',
+        name: '20232002 ちばYOSAKOI'
+    },
+    {
         id: '17JVJSxTcKWmpfULzHpnAzP4QX1CdJLzq',
         name: '20230918 渋谷ストリーム感謝祭'
     },
