@@ -1,7 +1,11 @@
 const ALBUM_LIST = [
     {
         id: '1HrQNjZIpxa4MyGEvozcM3im9gcXWQo56',
-        name: '20232002 ちばYOSAKOI'
+        name: '20231002 ちばYOSAKOI'
+    },
+    {
+        id: '16nBUDFCYWIx1TUzLWdXKGtDPAbAT1MQo',
+        name: '20230930 ひのよさこい'
     },
     {
         id: '17JVJSxTcKWmpfULzHpnAzP4QX1CdJLzq',
