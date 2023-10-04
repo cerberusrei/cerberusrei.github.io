@@ -68,6 +68,10 @@ const ALBUM_LIST = [
         name: '20230809 土佐学生よさこい大会'
     },
     {
+        id: '1DvhX73GzruZ3UseWFo5LBLTq1hKqvycY',
+        name: '20230806 彩夏祭 本祭２'
+    },
+    {
         id: '1jxKcXZLTzLKvIkW1NTO7rGhqiVdGcbK-',
         name: '20230610 YOSAKOIソーラン祭り'
     },
