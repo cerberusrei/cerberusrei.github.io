@@ -8,6 +8,10 @@ const ALBUM_LIST = [
         name: '20230930 ひのよさこい'
     },
     {
+        id: '1zH4p1I8h4INK4Utu89AdFuH5c-dpM_ZQ',
+        name: '20230924 富山のよさこい祭り'
+    },
+    {
         id: '17JVJSxTcKWmpfULzHpnAzP4QX1CdJLzq',
         name: '20230918 渋谷ストリーム感謝祭'
     },
