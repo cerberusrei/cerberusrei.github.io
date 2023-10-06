@@ -12,6 +12,10 @@ const ALBUM_LIST = [
         name: '20230924 富山のよさこい祭り'
     },
     {
+        id: '1nETp_FF38nyMFVGH5UPL1Sfl4CLgLGc4',
+        name: '20230923 富山のよさこい祭り'
+    },
+    {
         id: '17JVJSxTcKWmpfULzHpnAzP4QX1CdJLzq',
         name: '20230918 渋谷ストリーム感謝祭'
     },
