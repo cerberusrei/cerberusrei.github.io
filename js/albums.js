@@ -80,6 +80,10 @@ const ALBUM_LIST = [
         name: '20230809 高知よさこい祭り 前夜祭'
     },
     {
+        id: '16Dhkqbd00ZAj3hxkFnhaAZKDr4EEIbtx',
+        name: '20230805 彩夏祭 本祭①'
+    },
+    {
         id: '1a13Yx4OS9F3S8sRNWC6r7FnL5KOxeDd2',
         name: '20230809 土佐学生よさこい大会'
     },
