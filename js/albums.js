@@ -4,6 +4,10 @@ const ALBUM_LIST = [
         name: '20231022 横浜よさこい祭り'
     },
     {
+        id: '12z-xktEe99HpBKhLoYoyFY2KfjEL98iI',
+        name: '20231021 よさこいご縁まつり'
+    },
+    {
         id: '130_X72dTeX5xI_dQ9HsH1lKVgVgeTkpp',
         name: '20231021 沼津キッチンカーフェス'
     },
