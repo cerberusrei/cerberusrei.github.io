@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '12rSmg2t-OObxpt_JtvSN23jPrFYrfKbe',
+        name: '20231029 いずもだんだん祭り'
+    },
+    {
         id: '1Mmd20uNavMYMzHWwjiicnaWRSanjYl5F',
         name: '20231022 横浜よさこい祭り'
     },
