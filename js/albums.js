@@ -3,7 +3,6 @@ const ALBUM_LIST = [
         id: '1HSGXW4t9Rz5xzBiTmdqG34-EX6VsZYPM',
         name: '20231103 YOSAKOIそうか～相思草愛～'
     },
-    https://drive.google.com/drive/folders/?usp=drive_link
     {
         id: '1-T2wBH9s4bDccn2soEbrpKSblEgbgaQY',
         name: '20231029 いずもだんだん祭り'
