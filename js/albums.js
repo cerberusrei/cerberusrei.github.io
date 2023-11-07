@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '1Yj2nrr3QXcnLZ42bRPX_KcGlAzH192_f',
+        name: '20231105 ドリームよさこい'
+    },
+    {
         id: '1jBX2rZe6IAzFb-yYFBlZVJiVygEAXxrv',
         name: '20231105 座盆祭'
     },
