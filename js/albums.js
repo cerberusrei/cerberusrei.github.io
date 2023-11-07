@@ -1,7 +1,11 @@
 const ALBUM_LIST = [
     {
         id: '1jBX2rZe6IAzFb-yYFBlZVJiVygEAXxrv',
-        name: '202311015 座盆祭'
+        name: '20231105 座盆祭'
+    },
+    {
+        id: '1sWRUgU16IIWMQXAvW4mLo2l9hOUp0JHR',
+        name: '20231104 LOVE NUMAZU MUSICF AIR'
     },
     {
         id: '1HSGXW4t9Rz5xzBiTmdqG34-EX6VsZYPM',
