@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '1jBX2rZe6IAzFb-yYFBlZVJiVygEAXxrv',
+        name: '202311015 座盆祭'
+    },
+    {
         id: '1HSGXW4t9Rz5xzBiTmdqG34-EX6VsZYPM',
         name: '20231103 YOSAKOIそうか～相思草愛～'
     },
