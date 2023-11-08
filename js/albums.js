@@ -8,6 +8,10 @@ const ALBUM_LIST = [
         name: '20231105 座盆祭'
     },
     {
+        id: '1Xg4goEmXJlQsOSHRzS1hucDq5R9kdtJi',
+        name: '20231104 ドリームよさこい'
+    },
+    {
         id: '1sWRUgU16IIWMQXAvW4mLo2l9hOUp0JHR',
         name: '20231104 LOVE NUMAZU MUSICF AIR'
     },
