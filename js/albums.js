@@ -3,7 +3,6 @@ const ALBUM_LIST = [
         id: '1n3DDguXti3COAyQz7iYVre-gyh4rVIad',
         name: '20231111 よさこい東海道'
     },
-    https://drive.google.com/drive/folders/?usp=drive_link
     {
         id: '1Yj2nrr3QXcnLZ42bRPX_KcGlAzH192_f',
         name: '20231105 ドリームよさこい'
