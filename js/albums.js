@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '1vYiZPAiLvMjHmZMs-C3YoNAVuNw8i1lq',
+        name: '20231118 よさこいリターンズ'
+    },
+    {
         id: '1mv92I_xRQa-AS3zV0Oy0HY3nFxwfdvgj',
         name: '20231112 よさこい東海道'
     },
