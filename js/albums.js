@@ -12,6 +12,10 @@ const ALBUM_LIST = [
         name: '20231118 たびひろよさこい'
     },
     {
+        id: '1fG_Yfi1FvV-lMDfrEB3DQl9C0qnZ9vMk',
+        name: '20231115 龍馬生誕祭'
+    },
+    {
         id: '1mv92I_xRQa-AS3zV0Oy0HY3nFxwfdvgj',
         name: '20231112 よさこい東海道'
     },
