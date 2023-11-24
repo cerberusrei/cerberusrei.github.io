@@ -16,11 +16,11 @@ const ALBUM_LIST = [
         name: '20231115 龍馬生誕祭'
     },
     {
-        id: '1mv92I_xRQa-AS3zV0Oy0HY3nFxwfdvgj',
+        id: '1lh1yd25uLq-sz8B2Kd_ShyvZWMWaxMuq',
         name: '20231112 よさこい東海道'
     },
     {
-        id: '1n3DDguXti3COAyQz7iYVre-gyh4rVIad',
+        id: '1n2nKP5PdAaTWpzCrbR69XcKqzAcCjBBt',
         name: '20231111 よさこい東海道'
     },
     {
