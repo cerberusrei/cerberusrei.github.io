@@ -1,5 +1,9 @@
 const ALBUM_LIST = [
     {
+        id: '1VBGFH-BBoHAVGHsEUDRDSvjJMKGixDo3',
+        name: '20231125 水島よさこい'
+    },
+    {
         id: '1TUQXmu-WTHnEl2DyQnfhtgZ6glmmdA2a',
         name: '20231119 たびひろよさこい'
     },
