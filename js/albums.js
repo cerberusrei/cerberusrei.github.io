@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1hCZsVKKbp4I9E7bz7fsD87h9U3ApWbHT',
+        name: '20231126 四日市よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1o8ytoDgG_NHWRutoXrsjR17ZNCbsk3Ra'
+    },
+    {
         id: '1VBGFH-BBoHAVGHsEUDRDSvjJMKGixDo3',
         name: '20231125 水島よさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1-eIsjy376mwKbA40SUE-hoFNi2e2x8P1'
