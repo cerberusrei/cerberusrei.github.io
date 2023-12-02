@@ -1,11 +1,13 @@
 const ALBUM_LIST = [
     {
         id: '1VBGFH-BBoHAVGHsEUDRDSvjJMKGixDo3',
-        name: '20231125 水島よさこい'
+        name: '20231125 水島よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1-eIsjy376mwKbA40SUE-hoFNi2e2x8P1'
     },
     {
         id: '1TUQXmu-WTHnEl2DyQnfhtgZ6glmmdA2a',
-        name: '20231119 たびひろよさこい'
+        name: '20231119 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ezsLYW_1Myajz6_fJzWmUBge1LJWZc0U'
     },
     {
         id: '1zH5tMEQ3q9JmJ2jYmW0veb0KR5xRP45I',

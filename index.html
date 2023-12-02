@@ -67,6 +67,30 @@
     #btnSwitchAccount {
       display: none;
     }
+
+    #albumListFrame a {
+      color: grey;
+      font-family: "Comic Sans MS";
+      text-decoration: none;
+    }
+
+    #albumListFrame .card:hover {
+      border-color: burlywood;
+      border-width: 5px;
+    }
+
+    #albumListFrame .modal-dialog {
+      display: table; /* To make the content in center */
+    }
+
+    #albumListFrame .modal-body {
+      height: 512px;
+      overflow-y: scroll;
+    }
+
+    #albumListFrame .modal-content {
+      width: 1024px;
+    }
   </style>
 
 
@@ -98,13 +122,11 @@
 </head>
 <body>
 <div class="container position-fixed header" style="max-width: 100%; top: 0">
-  <div class="dropdown col-4 album-menu" style="margin: 5px">
-    <button id="albumMenuBtn" class="btn btn-secondary dropdown-toggle" type="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
+  <div class="dropdown col-4" style="margin: 5px">
+    <button class="btn btn-secondary"
+            data-bs-toggle="modal" data-bs-target="#albumListFrame">
       <i class="bi bi-journal-album"></i>
     </button>
-    <ul class="dropdown-menu" aria-labelledby="albumMenuBtn">
-    </ul>
     <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
       <i class="bi bi-person-x-fill"></i>
     </button>
@@ -167,6 +189,27 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Album List Modal -->
+<div class="modal modal-dialog-scrollable fade" id="albumListFrame"
+     tabindex="-1" aria-labelledby="albumListFrameLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Album List</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

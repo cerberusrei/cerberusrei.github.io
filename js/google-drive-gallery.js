@@ -107,19 +107,29 @@ function initFileInfoPopovers() {
 }
 
 function initMenu() {
-    let menu = $('.album-menu .dropdown-menu');
+    let albumList = $('#albumListFrame .modal-body .container .row');
 
     ALBUM_LIST.forEach(album => {
-        let menuItem =
-            `
-        <li>
-          <a class="dropdown-item album-menu" href="#"
-            onclick="onFolderChanged('${album.id}');switchPath('${album.id}')">
-            ${album.name}
-          </a>
-        </li>
+        let coverImage = "";
+        if (album.cover) {
+            coverImage = `<img src="${album.cover}" class="card-img-top" alt="${album.name}">`;
+        }
+
+        let albumItem = `
+            <div class="col-md-4">
+              <div class="card mb-3">
+                <a href="#"
+                  onclick="onFolderChanged('${album.id}');switchPath('${album.id}');dismissAlbumList();">
+                  ${coverImage}
+                  <div class="card-body">
+                    <p class="card-title">${album.name}</p>
+                    <p class="card-text"><!-- other information --></p>
+                  </div>
+                </a>
+              </div>
+            </div>
         `
-        menu.html(menu.html() + menuItem);
+        albumList.html(albumList.html() + albumItem);
     });
 }
 
@@ -688,6 +698,10 @@ function onSourceImageLoaded() {
 
 function dismissPhoto() {
     $("#photoFrame").modal('hide');
+}
+
+function dismissAlbumList() {
+    $("#albumListFrame").modal('hide');
 }
 
 /**
