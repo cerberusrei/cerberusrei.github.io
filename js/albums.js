@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1yEP1q6aWjBDMVIWueyP5Sstz-7kFeYs_',
+        name: '20231210 サクラタウンよさこい2023～師走祭～',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1z-2AGKelk0IGwhyl0V6IQJ7J-sd-j1Ai'
+    },
+    {
         id: '1NKJdfCvfeEb2dIVwTuoyRDQZ3ZPpIrDz',
         name: '20231203 よさこいご縁まつり'
     },
