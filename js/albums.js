@@ -182,5 +182,10 @@ const ALBUM_LIST = [
     {
         id: '1ONe2fK-XFGutLYMin-vgKKcwNv3OpCEj',
         name: '20230401 さくよさ'
+    },
+    {
+        id: '1O7xmrDWWwYUDKVVT-OgSvlUwZ8XK2lQB',
+        name: '20230312 虹よさ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1zwuoyZE2AUbKDhnVBj4op31kscRLtEcs'
     }
 ];
