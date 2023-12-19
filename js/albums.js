@@ -1,7 +1,8 @@
 const ALBUM_LIST = [
     {
         id: '1Kjb0pGCIUETtrQ7_DKV-BxY2U6rqTACd',
-        name: '20231217 湘南ひらつかスターライトフェスティバル'
+        name: '20231217 湘南ひらつかスターライトフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ABIVOFv7P8K9eOkLjUwUN6CqMdJ_2U0j'
     },
     {
         id: '1yEP1q6aWjBDMVIWueyP5Sstz-7kFeYs_',
@@ -10,7 +11,8 @@ const ALBUM_LIST = [
     },
     {
         id: '1NKJdfCvfeEb2dIVwTuoyRDQZ3ZPpIrDz',
-        name: '20231203 よさこいご縁まつり'
+        name: '20231203 よさこいご縁まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1aGrCPWIauYubTGKStdc6L5iYb3p3Unea'
     },
     {
         id: '1hCZsVKKbp4I9E7bz7fsD87h9U3ApWbHT',
