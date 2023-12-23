@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1hjb6JkrW200eXHvHFKS_Wd7ReuJwBcBk',
+        name: '20231223 冬のよさこいソーズラ祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1XESgv3uZcXDC5ty2Qz27Ow5YlcJGH1MU'
+    },
+    {
         id: '1Kjb0pGCIUETtrQ7_DKV-BxY2U6rqTACd',
         name: '20231217 湘南ひらつかスターライトフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1fYi8mOgKWhgLVjqwu9ZDKhV_7PJNXtBN'
