@@ -208,7 +208,7 @@ const ALBUM_LIST = [
     {
         id: '1ONe2fK-XFGutLYMin-vgKKcwNv3OpCEj',
         name: '20230401 さくよさ',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1l8blvemg_rEUWApJEjeasdsL5OeX2Ct'
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1l8blvemg_rEUWApJEjeasdsL5OeX2CtV'
     },
     {
         id: '1O7xmrDWWwYUDKVVT-OgSvlUwZ8XK2lQB',
