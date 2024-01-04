@@ -201,8 +201,14 @@ const ALBUM_LIST = [
         name: '20230610 YOSAKOIソーラン祭り'
     },
     {
+        id: '1_rljZVbDPi5nC1yDUs8TcLXQsDB6LKXv',
+        name: '20230402 さくよさ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1XHOZhEc6Cq-b-8Y4bnhALvqxbGHnztEJ'
+    },
+    {
         id: '1ONe2fK-XFGutLYMin-vgKKcwNv3OpCEj',
-        name: '20230401 さくよさ'
+        name: '20230401 さくよさ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1l8blvemg_rEUWApJEjeasdsL5OeX2Ct'
     },
     {
         id: '1O7xmrDWWwYUDKVVT-OgSvlUwZ8XK2lQB',
