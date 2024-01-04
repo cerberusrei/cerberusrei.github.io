@@ -5,7 +5,7 @@ const ALBUM_LIST = [
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=12eaiuSENLomshTG1DAAp_Lb_CeMe1Gds'
     },
     {
-        id: '1v6jX0gutlBmVirdYf_STc2J4Eh0I_JMb',
+        id: '1ij-w70f5FPkzX66bTVBkSeiiqrL8Tcro',
         name: '20231231 なんばカウントダウンパーティー',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1k91fHSjvrudLO4s3jrA6l48YjsgKDLZw'
     },
