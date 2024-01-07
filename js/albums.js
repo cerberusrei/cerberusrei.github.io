@@ -1,5 +1,4 @@
 const ALBUM_LIST = [
-    https://drive.google.com/drive/folders/?usp=drive_link
     {
         id: '1-xfldIoFSGdfFjNN5IxOEcswYn83RmQd',
         name: '20240107 牡蠣フェス',
