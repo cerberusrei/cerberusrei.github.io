@@ -1,4 +1,10 @@
 const ALBUM_LIST = [
+    https://drive.google.com/drive/folders/?usp=drive_link
+    {
+        id: '1-xfldIoFSGdfFjNN5IxOEcswYn83RmQd',
+        name: '20240107 牡蠣フェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1z9SR8-rj5v6UK-LmRTGyqlKUYYAs_Eco'
+    },
     {
         id: '1v6jX0gutlBmVirdYf_STc2J4Eh0I_JMb',
         name: '20240103 ほにや新春踊り初め',
@@ -7,7 +13,7 @@ const ALBUM_LIST = [
     {
         id: '1ij-w70f5FPkzX66bTVBkSeiiqrL8Tcro',
         name: '20231231 なんばカウントダウンパーティー',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1k91fHSjvrudLO4s3jrA6l48YjsgKDLZw'
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=11PKvLwEQvwXG2AddLTOsv1Gcat7-y82T'
     },
     {
         id: '1hjb6JkrW200eXHvHFKS_Wd7ReuJwBcBk',
