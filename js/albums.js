@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1g28Lf6pa6gJHdWoNYeIEJeA_Z_DDJjgl',
+        name: '20240121 おでん&地酒フェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1yNBKqwn6lvGVwo5yFet787a3i_ww1-SO'
+    },
+    {
         id: '1L1bYBajGS3Lit4_ZI8YJJJm6ySwB4FqF',
         name: '20240120 福山城冬祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=18Y_Gj2YiFjpaVack8r0nnmPeGBVSH0P_'
