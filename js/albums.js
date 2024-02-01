@@ -10,6 +10,11 @@ const ALBUM_LIST = [
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=18Y_Gj2YiFjpaVack8r0nnmPeGBVSH0P_'
     },
     {
+        id: '1VcSgNmF8XaMaYwVw6arekybVio_JXMUT',
+        name: '20240114 新春よさこい三昧',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1TMG5H3jHdTVwmfSJ7wYkd6Xt1DXa52rU'
+    },
+    {
         id: '1d9aNBtgvAn8Vs6_maotXnUTlwrkqyE8h',
         name: '20240113 ブランチ横浜南部市場',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1biRLSOQFQjnLnHlJqBXDj8li-HXJmtm7'
