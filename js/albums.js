@@ -1,5 +1,15 @@
 const ALBUM_LIST = [
     {
+        id: '1hX1HmOeio5gKPM50wa5b5ANeiR5m5q-q',
+        name: '20240223 Rie kids大集合! Dance Showcase！',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1c10p0mEJkYNGHqRkPG7KqoP6f768-0M6'
+    },
+    {
+        id: '1hlj9Ssass36FDEthuqpRD83tpeZoxo2M',
+        name: '20240218 府中市コミュニティ文化祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1trbOAQbyutjfbOwA4A3VeUwF6VEEmJyC'
+    },
+    {
         id: '1g28Lf6pa6gJHdWoNYeIEJeA_Z_DDJjgl',
         name: '20240121 おでん&地酒フェス',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1yNBKqwn6lvGVwo5yFet787a3i_ww1-SO'
