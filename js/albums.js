@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '18p1TEB6a8gaXW-GfS_hf-sITMm-Ha-95',
+        name: '20240225 Vamos Live 2024 in Ninomiya',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1XBuZARWzhbqJKWgEC2b-77pK9XomWLJT'
+    },
+    {
         id: '1hX1HmOeio5gKPM50wa5b5ANeiR5m5q-q',
         name: '20240223 Rie kids大集合! Dance Showcase！',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1c10p0mEJkYNGHqRkPG7KqoP6f768-0M6'
