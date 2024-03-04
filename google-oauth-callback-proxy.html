@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+</head>
+<body>
+    <script>
+        // Get the query parameters from the current URL
+        var queryParams = window.location.search;
+
+        // Append the query parameters to the redirect URI
+        var redirectUri = 'http://cerberusrei.clear-net.jp/public/google-api-auth-callback.php' + queryParams;
+        
+        // Redirect to the specified URI
+        window.location.href = redirectUri;
+    </script>
+</body>
+</html>
