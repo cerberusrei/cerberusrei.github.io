@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1W2cuENVhJSHxPRipEXX91yPaaxxSHaf1',
+        name: '20240305 学生＆社会人よさこい2024',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1PMLMHpjvGW-0ZL-51aLPuTDDPOF0zpDZ'
+    },
+    {
         id: '18p1TEB6a8gaXW-GfS_hf-sITMm-Ha-95',
         name: '20240225 Vamos Live 2024 in Ninomiya',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1XBuZARWzhbqJKWgEC2b-77pK9XomWLJT'
