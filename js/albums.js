@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1ypCk3dYzqRCUGlndlJqYQ_9HNM8q-Ft7',
+        name: '20240309 土佐のおきゃく',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1T3_qYJW7PAsZksUD9D_TsINsRHxAtJK4'
+    },
+    {
         id: '1OsvVblL0sYbaPyg-UTM2cKhb2ee8NdnE',
         name: '20240309 よさこいチーム八鹿 たびひろよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1wvzjVzGaWyJNhMR5n3zwQP3OJO6liDvC'
