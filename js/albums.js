@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1OsvVblL0sYbaPyg-UTM2cKhb2ee8NdnE',
+        name: '20240309 よさこいチーム八鹿 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1wvzjVzGaWyJNhMR5n3zwQP3OJO6liDvC'
+    },
+    {
         id: '1W2cuENVhJSHxPRipEXX91yPaaxxSHaf1',
         name: '20240305 学生＆社会人よさこい2024',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1PMLMHpjvGW-0ZL-51aLPuTDDPOF0zpDZ'
