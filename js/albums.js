@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '19JZlTc2qFy-s1H89ybqUCsqeHI8PUnYf',
+        name: '20240310 土佐のおきゃく',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1A36c1HAI_tSPkG4F2Y_m4AF1FktB7XWP'
+    },
+    {
         id: '1ypCk3dYzqRCUGlndlJqYQ_9HNM8q-Ft7',
         name: '20240309 土佐のおきゃく',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1T3_qYJW7PAsZksUD9D_TsINsRHxAtJK4'
