@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1M0UiOZJChZNWCXitGgfA7ARDgqLZLzuf',
+        name: '20240316 伊東☆絆☆祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=10yUU2-vaoCr_9gZyLlEdWm2WGqbEr0fV'
+    },
+    {
         id: '19JZlTc2qFy-s1H89ybqUCsqeHI8PUnYf',
         name: '20240310 土佐のおきゃく',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1A36c1HAI_tSPkG4F2Y_m4AF1FktB7XWP'
