@@ -1,6 +1,6 @@
 const ALBUM_LIST = [
     {
-        id: '1oN4QQPhkdwNONET2LW_s0aAfVHnZN4ta',
+        id: '1G11kit1mz_jMdcbEq-dK2R76tbJeLGud',
         name: '20240317 空～Qou～20周年感謝祭',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FG17c_4fwHVcgiREpvAU4s4rEA-fqDcL'
     },
