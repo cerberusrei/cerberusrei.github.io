@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1oN4QQPhkdwNONET2LW_s0aAfVHnZN4ta',
+        name: '20240317 空～Qou～20周年感謝祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FG17c_4fwHVcgiREpvAU4s4rEA-fqDcL'
+    },
+    {
         id: '1M0UiOZJChZNWCXitGgfA7ARDgqLZLzuf',
         name: '20240316 伊東☆絆☆祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=10yUU2-vaoCr_9gZyLlEdWm2WGqbEr0fV'
