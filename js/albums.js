@@ -1,5 +1,10 @@
 const ALBUM_LIST = [
     {
+        id: '1DeHoCQgiQwzEIWu0Wv_zG1ioa99kiGKF',
+        name: '20240324 ひらつか市民スポーツフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1F9e1re9iD3rH4nDfEaAhmrK-xBqjLsIL'
+    },
+    {
         id: '1G11kit1mz_jMdcbEq-dK2R76tbJeLGud',
         name: '20240317 空～Qou～20周年感謝祭',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FG17c_4fwHVcgiREpvAU4s4rEA-fqDcL'
