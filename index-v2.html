@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>Google Drive Gallery</title>
+  <meta name="keywords" content="よさこい, ソーラン, 祭り, 日本舞踊">
+  <meta name="description" content="Photos mainly for よさこい, others for ソーラン, kids dance, traditional Japanese dance and performances.">
+  <meta name="author" content="Cerberus">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="content-language" content="ja">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+  <style>
+    body {
+      background-image: linear-gradient(to bottom, #f0f0f0, #dcdcdc);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .header {
+      background-color: rgba(200, 200, 200, 0.5);
+      z-index: 1000;
+      width: 100%;
+    }
+
+    #photoFrame .modal-content {
+      background-color: transparent;
+    }
+
+    /* customize for popover info content */
+    .custom-popover {
+      min-width: 400px;
+      --bs-popover-max-width: 100%;
+      --bs-popover-border-color: var(--bs-primary);
+      --bs-popover-header-bg: var(--bs-primary);
+      --bs-popover-header-color: var(--bs-white);
+      --bs-popover-body-padding-x: 1rem;
+      --bs-popover-body-padding-y: .5rem;
+    }
+
+    /* Default style for non-image items */
+    .default-thumbnail {
+      height: 124px;
+    }
+
+    .breadcrumb-item:not(.active) {
+      font-weight: bolder;
+    }
+
+    .modal-content-image {
+      max-width: 100%;
+      max-height: 100vh;
+      margin: auto;
+    }
+
+    .source-image-spinner {
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      left: 50%;
+    }
+
+    .transparent-button {
+      opacity: 0.5;
+      filter: alpha(opacity=50);
+    }
+
+    #albumListFrame a {
+      color: grey;
+      font-family: "Comic Sans MS";
+      text-decoration: none;
+    }
+
+    #albumListFrame .card:hover {
+      border-color: burlywood;
+      border-width: 5px;
+    }
+
+    #albumListFrame .modal-dialog {
+      display: table; /* To make the content in center */
+    }
+
+    #albumListFrame .modal-body {
+      height: 512px;
+      overflow-y: scroll;
+    }
+  </style>
+
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFKJ9BT7LX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QFKJ9BT7LX');
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script src="js/google-analytics-util.js"></script>
+  <script src="js/albums.js"></script>
+  <script src="js/gallery.js"></script>
+
+  <script type="text/javascript">
+    window.onerror = function(error) {
+      alert("window error..." + error + "\n" + error.stack);
+    }
+  </script>
+</head>
+<body onload="initUi()">
+<div class="container position-fixed header" style="max-width: 100%; top: 0">
+  <div class="dropdown col-4" style="margin: 5px">
+    <button class="btn btn-secondary"
+            data-bs-toggle="modal" data-bs-target="#albumListFrame">
+      <i class="bi bi-journal-album"></i>
+    </button>
+    <button class="btn btn-primary"
+            data-bs-toggle="modal" data-bs-target="#infoFrame">
+      <i class="bi bi-info-square"></i>
+    </button>
+  </div>
+  <div class="col">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb align-middle align-items-center">
+        loading <!-- this is for workaround to make content container to have correct margin by the height of this div -->
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<div class="container text-center">
+  <div id="fileListContainer">
+  </div>
+
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+  <!-- Photo Modal -->
+  <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content" onclick="dismissPhoto()">
+        <div class="modal-body d-flex align-items-center justify-content-center">
+          <div class="container">
+            <button type="button"
+                    class="btn btn-secondary fixed-top transparent-button"
+                    style="right: auto"
+                    data-bs-dismiss="modal" aria-label="Close">
+              X
+            </button>
+
+            <img class="img-fluid align-middle align-items-center preview-image modal-content-image" src="" alt=""/>
+            <img class="img-fluid align-middle align-items-center source-image modal-content-image" src="" alt=""
+                 onload="onSourceImageLoaded()"/>
+          </div>
+          <div class="spinner-border source-image-spinner" role="status">
+            <span class="sr-only"></span>
+          </div>
+          <div class="fixed-bottom">
+            <a href="" class="download-link" download>
+              <button class="btn btn-light btn-lg transparent-button">
+                <i class="bi bi-download"></i>
+              </button>
+            </a>
+            <button type="button" class="file-info-btn btn btn-lg btn-light transparent-button"
+                    data-bs-container="body" data-bs-toggle="popover"
+                    data-bs-custom-class="custom-popover"
+                    data-bs-title="Info" data-bs-placement="top">
+              <i class="bi bi-info-square"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Album List Modal -->
+<div class="modal modal-dialog-scrollable fade" id="albumListFrame"
+     tabindex="-1" aria-labelledby="albumListFrameLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Album List</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Info Modal -->
+<div class="modal modal-dialog-scrollable fade" id="infoFrame"
+     tabindex="-1" aria-labelledby="infoFrameLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Info</h5>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+</html>
