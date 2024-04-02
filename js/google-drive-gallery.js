@@ -56,7 +56,8 @@ function initUi() {
     initMenu();
 
     // load content of an album randomly
-    switchPath(initFileId || ALBUM_LIST[Math.floor(Math.random() * ALBUM_LIST.length)].id);
+    let randomAlbums = ALBUM_LIST.filter(album => album.version !== 2);
+    switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
 
     if (mgmtModeEnabled) {
         $('#btnSwitchAccount').show();
@@ -115,11 +116,16 @@ function initMenu() {
             coverImage = `<img src="${album.cover}" class="card-img-top" alt="${album.name}">`;
         }
 
+        let onclick = `onFolderChanged('${album.id}');switchPath('${album.id}');dismissAlbumList();`;
+        if (album.version === 2) {
+            onclick = `window.location.href = 'index-v2.html?fileId=${album.id}'`;
+        }
+
         let albumItem = `
             <div class="col-md-4">
               <div class="card mb-3">
                 <a href="#"
-                  onclick="onFolderChanged('${album.id}');switchPath('${album.id}');dismissAlbumList();">
+                  onclick="${onclick}">
                   ${coverImage}
                   <div class="card-body">
                     <p class="card-title">${album.name}</p>

@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '822c3ba50503c06e93ce315c801acb03',
+        name: '20240330 さくらよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1EwCq_eOcbwIZ23V0K9RcaxakRqpj-tCD',
+        version: 2
+    },
+    {
         id: '1DeHoCQgiQwzEIWu0Wv_zG1ioa99kiGKF',
         name: '20240324 ひらつか市民スポーツフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1F9e1re9iD3rH4nDfEaAhmrK-xBqjLsIL'
