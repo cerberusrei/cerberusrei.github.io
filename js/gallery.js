@@ -150,7 +150,7 @@ async function getAlbumName(id) {
     // get name for the case when going to sub-folder
     try {
         let info = await getFileInfo(id);
-        return info.name;
+        return info.fileName;
     } catch (err) {
         handleError(err);
         return "unknown-folder-name";
@@ -158,7 +158,9 @@ async function getAlbumName(id) {
 }
 
 async function getFileInfo(fileId) {
-    const response = await fetch(`file-management.php?request=info&fileId=${fileId}`);
+    const response = await fetch(
+        `https://cerberusrei.clear-net.jp/public/file-api.php?request=info&fileId=${fileId}`
+    );
     return await response.json();
 }
 
@@ -230,10 +232,10 @@ async function getFileList() {
 }
 
 async function fetchFileListPage(request) {
-    const response = await fetch(
+    const data = await fetch(
         `https://cerberusrei.clear-net.jp/public/file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
-    );
-    return await response.json();
+    ).then(response => {return response.json() });
+    return data;
 }
 
 function buildFile(fileInfo) {
@@ -266,7 +268,7 @@ function buildFile(fileInfo) {
     });
 
     if (file.isImage()) {
-        let meta = fileMeta[file.name];
+        let meta = fileMeta[file.fileName];
         if (meta) {
             file.focusInfo = meta.focus;
         }
@@ -289,7 +291,7 @@ function toFileCellHtml(file) {
     }
 
     return `<figure class="figure default-thumbnail">
-                <i class="bi bi-file-earmark"></i>${file.name}
+                <i class="bi bi-file-earmark"></i>${file.fileName}
               </figure>`;
 }
 
@@ -317,7 +319,7 @@ function toImageFileCellHtml(file) {
                 <div class="container" style="position: relative;  ${divSizeStyle}">
                     <div class="card" style="${cardWidth}">
                         <img id="img-${file.id}" src="${thumbnailLink}"
-                            class="figure-img img-fluid rounded" alt="${file.name}"
+                            class="figure-img img-fluid rounded" alt="${file.fileName}"
                             style="${imageStyle}"
                             data-bs-toggle="modal" data-bs-target="#photoFrame"
                             onclick="showPhoto('${file.id}', '${file.toText()}')"/>
@@ -380,11 +382,11 @@ function toFolderCellHtml(file) {
                           <button class="btn btn-light btn-lg transparent-button"
                                   onclick="onFolderChanged('${file.id}');switchPath('${file.id}', true)">
                               <img src="https://cdn-icons-png.flaticon.com/512/7757/7757558.png"
-                                   class="card-img-top" alt="${file.name}"
+                                   class="card-img-top" alt="${file.fileName}"
                                    style="max-width: 50%"/>
                           </button>
                           <div class="card-body">
-                              <p class="card-text">${file.name}</p>
+                              <p class="card-text">${file.fileName}</p>
                           </div>
                       </div>
                   </div>
