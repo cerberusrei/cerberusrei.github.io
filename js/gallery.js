@@ -232,10 +232,11 @@ async function getFileList() {
 }
 
 async function fetchFileListPage(request) {
-    const data = await fetch(
+    return await fetch(
         `https://cerberusrei.clear-net.jp/public/file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
-    ).then(response => {return response.json() });
-    return data;
+    ).then(response => {
+        return response.json()
+    });
 }
 
 function buildFile(fileInfo) {
