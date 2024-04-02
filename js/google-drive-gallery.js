@@ -118,7 +118,7 @@ function initMenu() {
 
         let onclick = `onFolderChanged('${album.id}');switchPath('${album.id}');dismissAlbumList();`;
         if (album.version === 2) {
-            onclick = `window.location.href = 'index-v2.html?fileId=${album.id}'`;
+            onclick = `window.location.href = '${getV2Url(album.id)}'`;
         }
 
         let albumItem = `
@@ -137,6 +137,20 @@ function initMenu() {
         `
         albumList.html(albumList.html() + albumItem);
     });
+}
+
+function getV2Url(fileId) {
+    const queryString = window.location.search;
+    const params = new URLSearchParams(queryString);
+    const filteredParams = {};
+    for (const [key, value] of params.entries()) {
+        if (key !== "fileId") {
+            filteredParams[key] = value;
+        }
+    }
+
+    const subQueryStr = new URLSearchParams(filteredParams).toString()
+    return `index-v2.html?fileId=${fileId}&${subQueryStr}`;
 }
 
 async function onScroll() {
