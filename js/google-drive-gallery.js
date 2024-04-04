@@ -150,7 +150,7 @@ function getV2Url(fileId) {
     }
 
     const subQueryStr = new URLSearchParams(filteredParams).toString()
-    return `index-v2.html?fileId=${fileId}&${subQueryStr}`;
+    return `http://cerberusrei.clear-net.jp/public/viewer/index-v2.html?fileId=${fileId}&${subQueryStr}`;
 }
 
 async function onScroll() {

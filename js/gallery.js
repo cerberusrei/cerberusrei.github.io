@@ -104,7 +104,7 @@ function getV1Url(fileId) {
     }
 
     const subQueryStr = new URLSearchParams(filteredParams).toString()
-    return `index.html?fileId=${fileId}&${subQueryStr}`;
+    return `https://cerberusrei.github.io/index.html?fileId=${fileId}&${subQueryStr}`;
 }
 
 async function onScroll() {
@@ -179,7 +179,7 @@ async function getAlbumName(id) {
 
 async function getFileInfo(fileId) {
     const response = await fetch(
-        `http://cerberusrei.clear-net.jp/public/file-api.php?request=info&fileId=${fileId}`
+        `../file-api.php?request=info&fileId=${fileId}`
     );
     return await response.json();
 }
@@ -253,7 +253,7 @@ async function getFileList() {
 
 async function fetchFileListPage(request) {
     return await fetch(
-        `http://cerberusrei.clear-net.jp/public/file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
+        `../file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
     ).then(response => {
         return response.json()
     });
@@ -439,7 +439,7 @@ function getPreviewImageLink(file, width) {
 }
 
 function getSourceImageLink(file) {
-    return `http://cerberusrei.clear-net.jp/public/file-api.php?request=binary&fileId=${file.id}`;
+    return `../file-api.php?request=binary&fileId=${file.id}`;
 }
 
 function onSourceImageLoaded() {
