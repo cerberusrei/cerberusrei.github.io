@@ -179,7 +179,7 @@ async function getAlbumName(id) {
 
 async function getFileInfo(fileId) {
     const response = await fetch(
-        `https://cerberusrei.clear-net.jp/public/file-api.php?request=info&fileId=${fileId}`
+        `http://cerberusrei.clear-net.jp/public/file-api.php?request=info&fileId=${fileId}`
     );
     return await response.json();
 }
@@ -253,7 +253,7 @@ async function getFileList() {
 
 async function fetchFileListPage(request) {
     return await fetch(
-        `https://cerberusrei.clear-net.jp/public/file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
+        `http://cerberusrei.clear-net.jp/public/file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
     ).then(response => {
         return response.json()
     });
@@ -439,7 +439,7 @@ function getPreviewImageLink(file, width) {
 }
 
 function getSourceImageLink(file) {
-    return `https://cerberusrei.clear-net.jp/public/file-api.php?request=binary&fileId=${file.id}`;
+    return `http://cerberusrei.clear-net.jp/public/file-api.php?request=binary&fileId=${file.id}`;
 }
 
 function onSourceImageLoaded() {
