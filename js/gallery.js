@@ -191,6 +191,18 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
 
     // update breadcrumb
     let breadcrumb = $('.breadcrumb');
+
+    let shareBtn = '';
+    if (isActive) {
+        const currentURL = new URL(window.location.href);
+        if (currentURL.searchParams.has('fileId')) {
+            currentURL.searchParams.delete('fileId');
+            currentURL.searchParams.set('fileId', path.id);
+        }
+
+        shareBtn = `<i class="bi bi-share-fill" onclick="prompt('Share link:', '${currentURL.toString()}')"></i>`;
+    }
+
     breadcrumb.html(
         breadcrumb.html() +
         `
@@ -200,6 +212,8 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
             <button class="btn btn-light" style="font-size: 0.8rem" title="${path.name}">${displayName}</button>
           </span>
         </li>
+        &nbsp;
+        ${shareBtn}
         `
     );
 }
