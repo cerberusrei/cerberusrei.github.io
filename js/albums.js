@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '026a63c9b09561c329839bc098ceb803',
+        name: '20240406 野球拳全国大会',
+		cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1X0eotUIWS7DfhQKqGeIFBZ78AGoaBr0r',
+        version: 2
+    },
+    {
         id: 'fed50a77457b2833d59503743c580850',
         name: '20240406 野球拳全国大会',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1vHegqcM6I5uLwt3cc8AvpguvYHYmEBRp',
