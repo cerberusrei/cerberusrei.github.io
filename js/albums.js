@@ -12,6 +12,12 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: '4623b7c01d91bfd8e7cc844c64042909',
+        name: '20240331 さくらよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1aGK5AxzCiI2B3iUWjYhmeO-Y7sZ90lol',
+        version: 2
+    },
+    {
         id: '822c3ba50503c06e93ce315c801acb03',
         name: '20240330 さくらよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1EwCq_eOcbwIZ23V0K9RcaxakRqpj-tCD',
