@@ -5,6 +5,11 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: 'b7e4a1f6caee295ff4e730eda16c9cfb',
+        name: '20240413 よさこいご縁まつり',
+        version: 2
+    },
+    {
         id: '026a63c9b09561c329839bc098ceb803',
         name: '20240407 松山春まつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1X0eotUIWS7DfhQKqGeIFBZ78AGoaBr0r',
