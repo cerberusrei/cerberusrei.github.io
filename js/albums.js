@@ -2,7 +2,7 @@ const ALBUM_LIST = [
     {
         id: '4ecfe6f445fbc8519bc1a3884280d53c',
         name: '20240414 よさこいご縁まつり',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1nQjcxWvm_tbxm3oe9q6Ayn2TOFwKeNlS',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1fqWiU7EIJhVZTEbOb_d6bRygC21v0YeV',
         version: 2
     },
     {
