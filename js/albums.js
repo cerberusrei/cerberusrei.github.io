@@ -2,7 +2,7 @@ const ALBUM_LIST = [
     {
         id: 'c7fff6d32dc256e6d0ed0f3130f13e1b',
         name: '20240421 あっぱれ富士',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1fHf9E4X6QmMaNsWkP2QyCku7ecZBkiDt',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1eaKn20IKfNhrgC13uj2pGp5hM0A9Ti_6',
         version: 2
     },
     {
