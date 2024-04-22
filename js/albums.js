@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: 'c7fff6d32dc256e6d0ed0f3130f13e1b',
+        name: '20240421 あっぱれ富士',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1fHf9E4X6QmMaNsWkP2QyCku7ecZBkiDt',
+        version: 2
+    },
+    {
+        id: 'fa7214cdd26568afd7a8af96a0e94912',
+        name: '20240420 あっぱれ富士',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1viQAST8mVaICSH1aFSPuozkLftzROoej',
+        version: 2
+    },
+    {
         id: '4ecfe6f445fbc8519bc1a3884280d53c',
         name: '20240414 よさこいご縁まつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1fqWiU7EIJhVZTEbOb_d6bRygC21v0YeV',
