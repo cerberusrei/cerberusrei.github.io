@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '50a21e7128811a4019a3324b43e8c4c0',
+        name: '20240427 春よさこい2024',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=192h4ndV2sfBSQNGqWcKO-HAt22kemVyL',
+        version: 2
+    },
+    {
         id: 'c7fff6d32dc256e6d0ed0f3130f13e1b',
         name: '20240421 あっぱれ富士',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1eaKn20IKfNhrgC13uj2pGp5hM0A9Ti_6',
