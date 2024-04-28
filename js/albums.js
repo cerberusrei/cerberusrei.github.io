@@ -1,6 +1,12 @@
 const ALBUM_LIST = [
     {
         id: '50a21e7128811a4019a3324b43e8c4c0',
+        name: '20240728 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1sCCtrbDbG-5Ov8nGubZdUCDioU1sDtjO',
+        version: 2
+    },
+    {
+        id: '50a21e7128811a4019a3324b43e8c4c0',
         name: '20240427 春よさこい2024',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=192h4ndV2sfBSQNGqWcKO-HAt22kemVyL',
         version: 2
@@ -32,13 +38,13 @@ const ALBUM_LIST = [
     {
         id: '026a63c9b09561c329839bc098ceb803',
         name: '20240407 松山春まつり',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1X0eotUIWS7DfhQKqGeIFBZ78AGoaBr0r',
+		cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1X0eotUIWS7DfhQKqGeIFBZ78AGoaBr0r',
         version: 2
     },
     {
         id: 'fed50a77457b2833d59503743c580850',
         name: '20240406 野球拳全国大会',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1vHegqcM6I5uLwt3cc8AvpguvYHYmEBRp',
+		cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1vHegqcM6I5uLwt3cc8AvpguvYHYmEBRp',
         version: 2
     },
     {
@@ -326,6 +332,11 @@ const ALBUM_LIST = [
         name: '20230806 彩夏祭 本祭２'
     },
     {
+        id: 'e0fcb752bd68f93cd5b2238d14f66c8b',
+        name: '20230806 彩夏祭 本祭１',
+        version: 2
+    },
+    {
         id: '1jxKcXZLTzLKvIkW1NTO7rGhqiVdGcbK-',
         name: '20230610 YOSAKOIソーラン祭り'
     },
@@ -340,8 +351,9 @@ const ALBUM_LIST = [
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1l8blvemg_rEUWApJEjeasdsL5OeX2CtV'
     },
     {
-        id: '1O7xmrDWWwYUDKVVT-OgSvlUwZ8XK2lQB',
+        id: 'a0b231e78bdc1f6ecddacd1f1ecc9d8d',
         name: '20230312 虹よさ',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1zwuoyZE2AUbKDhnVBj4op31kscRLtEcs'
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1zwuoyZE2AUbKDhnVBj4op31kscRLtEcs',
+        version: 2
     }
 ];
