@@ -1,6 +1,6 @@
 const ALBUM_LIST = [
     {
-        id: '50a21e7128811a4019a3324b43e8c4c0',
+        id: '8278a8e46876fc9004f48d139ae593d5',
         name: '20240728 たびひろよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1sCCtrbDbG-5Ov8nGubZdUCDioU1sDtjO',
         version: 2
