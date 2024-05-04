@@ -1,13 +1,19 @@
 const ALBUM_LIST = [
     {
+        id: '8764f0e6e7ff5e517b3874442645cde0',
+        name: '20240503 踊っこまつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1qCsyBlonG-xOLnxCtRVbIks-Ne-75w9S',
+        version: 2
+    },
+    {
         id: '31c3f49ef6780d50098a94f883bab91b',
-        name: '20240729 たびひろよさこい',
+        name: '20240429 たびひろよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1H3ob-0V2BqG5uq8vNbjHlhLPWOhl2Q51',
         version: 2
     },
     {
         id: '8278a8e46876fc9004f48d139ae593d5',
-        name: '20240728 たびひろよさこい',
+        name: '20240428 たびひろよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1sCCtrbDbG-5Ov8nGubZdUCDioU1sDtjO',
         version: 2
     },
