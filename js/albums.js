@@ -1,6 +1,6 @@
 const ALBUM_LIST = [
     {
-        id: '8764f0e6e7ff5e517b3874442645cde0',
+        id: 'db1302449541a81ab9fb4af659788a4d',
         name: '20240503 踊っこまつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1qCsyBlonG-xOLnxCtRVbIks-Ne-75w9S',
         version: 2
