@@ -6,7 +6,7 @@ const ALBUM_LIST = [
         version: 2
     },
     {
-        id: 'db1302449541a81ab9fb4af659788a4d',
+        id: '54125eec3b8c6cdba49b59df1bb77e6c',
         name: '20240503 たびひろよさこいGW拡大版',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1ODNYpwRuAL4l-OxQ07sXTSgR1BQkJef3',
         version: 2
