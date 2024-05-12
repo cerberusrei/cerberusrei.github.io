@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '65838dccc15a40e0ad5eda75fbe8086a',
+        name: '20240506 Worldあぽろん',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1EIMbQbV5U5PoStD0wSLSzm-LBQDchdSc',
+        version: 2
+    },
+    {
         id: '79331655a6a580a5c9e5b71e793886e6',
         name: '20240505 フラワーフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=18ctCG8LfGdcfprXb8_D59TU5GlWqeVw9',
