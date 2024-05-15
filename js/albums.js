@@ -186,19 +186,19 @@ const ALBUM_LIST = [
         version: 2
     },
     {
-        id: '1ij-w70f5FPkzX66bTVBkSeiiqrL8Tcro',
+        id: 'f93496a850771d754d03f154fc505eaf',
         name: '20231231 なんばカウントダウンパーティー',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=11PKvLwEQvwXG2AddLTOsv1Gcat7-y82T',
         version: 2
     },
     {
-        id: '1hjb6JkrW200eXHvHFKS_Wd7ReuJwBcBk',
+        id: '0c582625ff30d8800822f87f99570d2e',
         name: '20231223 冬のよさこいソーズラ祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1XESgv3uZcXDC5ty2Qz27Ow5YlcJGH1MU',
         version: 2
     },
     {
-        id: '1Kjb0pGCIUETtrQ7_DKV-BxY2U6rqTACd',
+        id: 'a347c31071d284d85413b23c40d0b2db',
         name: '20231217 湘南ひらつかスターライトフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1fYi8mOgKWhgLVjqwu9ZDKhV_7PJNXtBN',
         version: 2
