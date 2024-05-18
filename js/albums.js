@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '5905ba64cd957a1a1aea369f7fae62b1',
+        name: '20240518 長居植物園 de EXPOよさこい2025 × 高知県マルシェ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Xt-nf_hHJFVI1gtXs3TU47ZbUE54CWJe',
+        version: 2
+    },
+    {
         id: '65838dccc15a40e0ad5eda75fbe8086a',
         name: '20240506 Worldあぽろん',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1EIMbQbV5U5PoStD0wSLSzm-LBQDchdSc',
