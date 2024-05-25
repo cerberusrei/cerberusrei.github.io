@@ -119,6 +119,11 @@
     window.onerror = function(error) {
       alert("window error..." + error + "\n" + error.stack);
     }
+
+    // force redirect to v2
+    const queryParams = window.location.search;
+    const redirectUri = 'http://cerberusrei.clear-net.jp/public/viewer/index-v2.html?' + queryParams;
+    window.location.href = redirectUri;
   </script>
 </head>
 <body>
