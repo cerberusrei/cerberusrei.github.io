@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'af012deb1bca3cd24c1cf3d4b78187fb',
+        name: '20240519 福山バラ祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1CLhw7IsPUT2luyQUayRaG3iazl2tjop9',
+        version: 2
+    },
+    {
         id: '5905ba64cd957a1a1aea369f7fae62b1',
         name: '20240518 長居植物園 de EXPOよさこい2025 × 高知県マルシェ',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Xt-nf_hHJFVI1gtXs3TU47ZbUE54CWJe',
