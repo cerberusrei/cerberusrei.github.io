@@ -411,18 +411,15 @@ function toVideoFileCellHtml(file) {
 }
 
 function toFolderCellHtml(file) {
+    const thumbnail = getPreviewImageLink(file);
     return `<figure class="figure">
                   <div class="container" style="position: relative">
                       <div class="card img-fluid align-middle align-items-center" style="width: 18rem;">
-                          <button class="btn btn-light btn-lg transparent-button"
+                          <button class="btn btn-light btn-lg"
                                   onclick="onFolderChanged('${file.id}');switchPath('${file.id}', true)">
-                              <img src="https://cdn-icons-png.flaticon.com/512/7757/7757558.png"
-                                   class="card-img-top" alt="${file.fileName}"
-                                   style="max-width: 50%"/>
+                              <img src="${thumbnail}" class="card-img-top" alt="${file.fileName}"/>
                           </button>
-                          <div class="card-body">
-                              <p class="card-text">${file.fileName}</p>
-                          </div>
+                          <div>${file.fileName}</div>
                       </div>
                   </div>
                   <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
@@ -449,6 +446,9 @@ function showPhoto(id, fileInfoStr) {
 }
 
 function getPreviewImageLink(file, width) {
+    if (!file.thumbnail) {
+        return 'https://cdn-icons-png.flaticon.com/512/7757/7757558.png';
+    }
     return `https://drive.google.com/thumbnail?authuser=0&sz=w${width}&id=${file.thumbnail}`;
 }
 
