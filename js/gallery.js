@@ -38,7 +38,7 @@ function initUi() {
         event.stopPropagation();
     });
 
-    $.get('./info.html', function (data) {
+    $.get('./info.html?t=1716833088380', function (data) {
         $(function () {
             $('#infoFrame .modal-body').html(data);
             if (localStorage.getItem(CACHE_INFO_READ) !== INFO_VERSION) {
