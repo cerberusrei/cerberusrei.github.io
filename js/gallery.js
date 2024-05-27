@@ -1,5 +1,5 @@
 const CACHE_INFO_READ = "infoRead";
-const INFO_VERSION = '1';
+const INFO_VERSION = '2';
 const postProductionFolderName = 'post-production';
 
 let currentPaths = []; // [root, sub1, sub2, ...]
@@ -412,9 +412,11 @@ function toVideoFileCellHtml(file) {
 
 function toFolderCellHtml(file) {
     const thumbnail = getPreviewImageLink(file);
+    const organizedStyle = file.organized ? '' : 'organized-album';
     return `<figure class="figure">
                   <div class="container" style="position: relative">
-                      <div class="card img-fluid align-middle align-items-center" style="width: 18rem;">
+                      <div class="card img-fluid align-middle align-items-center ${organizedStyle}"
+                        style="width: 18rem;">
                           <button class="btn btn-light btn-lg"
                                   onclick="onFolderChanged('${file.id}');switchPath('${file.id}', true)">
                               <img src="${thumbnail}" class="card-img-top" alt="${file.fileName}"/>
