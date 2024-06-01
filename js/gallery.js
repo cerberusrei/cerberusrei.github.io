@@ -447,7 +447,7 @@ function showPhoto(id, fileInfoStr) {
         .attr("download", `${id}.jpg`); // not work due to CORS issue
 }
 
-function getPreviewImageLink(file, width) {
+function getPreviewImageLink(file, width = 512) {
     if (!file.thumbnail) {
         return 'https://cdn-icons-png.flaticon.com/512/7757/7757558.png';
     }
