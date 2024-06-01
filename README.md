@@ -23,3 +23,6 @@
   - Choose "Website" for public one
 - API restrictions
   - Choose "Google Drive API"
+
+## SEO
+- Use [Google rich results tool to test](https://search.google.com/test/rich-results)
