@@ -51,7 +51,7 @@ function initUi() {
         localStorage.setItem(CACHE_INFO_READ, INFO_VERSION);
     });
 
-    initMenu();
+    new AlbumListController(ALBUM_LIST);
 
     // load content of an album randomly
     let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
@@ -59,52 +59,6 @@ function initUi() {
 
     let headerHeight = $('.header').height();
     $('#fileListContainer').css('margin', `${headerHeight + 10}px 0px`);
-}
-
-function initMenu() {
-    let albumList = $('#albumListFrame .modal-body .container .row');
-
-    ALBUM_LIST.forEach(album => {
-        let coverImage = "";
-        if (album.cover) {
-            coverImage = `<img src="${album.cover}" class="card-img-top" alt="${album.name}">`;
-        }
-
-        let onclick = `onFolderChanged('${album.id}');switchPath('${album.id}');dismissAlbumList();`;
-        if (album.version !== 2) {
-            onclick = `window.location.href = '${getV1Url(album.id)}'`;
-        }
-
-        let albumItem = `
-            <div class="col-md-4">
-              <div class="card mb-3">
-                <a href="#"
-                  onclick="${onclick}">
-                  ${coverImage}
-                  <div class="card-body">
-                    <p class="card-title">${album.name}</p>
-                    <p class="card-text"><!-- other information --></p>
-                  </div>
-                </a>
-              </div>
-            </div>
-        `
-        albumList.html(albumList.html() + albumItem);
-    });
-}
-
-function getV1Url(fileId) {
-    const queryString = window.location.search;
-    const params = new URLSearchParams(queryString);
-    const filteredParams = {};
-    for (const [key, value] of params.entries()) {
-        if (key !== "fileId") {
-            filteredParams[key] = value;
-        }
-    }
-
-    const subQueryStr = new URLSearchParams(filteredParams).toString()
-    return `https://cerberusrei.github.io/index.html?fileId=${fileId}&${subQueryStr}`;
 }
 
 async function onScroll() {

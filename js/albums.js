@@ -483,3 +483,87 @@ const ALBUM_LIST = [
         version: 2
     }
 ];
+
+class AlbumListController {
+    constructor(albums) {
+        this.albums = albums;
+        this.selectedYear = null;
+        this.selectedMonth = null;
+
+        this.initOptions();
+        this.addFilterButtonListener();
+        this.renderAlbumList();
+    }
+
+    initOptions() {
+        const latestAlbum = this.albums[0];
+
+        // init for year option
+        const yearSelect = $('#albumListFrame [name=year]');
+        const years = this.albums.map(album => album.name.substring(0, 4));
+        const uniqueYears = [...new Set(years)];
+        uniqueYears.forEach(year => {
+            yearSelect.append(`<option value="${year}">${year}</option>`);
+        });
+
+        // Set default value to the latest year
+        this.selectedYear = latestAlbum.name.substring(0, 4);
+        yearSelect.val(this.selectedYear);
+
+        // init for month option
+        const monthSelect = $('#albumListFrame [name=month]');
+        for (let month = 1; month <= 12; month++) {
+            const formattedMonth = month.toString().padStart(2, '0');
+            monthSelect.append(`<option value="${formattedMonth}">${formattedMonth}</option>`);
+        }
+        this.selectedMonth = latestAlbum.name.substring(4, 6);
+        monthSelect.val(this.selectedMonth);
+    }
+
+    addFilterButtonListener() {
+        const self = this;
+
+        $('#albumListFrame [name=year]').on('change', function() {
+            self.selectedYear = $(this).val();
+            self.renderAlbumList();
+        });
+        $('#albumListFrame [name=month]').on('change', function() {
+            self.selectedMonth = $(this).val();
+            self.renderAlbumList();
+        });
+    }
+
+    renderAlbumList() {
+        const albumListContainer = $('#albumListFrame .modal-dialog .modal-body .container .row');
+        albumListContainer.empty();
+
+        this.albums.forEach(album => {
+            if (!album.name.startsWith(this.selectedYear + this.selectedMonth)) {
+                return true; // ignore
+            }
+
+            let coverImage = "";
+            if (album.cover) {
+                coverImage = `<img src="${album.cover}" class="card-img-top" alt="${album.name}">`;
+            }
+
+            let onclick = `onFolderChanged('${album.id}');switchPath('${album.id}');dismissAlbumList();`;
+
+            const albumItem = `
+                    <div class="col-md-4">
+                      <div class="card mb-3">
+                        <a href="#"
+                          onclick="${onclick}">
+                          ${coverImage}
+                          <div class="card-body">
+                            <p class="card-title">${album.name}</p>
+                            <p class="card-text"><!-- other information --></p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>`;
+
+            albumListContainer.append(albumItem);
+        });
+    }
+}

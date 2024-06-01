@@ -124,6 +124,13 @@
     .organized-album {
       background-color: #e9ecef;
     }
+
+    .album-filter-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
   </style>
 
 
@@ -140,8 +147,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <script src="js/google-analytics-util.js"></script>
-  <script src="js/albums.js"></script>
-  <script src="js/gallery.js?t=1716833088381"></script>
+  <script src="js/albums.js?t=1717235792157"></script>
+  <script src="js/gallery.js?t=1717235792157"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {
@@ -223,6 +230,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Album List</h5>
+        <div class="album-filter-container">
+          <select name="year">
+            <option value=""> - </option>
+          </select>
+          <select name="month">
+            <option value=""> - </option>
+          </select>
+        </div>
       </div>
       <div class="modal-body">
         <div class="container">
