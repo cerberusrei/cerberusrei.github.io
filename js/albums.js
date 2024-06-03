@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '1982c1b3b148c3e70a7b29c11fa6a6d3',
+        name: '20240602 湘南よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1q5BzkwKAwVSyuhCBcE7XMFyRuhRJfGc9',
+        version: 2
+    },
+    {
         id: 'af012deb1bca3cd24c1cf3d4b78187fb',
         name: '20240519 福山バラ祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1CLhw7IsPUT2luyQUayRaG3iazl2tjop9',
