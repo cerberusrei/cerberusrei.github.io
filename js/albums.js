@@ -1,5 +1,16 @@
 const ALBUM_LIST = [
     {
+        id: '75cffeec23263f4729115aa39d72b63b',
+        name: '20240609 YOSAKOIソーラン祭り Day 5',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1hSSZgHe0fw_BaQx7Sxap3b8AbqhZB_Iy',
+        version: 2
+    },
+    {
+        id: '1046416d66375261cd708c0e823b0c9f',
+        name: '20240607 YOSAKOIソーラン祭り Day 2',
+        version: 2
+    },
+    {
         id: '1982c1b3b148c3e70a7b29c11fa6a6d3',
         name: '20240602 湘南よさこい祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1q5BzkwKAwVSyuhCBcE7XMFyRuhRJfGc9',
