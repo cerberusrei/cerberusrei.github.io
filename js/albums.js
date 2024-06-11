@@ -6,6 +6,11 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: '111e39227266e3a2e4381409f136744d',
+        name: '20240608 YOSAKOIソーラン祭り Day 4',
+        version: 2
+    },
+    {
         id: '1046416d66375261cd708c0e823b0c9f',
         name: '20240607 YOSAKOIソーラン祭り Day 2',
         version: 2
