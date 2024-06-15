@@ -287,21 +287,10 @@ function toFileCellHtml(file) {
 function toImageFileCellHtml(file) {
     let thumbnailWidth = 1024;
     let thumbnailLink = getPreviewImageLink(file, thumbnailWidth);
-    let sourceFileLink = getSourceImageLink(file);
+    let sourceFileLink = getSourceLink(file);
     let imageStyle = "margin-bottom: 0;"; // override the value in .figure-img to avoid space in bottom
     let divSizeStyle = "width: fit-content; overflow: hidden; margin-top: 5px;";
-
-    let downloadButton = `
-        <div class="d-flex align-items-center justify-content-center"
-            style="position: absolute; bottom: 0; right: 0;">
-            <a href="${sourceFileLink}"
-                class="download-link" download="${file.id}">
-                <button class="btn btn-light btn-lg transparent-button">
-                    <i class="bi bi-download"></i>
-                </button>
-            </a>
-        </div>`;
-
+    let downloadButton = toSourceFileDownloadButton(file);
     let cardWidth = getImageCardWidth();
 
     return `<figure class="figure">
@@ -341,23 +330,13 @@ function getImageCardWidth() {
 }
 
 function toVideoFileCellHtml(file) {
-    let thumbnailLink = getPreviewImageLink(file);
+    let downloadButton = toSourceFileDownloadButton(file);
 
     return `<figure class="figure">
                   <div class="container" style="position: relative">
                       <div class="card" style="width: 18rem;">
-                          <img src="${thumbnailLink}"
-                               class="figure-img img-fluid rounded"
-                               style="margin-bottom: 0"
-                               alt="thumbnail" />
-
-                          <div class="d-flex align-items-center justify-content-center"
-                              style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
-                              <button class="btn btn-dark"
-                                onclick="onVideoView('${file.id}'); window.open('${file.webViewLink}')">
-                                <i class="bi bi-play-circle-fill" style="font-size: 2em;"></i>
-                              </button>
-                          </div>
+                          <i class="bi bi-film fs-1"></i>
+                          ${downloadButton}
                       </div>
                   </div>
                   <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
@@ -391,6 +370,20 @@ function toFolderCellHtml(file) {
               </figure>`;
 }
 
+function toSourceFileDownloadButton(file) {
+    let sourceFileLink = getSourceLink(file);
+
+    return `<div class="d-flex align-items-center justify-content-center"
+                style="position: absolute; bottom: 0; right: 0;">
+                <a href="${sourceFileLink}"
+                    class="download-link" download="${file.id}">
+                    <button class="btn btn-light btn-lg transparent-button">
+                        <i class="bi bi-download"></i>
+                    </button>
+                </a>
+            </div>`
+}
+
 function toCategoryBadgeHtml(file, category, text, bgColor) {
     if ((file.categories & category) === 0) {
         return "";
@@ -414,10 +407,10 @@ function showPhoto(id, fileInfoStr) {
 
     let fileInfo = JSON.parse(atob(fileInfoStr));
     previewImage.attr("src", getPreviewImageLink(fileInfo));
-    sourceImage.attr("src", getSourceImageLink(fileInfo));
+    sourceImage.attr("src", getSourceLink(fileInfo));
 
     $('#photoFrame .modal-body .download-link')
-        .attr("href", getSourceImageLink(fileInfo))
+        .attr("href", getSourceLink(fileInfo))
         .attr("download", `${id}.jpg`); // not work due to CORS issue
 }
 
@@ -428,7 +421,7 @@ function getPreviewImageLink(file, width = 512) {
     return `https://drive.google.com/thumbnail?authuser=0&sz=w${width}&id=${file.thumbnail}`;
 }
 
-function getSourceImageLink(file) {
+function getSourceLink(file) {
     return `../file-api.php?request=binary&fileId=${file.id}`;
 }
 
