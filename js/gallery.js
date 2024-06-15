@@ -367,6 +367,14 @@ function toVideoFileCellHtml(file) {
 function toFolderCellHtml(file) {
     const thumbnail = getPreviewImageLink(file);
     const organizedStyle = file.organized ? '' : 'organized-album';
+
+    const yosakoiBadge = toCategoryBadgeHtml(file, 1, 'よさこい', '#d2691e');
+    const soranBadge = toCategoryBadgeHtml(file, 2, 'ソーラン', '#0dcaf0');
+    const categoryBadges =
+        `<div class="position-absolute top-0 start-0" style="font-size: x-small;">
+            ${yosakoiBadge}${soranBadge}
+        </div>`;
+
     return `<figure class="figure">
                   <div class="container" style="position: relative">
                       <div class="card img-fluid align-middle align-items-center ${organizedStyle}"
@@ -374,12 +382,24 @@ function toFolderCellHtml(file) {
                           <button class="btn btn-light btn-lg"
                                   onclick="onFolderChanged('${file.id}');switchPath('${file.id}', true)">
                               <img src="${thumbnail}" class="card-img-top" alt="${file.fileName}"/>
+                              ${categoryBadges}
                           </button>
                           <div>${file.fileName}</div>
                       </div>
                   </div>
                   <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
               </figure>`;
+}
+
+function toCategoryBadgeHtml(file, category, text, bgColor) {
+    if ((file.categories & category) === 0) {
+        return "";
+    }
+
+    return `<span class="text-white p-1"
+                    style="opacity: 0.4; border-radius: 0.2rem; background-color: ${bgColor}">
+                ${text}
+            </span> `;
 }
 
 function showPhoto(id, fileInfoStr) {
