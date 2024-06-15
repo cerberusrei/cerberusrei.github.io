@@ -54,14 +54,19 @@ function initUi() {
     new AlbumListController(ALBUM_LIST);
 
     // load content of an album randomly
-    let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
-    switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
+    // let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
+    // switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
+    listUpdatedRecently();
 
     let headerHeight = $('.header').height();
     $('#fileListContainer').css('margin', `${headerHeight + 10}px 0px`);
 }
 
 async function onScroll() {
+    if (!getCurrentPath()) {
+        return; // User have not yet choose any album
+    }
+
     if (!loadingLock.isLocked()
         // the scroll event will be triggered multiple time when scrolling
         // the events are queued to be handled one by one
@@ -176,6 +181,10 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
  * Returns the Google file object of "post-production" folder if found.
  */
 async function listFiles() {
+    if (!getCurrentPath()) {
+        return; // User have not yet choose any album
+    }
+
     // we don't mark and set loading here because loading will be started from different actions
     // 1: when user scroll screen, 2: when loading by click event or initialization
     // in case 1, scroll may trigger multiple calls to this method, so we need to set loading flag at the beginning
@@ -185,16 +194,7 @@ async function listFiles() {
 
     try {
         let files = await getFileList();
-
-        if (files.length === 0) {
-            return;
-        }
-
-        let container = $('#fileListContainer');
-        files
-            .filter((file) => !file.isUnsupportedFile())
-            .filter((file) => file.fileName !== postProductionFolderName)
-            .forEach((file) => container.append(toFileCellHtml(file)));
+        renderFiles(files);
     } catch (err) {
         handleError(err);
     } finally {
@@ -219,12 +219,46 @@ async function getFileList() {
     return response.records.map((file) => buildFile(file));
 }
 
+async function listUpdatedRecently() {
+    if (!loadingLock.isLocked()) {
+        setLoading();
+    }
+
+    try {
+        let response = await fetch('../file-api.php?request=updatedRecently')
+            .then(response => {
+                return response.json()
+            });
+
+
+        renderFiles(response.records.map((file) => {
+            file.p
+        }).map((file) => buildFile(file)));
+    } catch (err) {
+        handleError(err);
+    } finally {
+        finishLoading();
+    }
+}
+
 async function fetchFileListPage(request) {
     return await fetch(
         `../file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
     ).then(response => {
         return response.json()
     });
+}
+
+function renderFiles(files) {
+    if (files.length === 0) {
+        return;
+    }
+
+    let container = $('#fileListContainer');
+    files
+        .filter((file) => !file.isUnsupportedFile())
+        .filter((file) => file.fileName !== postProductionFolderName)
+        .forEach((file) => container.append(toFileCellHtml(file)));
 }
 
 function buildFile(fileInfo) {
