@@ -1,18 +1,32 @@
 const ALBUM_LIST = [
     {
-        id: '75cffeec23263f4729115aa39d72b63b',
+        id: 'bbbcd2fba61d5d584ea5b885863182f1',
         name: '20240609 YOSAKOIソーラン祭り Day 5',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1hSSZgHe0fw_BaQx7Sxap3b8AbqhZB_Iy',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1iAN0tgqOqh5KEDIopqaindt7iLWZmDCD',
         version: 2
     },
     {
         id: '111e39227266e3a2e4381409f136744d',
         name: '20240608 YOSAKOIソーラン祭り Day 4',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1uEakfvNmcl6E0UnnBlaNHgOl0M5tiFlb',
         version: 2
     },
     {
         id: '1046416d66375261cd708c0e823b0c9f',
-        name: '20240607 YOSAKOIソーラン祭り Day 2',
+        name: '20240607 YOSAKOIソーラン祭り Day 3',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=15JWQGPhJVL4Kn281yWbIYQmiSxVbMGUw',
+        version: 2
+    },
+    {
+        id: '1a483aab1d2c62b0515555e46b1475c1',
+        name: '20240606 YOSAKOIソーラン祭り Day 2',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1a483aab1d2c62b0515555e46b1475c1',
+        version: 2
+    },
+    {
+        id: 'ded948be559cca51c40eb200ada24230',
+        name: '20240605 YOSAKOIソーラン祭り Day 1',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Lp1akxKeZuQkp4vI2yhzBEPBY9M88jqS',
         version: 2
     },
     {
