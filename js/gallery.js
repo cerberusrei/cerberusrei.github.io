@@ -230,10 +230,7 @@ async function listUpdatedRecently() {
                 return response.json()
             });
 
-
-        renderFiles(response.records.map((file) => {
-            file.p
-        }).map((file) => buildFile(file)));
+        renderFiles(response.records.map((file) => buildFile(file)));
     } catch (err) {
         handleError(err);
     } finally {
