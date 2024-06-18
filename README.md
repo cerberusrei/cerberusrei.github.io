@@ -26,3 +26,19 @@
 
 ## SEO
 - Use [Google rich results tool to test](https://search.google.com/test/rich-results)
+- Add following content as index.html if home page is not in root path
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=public/viewer/index-v2.html">
+    <meta name="description" content="よさこいの写真と動画がいっぱい。高知の祭り、伝統的な日本の踊りやパフォーマンスの写真もあります." lang="ja">
+    <meta name="description" content="Photos mainly for yosakoi, others for soran, kids dance, traditional Japanese dance and performances." lang="en">
+    <title>Yosakoi album - Redirecting | よさこい写真 - ダイレクト中</title>
+</head>
+<body>
+    <p aria-live="polite">If you are not redirected automatically, follow this <a href="public/viewer/index-v2.html">link</a>.</p>
+</body>
+</html>
+```

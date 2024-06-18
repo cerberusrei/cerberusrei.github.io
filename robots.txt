@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /public/viewer/index-v2.html
+Allow: /public/viewer/
+
+Sitemap: http://example.com/sitemap.xml
