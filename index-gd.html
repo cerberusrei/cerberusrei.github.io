@@ -1,46 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <title>よさこい写真</title>
-  <meta name="keywords" content="よさこい, 鳴子踊り, ソーラン, 祭り, japanesefestival, japanesedance, 日本舞踊, 高知, 写真">
-  <meta name="description" content="よさこいの写真と動画がいっぱい。高知の祭り、伝統的な日本の踊りやパフォーマンスの写真もあります." lang="ja">
-  <meta name="description" content="Photos mainly for yosakoi, others for soran, kids dance, traditional Japanese dance and performances." lang="en">
+  <title>Google Drive Gallery</title>
+  <meta name="keywords" content="よさこい, ソーラン, 祭り, 日本舞踊">
+  <meta name="description" content="Photos mainly for よさこい, others for ソーラン, kids dance, traditional Japanese dance and performances.">
   <meta name="author" content="Cerberus">
   <meta name="robots" content="index, follow">
   <meta http-equiv="content-language" content="ja">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="よさこい写真">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="http://cerberusrei.clear-net.jp/public/images/20240601_144634.jpg">
-  <meta property="og:url" content="http://cerberusrei.clear-net.jp/public/viewer/index-v2.html">
-  <meta property="og:site_name" content="よさこい写真">
-  <meta property="og:description" content="よさこいの写真と動画がいっぱい。高知の祭り、伝統的な日本の踊りやパフォーマンスの写真もあります.">
-
-  <!-- will be helpful after creating cache for each page -->
-  <link rel="canonical" href="http://cerberusrei.clear-net.jp/public/viewer/index-v2.html">
-
-  <!-- Structured data for better SEO -->
-  <!-- 。 -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "よさこい写真",
-      "image": [
-        "https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1CLhw7IsPUT2luyQUayRaG3iazl2tjop9"
-      ],
-      "datePublished": "2024-05-19T08:00:00+08:00",
-      "dateModified": "2024-05-19T09:20:00+08:00",
-      "author": [{
-        "@type": "Person",
-        "name": "Cerberus",
-        "url": "https://www.instagram.com/cerberusrei.yosakoi"
-      }]
-    }
-  </script>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -101,6 +69,10 @@
       filter: alpha(opacity=50);
     }
 
+    #btnSwitchAccount {
+      display: none;
+    }
+
     #albumListFrame a {
       color: grey;
       font-family: "Comic Sans MS";
@@ -120,17 +92,6 @@
       height: 512px;
       overflow-y: scroll;
     }
-
-    .organized-album {
-      background-color: #e9ecef;
-    }
-
-    .album-filter-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
   </style>
 
 
@@ -146,22 +107,32 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+  <script src="js/env.js"></script>
+  <script src="js/google-drive-const.js"></script>
+  <script src="js/google-drive.js"></script>
   <script src="js/google-analytics-util.js"></script>
-  <script src="js/albums.js?t=1718303167591"></script>
-  <script src="js/gallery.js?t=1718439101473"></script>
+  <script src="js/albums.js"></script>
+  <script src="js/image-focus-util.js"></script>
+  <script src="js/google-drive-gallery.js"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {
       alert("window error..." + error + "\n" + error.stack);
     }
+
+    // force redirect to v2
+    window.location.href = 'http://cerberusrei.clear-net.jp/public/viewer/index-v2.html?' + window.location.search;
   </script>
 </head>
-<body onload="initUi()">
+<body>
 <div class="container position-fixed header" style="max-width: 100%; top: 0">
   <div class="dropdown col-4" style="margin: 5px">
     <button class="btn btn-secondary"
             data-bs-toggle="modal" data-bs-target="#albumListFrame">
       <i class="bi bi-journal-album"></i>
+    </button>
+    <button id="btnSwitchAccount" class="btn btn-primary" onclick="switchAccount()">
+      <i class="bi bi-person-x-fill"></i>
     </button>
     <button class="btn btn-primary"
             data-bs-toggle="modal" data-bs-target="#infoFrame">
@@ -171,10 +142,14 @@
   <div class="col">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb align-middle align-items-center">
-        　 <!-- this is for workaround to make content container to have correct margin by the height of this div -->
+        loading <!-- this is for workaround to make content container to have correct margin by the height of this div -->
       </ol>
     </nav>
   </div>
+  <!--input id="debugMode" type="checkbox" onchange="storeDebugMode()" onchange="storeDebugMode">Debug-->
+
+  <div id="info" class="alert alert-info" role="alert" hidden></div>
+  <div id="error" class="alert alert-danger" role="alert" hidden></div>
 </div>
 
 <div class="container text-center">
@@ -230,14 +205,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Album List</h5>
-        <div class="album-filter-container">
-          <select name="year" class="form-control">
-            <option value=""> - </option>
-          </select>
-          <select name="month" class="form-control">
-            <option value=""> - </option>
-          </select>
-        </div>
       </div>
       <div class="modal-body">
         <div class="container">
@@ -273,5 +240,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>
 </html>

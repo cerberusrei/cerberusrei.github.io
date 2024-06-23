@@ -1,3 +1,4 @@
+const FILE_API_URI= 'https://cerberusrei.clear-net.jp/public/file-api.php';
 const CACHE_INFO_READ = "infoRead";
 const INFO_VERSION = '2';
 const postProductionFolderName = 'post-production';
@@ -137,9 +138,7 @@ async function getAlbumName(id) {
 }
 
 async function getFileInfo(fileId) {
-    const response = await fetch(
-        `../file-api.php?request=info&fileId=${fileId}`
-    );
+    const response = await fetchData('info', `fileId=${fileId}`);
     return await response.json();
 }
 
@@ -225,7 +224,7 @@ async function listUpdatedRecently() {
     }
 
     try {
-        let response = await fetch('../file-api.php?request=updatedRecently')
+        let response = await fetchData('updatedRecently')
             .then(response => {
                 return response.json()
             });
@@ -239,8 +238,9 @@ async function listUpdatedRecently() {
 }
 
 async function fetchFileListPage(request) {
-    return await fetch(
-        `../file-api.php?request=page&fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
+    return await fetchData(
+        'page',
+        `fileId=${request.fileId}&page=${request.page}&pageSize=${request.pageSize}`
     ).then(response => {
         return response.json()
     });
@@ -453,7 +453,7 @@ function getPreviewImageLink(file, width = 512) {
 }
 
 function getSourceLink(file) {
-    return `../file-api.php?request=binary&fileId=${file.id}`;
+    return `${FILE_API_URI}?request=binary&fileId=${file.id}`;
 }
 
 function onSourceImageLoaded() {
@@ -502,3 +502,8 @@ function onViewingGoogleDriveFile(fileType, fileId) {
     }
     AnalyticsUtil.trackEvent('view', fileType, fileId)
 }
+
+function fetchData(requestType, queryParams) {
+    return fetch(`${FILE_API_URI}?request=${requestType}&${queryParams}`);
+}
+
