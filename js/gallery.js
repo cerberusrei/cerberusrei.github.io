@@ -56,8 +56,14 @@ function initUi() {
 
     // load content of an album randomly
     // let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
-    // switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
-    listUpdatedRecently();
+    if (initFileId) {
+        // load content of an album randomly
+        // let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
+        // switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
+        switchPath(initFileId);
+    } else {
+        listUpdatedRecently();
+    }
 
     let headerHeight = $('.header').height();
     $('#fileListContainer').css('margin', `${headerHeight + 10}px 0px`);
