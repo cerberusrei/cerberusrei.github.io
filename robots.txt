@@ -1,5 +1,4 @@
 User-agent: *
-Allow: /public/viewer/index-v2.html
-Allow: /public/viewer/
+Allow: /index.html
 
-Sitemap: http://cerberusrei.clear-net.jp/sitemap.xml
+Sitemap: https://linen-sun-367015.web.app/sitemap.xml
