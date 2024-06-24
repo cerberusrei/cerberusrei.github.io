@@ -60,7 +60,8 @@ function initUi() {
         // load content of an album randomly
         // let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
         // switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
-        switchPath(initFileId);
+        switchPath(initFileId)
+            .then(() => updateSeoInfo());
     } else {
         listUpdatedRecently();
     }
@@ -92,39 +93,50 @@ function getCurrentPath() {
 }
 
 async function switchPath(id, toSubFolder) {
-    if (toSubFolder) {
-        currentPaths.push({ id: id, name: await getAlbumName(id) });
-    } else {
-        let pathIndex = currentPaths.findIndex(path => path.id === id);
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (toSubFolder) {
+                currentPaths.push({id: id, name: await getAlbumName(id)});
+            } else {
+                let pathIndex = currentPaths.findIndex(path => path.id === id);
 
-        if (pathIndex > 0) {
-            // change to another path in the same root path
-            currentPaths.length = pathIndex + 1;
-        } else {
-            // change to another root path
-            currentPaths.length = 0; // clear paths
+                if (pathIndex > 0) {
+                    // change to another path in the same root path
+                    currentPaths.length = pathIndex + 1;
+                } else {
+                    // change to another root path
+                    currentPaths.length = 0; // clear paths
 
-            currentPaths.push({
-                id: id,
-                name: await getAlbumName(id),
-                isShared: null
-            });
+                    currentPaths.push({
+                        id: id,
+                        name: await getAlbumName(id),
+                        isShared: null
+                    });
+                }
+            }
+            resolve(); // Resolve the promise
+
+            // update breadcrumb
+            $('.breadcrumb').html(''); // clear content
+            currentPaths.forEach(
+                (path, index) => {
+                    addBreadcrumbContent(
+                        path,
+                        index === currentPaths.length - 1,
+                        index === 0
+                    );
+                }
+            );
+
+            // reload from new album
+            $('#fileListContainer').html('');
+            filePage = null;
+
+            listFiles(); // list folders first
+        } catch (error) {
+            reject(error); // Reject with the error
         }
-    }
-
-    // update breadcrumb
-    $('.breadcrumb').html(''); // clear content
-    currentPaths.forEach(
-        (path, index) => {
-            addBreadcrumbContent(path, index === currentPaths.length - 1, index === 0);
-        }
-    );
-
-    // reload from new album
-    $('#fileListContainer').html('');
-    filePage = null;
-
-    listFiles(); // list folders first
+    });
 }
 
 async function getAlbumName(id) {
@@ -462,6 +474,57 @@ function getSourceLink(file) {
     return `${FILE_API_URI}?request=binary&fileId=${file.id}`;
 }
 
+function updateSeoInfo() {
+    if (currentPaths.length === 0) {
+        return;
+    }
+
+    let keywords = [];
+
+    currentPaths.forEach(function (path) {
+        // Remove the 8 digits and white space if they exist
+        let name = path.name.replace(/^\d{8}\s/, '');
+        keywords.push(name);
+    });
+
+    // Get album name, remove the 8 digits and white space if they exist
+    let lastPathName = currentPaths[currentPaths.length - 1].name.replace(/^\d{8}\s/, '');
+
+    // Update title
+    $('title').text("よさこい写真 - " + lastPathName);
+
+    // Update keywords
+    let metaKeywords = keywords.join(', ');
+    $('head').append(`<meta name="keywords" content="${metaKeywords}">`);
+
+    // Update description meta tag
+    let jpDate = "";
+    let enDate = "";
+    for (let i = currentPaths.length - 1; i >= 0; i--) {
+        if (/^\d{8}\s/.test(currentPaths[i].name)) {
+            let dateString = currentPaths[i].name.match(/^\d{8}/)[0];
+            let year = dateString.substring(0, 4);
+            let month = dateString.substring(4, 6);
+            let day = dateString.substring(6, 8);
+            jpDate = `の${year}年${month}月${day}日`;
+            enDate = ` on ${year}/${month}/${day}`;
+            break;
+        }
+    }
+
+    updateMetaDescription("ja", `${lastPathName}${jpDate}の写真と動画`);
+    updateMetaDescription("en", `Photos and videos of ${lastPathName}${enDate}`);
+}
+
+function updateMetaDescription(lang, description) {
+    let $tag = $(`meta[name="description"][lang="${lang}"]`);
+    if ($tag.length) {
+        $tag.prop('content', description);
+    } else {
+        $('head').append(`<meta name="description" lang="${lang}" content="${description}">`);
+    }
+}
+
 function onSourceImageLoaded() {
     $('#photoFrame .modal-body .preview-image').hide();
     $('#photoFrame .modal-body .source-image-spinner').hide();
@@ -509,7 +572,7 @@ function onViewingGoogleDriveFile(fileType, fileId) {
     AnalyticsUtil.trackEvent('view', fileType, fileId)
 }
 
-function fetchData(requestType, queryParams) {
+async function fetchData(requestType, queryParams) {
     return fetch(`${FILE_API_URI}?request=${requestType}&${queryParams}`);
 }
 
