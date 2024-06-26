@@ -96,7 +96,8 @@ async function switchPath(id, toSubFolder) {
     return new Promise(async (resolve, reject) => {
         try {
             if (toSubFolder) {
-                currentPaths.push({id: id, name: await getAlbumName(id)});
+                let info = await getAlbumInfo(id);
+                currentPaths.push({id: id, name: info.fileName});
             } else {
                 let pathIndex = currentPaths.findIndex(path => path.id === id);
 
@@ -107,11 +108,16 @@ async function switchPath(id, toSubFolder) {
                     // change to another root path
                     currentPaths.length = 0; // clear paths
 
-                    currentPaths.push({
-                        id: id,
-                        name: await getAlbumName(id),
-                        isShared: null
-                    });
+                    let info = await getAlbumInfo(id, true);
+                    if (info.parent) {
+                        let albumListInfo = ALBUM_LIST.find(album => album.id === info.parent.id);
+                        currentPaths.push({
+                            id: info.parent.id,
+                            name: albumListInfo ? albumListInfo.name : info.parent.fileName
+                        });
+                    }
+
+                    currentPaths.push({id: id, name: info.fileName});
                 }
             }
             resolve(); // Resolve the promise
@@ -139,24 +145,26 @@ async function switchPath(id, toSubFolder) {
     });
 }
 
-async function getAlbumName(id) {
+async function getAlbumInfo(id, includeParentInfo = false) {
     let album = ALBUM_LIST.find(album => album.id === id);
     if (album) {
-        return album.name;
+        return {id: album.id, fileName: album.name};
     }
 
     // get name for the case when going to sub-folder
     try {
-        let info = await getFileInfo(id);
-        return info.fileName;
+        return await getFileInfo(id, includeParentInfo);
     } catch (err) {
         handleError(err);
         return "unknown-folder-name";
     }
 }
 
-async function getFileInfo(fileId) {
-    const response = await fetchData('info', `fileId=${fileId}`);
+async function getFileInfo(fileId, includeParentInfo = false) {
+    const response = await fetchData(
+        'info',
+        `fileId=${fileId}&includeParent=${includeParentInfo}`
+    );
     return await response.json();
 }
 
@@ -247,7 +255,10 @@ async function listUpdatedRecently() {
                 return response.json()
             });
 
-        renderFiles(response.records.map((file) => buildFile(file)));
+        renderFiles(
+            response.records.map((file) => buildFile(file)),
+
+        );
     } catch (err) {
         handleError(err);
     } finally {
@@ -490,30 +501,44 @@ function updateSeoInfo() {
     // Get album name, remove the 8 digits and white space if they exist
     let lastPathName = currentPaths[currentPaths.length - 1].name.replace(/^\d{8}\s/, '');
 
-    // Update title
-    $('title').text("よさこい写真 - " + lastPathName);
 
     // Update keywords
     let metaKeywords = keywords.join(', ');
-    $('head').append(`<meta name="keywords" content="${metaKeywords}">`);
+    let keywordsTag = $(`meta[name="keywords"]`);
+    keywordsTag.prop('content', metaKeywords + ', ' + keywordsTag.prop('content'));
 
     // Update description meta tag
-    let jpDate = "";
+    let jaDate = "";
     let enDate = "";
+    let date = "";
     for (let i = currentPaths.length - 1; i >= 0; i--) {
         if (/^\d{8}\s/.test(currentPaths[i].name)) {
             let dateString = currentPaths[i].name.match(/^\d{8}/)[0];
             let year = dateString.substring(0, 4);
             let month = dateString.substring(4, 6);
             let day = dateString.substring(6, 8);
-            jpDate = `の${year}年${month}月${day}日`;
-            enDate = ` on ${year}/${month}/${day}`;
+            date = `${year}/${month}/${day}`;
+            jaDate = `の${year}年${month}月${day}日`;
+            enDate = ` on ${date}`;
             break;
         }
     }
 
-    updateMetaDescription("ja", `${lastPathName}${jpDate}の写真と動画`);
-    updateMetaDescription("en", `Photos and videos of ${lastPathName}${enDate}`);
+    let jaEvent = "";
+    let enEvent = "";
+    if (currentPaths.length > 1) {
+        let eventName = currentPaths[currentPaths.length - 2].name;
+        if (/^\d{8}\s/.test(eventName)) {
+            eventName = eventName.substring(9);
+        }
+        jaEvent = eventName;
+        enEvent = " at " + eventName;
+    }
+
+    // Update title
+    $('title').text(`よさこい写真 - ${date} ${jaEvent} ${lastPathName}`);
+    updateMetaDescription("ja", `${lastPathName}${jaDate}${jaEvent}の写真と動画`);
+    updateMetaDescription("en", `Photos and videos of ${lastPathName}${enEvent}${enDate}`);
 }
 
 function updateMetaDescription(lang, description) {
