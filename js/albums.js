@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: 'dec44b144e9b0714e95db874f81f7072',
+        name: '20240630 下町ハイボールフェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1jrW9yf0H9CwriudZrnDaFb6Iv9nTVHjY',
+        version: 2
+    },
+    {
+        id: 'e28c107dd6484cdeebc369beea35df82',
+        name: '20240629 下町ハイボールフェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1zi9m84tpdRdffSeAmbgsD4yL3C220vym',
+        version: 2
+    },
+    {
         id: 'bbbcd2fba61d5d584ea5b885863182f1',
         name: '20240609 YOSAKOIソーラン祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1iAN0tgqOqh5KEDIopqaindt7iLWZmDCD',
