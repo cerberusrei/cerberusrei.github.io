@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '14db2ca41be3c6953e3077e8e13b27bd',
+        name: '20240706 湘南ひらつか七夕まつり 星舞フェスタ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=12EDMGb_VoJoxh5YLWUuICrVDmNv7qn07',
+        version: 2
+    },
+    {
         id: 'dec44b144e9b0714e95db874f81f7072',
         name: '20240630 下町ハイボールフェス',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1jrW9yf0H9CwriudZrnDaFb6Iv9nTVHjY',
