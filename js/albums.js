@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '49c4d70da7c53ebcf451302c717acb83',
+        name: '20240714 どんGALA！祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1FXs9-KB3_rAtIb8CkvCfENsmiUSBL0D7',
+        version: 2
+    },
+    {
+        id: 'a9674d4cf5281f909bc94a5034fbd3e8',
+        name: '20240713 どんGALA！祭り 前夜祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1pmZkIAa2lQtsSkslVw00CntmHpr_wYkH',
+        version: 2
+    },
+    {
         id: '14db2ca41be3c6953e3077e8e13b27bd',
         name: '20240706 湘南ひらつか七夕まつり 星舞フェスタ',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=12EDMGb_VoJoxh5YLWUuICrVDmNv7qn07',
