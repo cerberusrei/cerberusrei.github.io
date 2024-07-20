@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'b6076c93d47503bb6545ee7765ef9b33',
+        name: '20240720 とびだせ！花菜ガーデンの夏祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=17pOcTeN6I7NtLYdNzIK81qeZfd8Fzmgf',
+        version: 2
+    },
+    {
         id: '49c4d70da7c53ebcf451302c717acb83',
         name: '20240714 どんGALA！祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1FXs9-KB3_rAtIb8CkvCfENsmiUSBL0D7',
