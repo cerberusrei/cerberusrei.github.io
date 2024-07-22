@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '3f13ad90bbd33e2f636bcc5f30103f8a',
+        name: '20240721 Ebinaよさこい 2024 夏',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1DDixpjtTyhEz91Rq3gWwx1s2W0jq0w6A',
+        version: 2
+    },
+    {
         id: 'b6076c93d47503bb6545ee7765ef9b33',
         name: '20240720 とびだせ！花菜ガーデンの夏祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=17pOcTeN6I7NtLYdNzIK81qeZfd8Fzmgf',
