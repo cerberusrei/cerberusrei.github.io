@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '30f8df6ef89db584700c1ddd22598e9b',
+        name: '20240727 笹塚サマーフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1loOsynGPcMFtu4N2pe3jkjX4g8n8-cF1',
+        version: 2
+    },
+    {
         id: '3f13ad90bbd33e2f636bcc5f30103f8a',
         name: '20240721 Ebinaよさこい 2024 夏',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1DDixpjtTyhEz91Rq3gWwx1s2W0jq0w6A',
