@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '0ae3d2b125a42b184368b10da7a66e88',
+        name: '20240728 川越百万灯夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1_GoTHe9mH5dY723wbfDFQBtZgvudql_D',
+        version: 2
+    },
+    {
         id: '30f8df6ef89db584700c1ddd22598e9b',
         name: '20240727 笹塚サマーフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1loOsynGPcMFtu4N2pe3jkjX4g8n8-cF1',
