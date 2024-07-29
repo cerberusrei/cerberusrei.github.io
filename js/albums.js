@@ -12,6 +12,12 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: '9cf5540734c36b434b892ec8c4d2deb7',
+        name: '20240727 沼津夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1LbVhEg1VYNdZcPD2xinoznOEQ2R_b9Ey',
+        version: 2
+    },
+    {
         id: '3f13ad90bbd33e2f636bcc5f30103f8a',
         name: '20240721 Ebinaよさこい 2024 夏',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1DDixpjtTyhEz91Rq3gWwx1s2W0jq0w6A',
