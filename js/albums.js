@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '43c0c316065713769b66c3a680085a3a',
+        name: '20240802 彩夏祭 前夜祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1yLkeAVXRaLJ3d84A16vzZokNcoCOrGHq',
+        version: 2
+    },
+    {
         id: '0ae3d2b125a42b184368b10da7a66e88',
         name: '20240728 川越百万灯夏まつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1_GoTHe9mH5dY723wbfDFQBtZgvudql_D',
