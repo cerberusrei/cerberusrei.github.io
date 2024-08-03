@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '83f101edaa072b2b684d51b39a117d8d',
+        name: '20240803 彩夏祭 本祭1',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1ojOMulZ59WtW1wrQkZdLN8ZQYg60uyuw',
+        version: 2
+    },
+    {
         id: '43c0c316065713769b66c3a680085a3a',
         name: '20240802 彩夏祭 前夜祭',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1yLkeAVXRaLJ3d84A16vzZokNcoCOrGHq',
