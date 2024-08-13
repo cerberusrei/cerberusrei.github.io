@@ -2,7 +2,7 @@ const ALBUM_LIST = [
     {
         id: 'a3fc7448bd218ab6427c4a516f6a46c5',
         name: '20240812 よさこい祭り 後夜祭',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=a3fc7448bd218ab6427c4a516f6a46c5',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1-Rv67pLMrHdjp0dTXBIA2AeU2mXSFIoW',
         version: 2
     },
     {
