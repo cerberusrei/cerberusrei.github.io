@@ -1,6 +1,6 @@
 const FILE_API_URI= 'https://cerberusrei.clear-net.jp/public/file-api.php';
 const CACHE_INFO_READ = "infoRead";
-const INFO_VERSION = '2';
+const INFO_VERSION = '3';
 const postProductionFolderName = 'post-production';
 
 let currentPaths = []; // [root, sub1, sub2, ...]
