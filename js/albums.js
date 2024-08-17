@@ -2,7 +2,7 @@ const ALBUM_LIST = [
     {
         id: 'e960a3ebc6387b2a4e0aadbdce91f187',
         name: '20240817 坂戸夏よさこい',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=181VvKacNsSx1gF-vhGMmaRpvie6WmqDo',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1_UoV43puzx9oo839R1UlVUpZDMoEMcGK',
         version: 2
     },
     {
