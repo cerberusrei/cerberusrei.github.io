@@ -18,6 +18,12 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: '99672f08ecff2d88949c5af181cca55e',
+        name: '20240809 よさこい祭り 前夜祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1XqpulyL_Rv2QRMRlWbOFf6lpnDXJ4Aws',
+        version: 2
+    },
+    {
         id: '324a039eb68cf2594f9ab1ff0101457a',
         name: '20240804 彩夏祭 本祭2',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Ibjf1DeSfBYCz8N6uhtIP266_W6v2-gr',
