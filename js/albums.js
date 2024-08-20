@@ -36,6 +36,12 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: '230eb8d7bd4da230913dda36af22589b',
+        name: '20240809 土佐学生よさこい大会',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1wB8mkozo78yLtFp3tKJggyK8dLgPeQFV',
+        version: 2
+    },
+    {
         id: '324a039eb68cf2594f9ab1ff0101457a',
         name: '20240804 彩夏祭 本祭2',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Ibjf1DeSfBYCz8N6uhtIP266_W6v2-gr',
