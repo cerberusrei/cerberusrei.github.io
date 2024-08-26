@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '889e1dfa1247cba41aadf0cfb49f8e76',
+        name: '20240825 スーパーよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1z542FO7YFOkwpzH_BZP9BU5wr47rBrnQ',
+        version: 2
+    },
+    {
+        id: '7e73b522e7771bb3eb36c6d8dfccc9a2',
+        name: '20240824 スーパーよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1UbUvCBiMHdhGofaGqt0X-kh3Dmt9mcEB',
+        version: 2
+    },
+    {
         id: '8d6172e06d82f12b99eea1fd30263a03',
         name: '20240818 坂戸夏よさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1pYYqRR7gTZibTk0OV-wbUz6cKNSwjq2X',
