@@ -539,6 +539,9 @@ function updateSeoInfo() {
     $('title').text(`よさこい写真 - ${date} ${jaEvent} ${lastPathName}`);
     updateMetaDescription("ja", `${lastPathName}${jaDate}${jaEvent}の写真と動画`);
     updateMetaDescription("en", `Photos and videos of ${lastPathName}${enEvent}${enDate}`);
+
+    // Update canonical
+    $("link[rel='canonical']").attr("href", window.location.href);
 }
 
 function updateMetaDescription(lang, description) {
