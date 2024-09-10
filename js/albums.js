@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '852fd7449c0987a8d410f5b6f801d89a',
+        name: '20240908 こいや祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=19aS0lpj5jcJlFFVgkGZWPEGe6TCfgelo',
+        version: 2
+    },
+    {
         id: 'b46c6ec1f6d5af65ef8ae4eca2695d08',
         name: '20240907 こいや祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1ad9Gf7ZhScvU7E5uY2I7_JykUzX-rrLX',
