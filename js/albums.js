@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: 'e59f1b4b6c67f2c2cfe2c24479ec5488',
+        name: '20240915 よさこい四万十',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1eBGccLr37BdvotijAsv5oQ_Xs4qpkz7p',
+        version: 2
+    },
+    {
+        id: '9b4faadfd81b6d2bb0a991245a6763d5',
+        name: '20240914 よさこい四万十 前夜祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1i2PNI5pITCH3HokzH4LF2_YQbR0pL_M6',
+        version: 2
+    },
+    {
         id: '852fd7449c0987a8d410f5b6f801d89a',
         name: '20240908 こいや祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=19aS0lpj5jcJlFFVgkGZWPEGe6TCfgelo',
