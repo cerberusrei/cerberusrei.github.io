@@ -1,5 +1,23 @@
 const ALBUM_LIST = [
     {
+        id: 'beb74c0c3c94a69c67b4c0da21fe76fd',
+        name: '20240923 初台阿波踊り大会',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=18qYyT0xw9r3tkeeoQqAgA-FXN-v9nye_',
+        version: 2
+    },
+    {
+        id: '110dc2f1c2060b1b85a7543888f1ab4b',
+        name: '20240922 富山のよさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1gXQelcCTxcAb-X2lbZ7B48Dhk1u3e4hX',
+        version: 2
+    },
+    {
+        id: 'fc1b4f7fd3d6f51eea1ec0158eb87f62',
+        name: '20240921 富山のよさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1oEkTtXifiE8kdgj8Ua2HH8kRrpW24_uh',
+        version: 2
+    },
+    {
         id: 'e59f1b4b6c67f2c2cfe2c24479ec5488',
         name: '20240915 よさこい四万十',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1eBGccLr37BdvotijAsv5oQ_Xs4qpkz7p',
