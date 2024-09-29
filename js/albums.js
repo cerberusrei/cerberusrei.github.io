@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '94f4cc2165ceedc9a8113536d1f17c10',
+        name: '20240929 草加よさこいサンバフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Oq2UMIRs8QgQYk5FJ_VGQie5Slcxfem5',
+        version: 2
+    },
+    {
         id: 'beb74c0c3c94a69c67b4c0da21fe76fd',
         name: '20240923 初台阿波踊り大会',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=18qYyT0xw9r3tkeeoQqAgA-FXN-v9nye_',
@@ -14,7 +20,7 @@ const ALBUM_LIST = [
     {
         id: 'fc1b4f7fd3d6f51eea1ec0158eb87f62',
         name: '20240921 富山のよさこい祭り',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1oEkTtXifiE8kdgj8Ua2HH8kRrpW24_uh',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1AuW_aI-sOfhl7n-oeXLIcyeNmb8FolBX',
         version: 2
     },
     {
