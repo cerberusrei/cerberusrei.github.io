@@ -36,6 +36,12 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: 'b303adb6044aad5f961c4dc95aac7b9e',
+        name: '20240914 ご当地キャラまつりin須崎',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=16qfAuoCAUFBlVqL_v66oYC7mbc1pgJPf',
+        version: 2
+    },
+    {
         id: '852fd7449c0987a8d410f5b6f801d89a',
         name: '20240908 こいや祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=19aS0lpj5jcJlFFVgkGZWPEGe6TCfgelo',
