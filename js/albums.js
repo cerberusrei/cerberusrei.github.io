@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'c522cf05bc66cf22e831515096fe104b',
+        name: '20241005 ひのよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1M7PYh7Z0ZL5U5juBXbjKLnsX7gzjuZCQ',
+        version: 2
+    },
+    {
         id: '94f4cc2165ceedc9a8113536d1f17c10',
         name: '20240929 草加よさこいサンバフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Oq2UMIRs8QgQYk5FJ_VGQie5Slcxfem5',
