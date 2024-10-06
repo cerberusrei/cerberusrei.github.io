@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '279ca891badeaf35f68c118108d5a86d',
+        name: '20241006 よさこいご縁まつり プレイベント',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1rp742V2uqWzX8ROOE9VenElFbHsbxNi7',
+        version: 2
+    },
+    {
         id: 'c522cf05bc66cf22e831515096fe104b',
         name: '20241005 ひのよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1M7PYh7Z0ZL5U5juBXbjKLnsX7gzjuZCQ',
