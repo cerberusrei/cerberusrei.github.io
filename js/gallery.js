@@ -181,10 +181,12 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
         const currentURL = new URL(window.location.href);
         if (currentURL.searchParams.has('fileId')) {
             currentURL.searchParams.delete('fileId');
-            currentURL.searchParams.set('fileId', path.id);
         }
+        currentURL.searchParams.set('fileId', path.id);
 
-        shareBtn = `<i class="bi bi-share-fill" onclick="prompt('Share link:', '${currentURL.toString()}')"></i>`;
+        shareBtn = `<i class="bi bi-share-fill"
+                        onclick="prompt('Share link:', '${currentURL.toString()}')">
+                    </i>`;
     }
 
     breadcrumb.html(
