@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: 'e66e97109595f01d99f43bcd40a5d1a0',
+        name: '20241013 坂戸よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=18k385s_NqnuCvrnfJNPutnbGdUCAS0_v',
+        version: 2
+    },
+    {
+        id: '4f871e2864265519fe1130909ed9941e',
+        name: '20241012 東京よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1oqeWOk5Ebr49Rk2OU3zzeLvWzZKL5put',
+        version: 2
+    },
+    {
         id: '279ca891badeaf35f68c118108d5a86d',
         name: '20241006 よさこいご縁まつり プレイベント',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1rp742V2uqWzX8ROOE9VenElFbHsbxNi7',
