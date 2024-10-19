@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '99e445f8be629c5ff302e8265bd88391',
+        name: '20241019 横浜よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1NgscJRlGWoIu4BpY_LYFfuJSxvPAmx35',
+        version: 2
+    },
+    {
         id: 'e66e97109595f01d99f43bcd40a5d1a0',
         name: '20241013 坂戸よさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=18k385s_NqnuCvrnfJNPutnbGdUCAS0_v',
