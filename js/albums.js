@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '9e361f4645760386430c3dd7f2d58e83',
+        name: '20241026 能登よさこいふるさと祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Kjc3VIB2rDmo0iyOu4IG2x0bpqTDbyDB',
+        version: 2
+    },
+    {
+        id: '550b69eb8e7ff654cbeb123c17c095d5',
+        name: '20241020 ゑぇじゃないか祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1U1nEMo9mg_3Z0lUFFuRgkqNbA4kUxYmn',
+        version: 2
+    },
+    {
         id: '99e445f8be629c5ff302e8265bd88391',
         name: '20241019 横浜よさこい祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1NgscJRlGWoIu4BpY_LYFfuJSxvPAmx35',
