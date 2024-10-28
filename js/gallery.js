@@ -471,9 +471,14 @@ function showPhoto(id, fileInfoStr) {
     previewImage.attr("src", getPreviewImageLink(fileInfo));
     sourceImage.attr("src", getSourceLink(fileInfo));
 
+    let fileName = id;
+    if (fileInfo.captureTime) {
+        fileName = fileInfo.captureTime.replace(/\D/g, '')
+    }
+
     $('#photoFrame .modal-body .download-link')
         .attr("href", getSourceLink(fileInfo))
-        .attr("download", `${id}.jpg`); // not work due to CORS issue
+        .attr("download", `${fileName}.jpg`); // not work due to CORS issue
 }
 
 function getPreviewImageLink(file, width = 512) {
