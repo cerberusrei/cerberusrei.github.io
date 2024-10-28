@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '65692f65524acc1ad725f564dfa17965',
+        name: '20241027 能登よさこいふるさと祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1bGtnpXfzDyprps-STcNGUN-H3uF4X3Wj',
+        version: 2
+    },
+    {
         id: '9e361f4645760386430c3dd7f2d58e83',
         name: '20241026 能登よさこいふるさと祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Kjc3VIB2rDmo0iyOu4IG2x0bpqTDbyDB',
