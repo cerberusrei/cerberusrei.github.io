@@ -1,5 +1,23 @@
 const ALBUM_LIST = [
     {
+        id: 'c89ad91b9caaf692886daf3a4ac0c3ca',
+        name: '20241117 秋の高知ベトナム交流会',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1W0wntWK8YgSTvBS_pFwngi8awElDcenb',
+        version: 2
+    },
+    {
+        id: '8b5181e8b31071246da1201463eb61c5',
+        name: '20241116 桂浜よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Dmy8d3mtPJ3eC7EVW3FYfuPwjP6Z7bwt',
+        version: 2
+    },
+    {
+        id: '75633a5733a8768eb4218a3eb0dfb74e',
+        name: '20241115 龍馬生誕祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1hwvmyR91Au5GEfgME91XcIC1Bj6V9CUj',
+        version: 2
+    },
+    {
         id: '65692f65524acc1ad725f564dfa17965',
         name: '20241027 能登よさこいふるさと祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1bGtnpXfzDyprps-STcNGUN-H3uF4X3Wj',
