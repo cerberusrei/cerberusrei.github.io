@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'b8a2d06a69be2182450895478dba03f9',
+        name: '20241123 水島よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1r2Lm67MtTxkTiFM68QtGNpexz0me6Gzi',
+        version: 2
+    },
+    {
         id: 'c89ad91b9caaf692886daf3a4ac0c3ca',
         name: '20241117 秋の高知ベトナム交流会',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1W0wntWK8YgSTvBS_pFwngi8awElDcenb',
