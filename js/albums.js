@@ -1,5 +1,29 @@
 const ALBUM_LIST = [
     {
+        id: '7ff8756bc7839a35901eec5f6703df68',
+        name: '20241208 御殿場線90周年記念イベント',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1QqIe-F5DUpXehJzMwNhSjMeybQ6BltJf',
+        version: 2
+    },
+    {
+        id: 'e9775c88fb1a1d1d95570ac012efd3c5',
+        name: '20241207 よさこいリターンズ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1xyapJP3goYMfsY6c-WhB78wVEa5VVJFU',
+        version: 2
+    },
+    {
+        id: '3fadca24839ffdf89679729ecfa0132d',
+        name: '20241207 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1ykhqRfF4VhdwTOHHDTvg5egRcHcgeIkP',
+        version: 2
+    },
+    {
+        id: '95e3bafc1e7fe9895fede8d9fb294b55',
+        name: '20241207 キテレツ文化祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1OHV7v8ggjgNbMu7GZak76wfBIfrO0PC1',
+        version: 2
+    },
+    {
         id: 'b8a2d06a69be2182450895478dba03f9',
         name: '20241123 水島よさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1r2Lm67MtTxkTiFM68QtGNpexz0me6Gzi',
@@ -147,6 +171,24 @@ const ALBUM_LIST = [
         id: 'e960a3ebc6387b2a4e0aadbdce91f187',
         name: '20240817 坂戸夏よさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1_UoV43puzx9oo839R1UlVUpZDMoEMcGK',
+        version: 2
+    },
+    {
+        id: '7fcb1770b8438ebe4370b365f4eb65be',
+        name: '20240815 2024阿波踊り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1iPZOzGtqfXgIKiM3n9U25utfhu68iBVd',
+        version: 2
+    },
+    {
+        id: 'd741c8a83f06e05397a5d709a6164e5e',
+        name: '20240814 2024阿波踊り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1nnd2VtUoYMg4XALmVANs7zulCLdAOe4h',
+        version: 2
+    },
+    {
+        id: 'feb95e3474bcf6bffe303ce10cd5b68d',
+        name: '20240813 2024阿波踊り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1VqEFVZp1Zq0hmzhwpkCS7BRUYob0PQsj',
         version: 2
     },
     {
