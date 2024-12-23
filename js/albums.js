@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '0de030a0fdd07a94dc194bc88fcb80e8',
+        name: '20241221 湘南ダンスフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1NwYl32unpuMDivpi9HV9nBM3MwJTxsdd',
+        version: 2
+    },
+    {
+        id: '22172843ccddf112859db0908a054972',
+        name: '20241215 平塚スターライトフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1Oott8SqMWJi2s1mdMmsTr2_dzJdm_oyH',
+        version: 2
+    },
+    {
         id: '7ff8756bc7839a35901eec5f6703df68',
         name: '20241208 御殿場線90周年記念イベント',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1QqIe-F5DUpXehJzMwNhSjMeybQ6BltJf',

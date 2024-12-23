@@ -485,6 +485,7 @@ function getPreviewImageLink(file, width = 512) {
     if (!file.thumbnail) {
         return 'https://cdn-icons-png.flaticon.com/512/7757/7757558.png';
     }
+    //return `https://drive.google.com/uc?export=view&id=${file.thumbnail}`;
     return `https://drive.google.com/thumbnail?authuser=0&sz=w${width}&id=${file.thumbnail}`;
 }
 
