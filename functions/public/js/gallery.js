@@ -407,9 +407,10 @@ function toFolderCellHtml(file) {
 
     const yosakoiBadge = toCategoryBadgeHtml(file, 1, 'よさこい', '#d2691e');
     const soranBadge = toCategoryBadgeHtml(file, 2, 'ソーラン', '#0dcaf0');
+    const awaodoriBadge = toCategoryBadgeHtml(file, 4, '阿波踊り', '#d20df0');
     const categoryBadges =
         `<div class="position-absolute top-0 start-0" style="font-size: x-small;">
-            ${yosakoiBadge}${soranBadge}
+            ${yosakoiBadge}${soranBadge}${awaodoriBadge}
         </div>`;
 
     return `<figure class="figure">
