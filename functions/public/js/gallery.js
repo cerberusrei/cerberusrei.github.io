@@ -27,7 +27,7 @@ let fileMeta = {};
 
 let queryParams = new URLSearchParams(window.location.search);
 let gaDisabled= queryParams.get('gaDisabled') === 'true';
-let initFileId= queryParams.get('fileId');
+let initFileId= getFileIdFromUrl();
 
 function initUi() {
     // register listener to load more images when scrolling to bottom
@@ -39,7 +39,7 @@ function initUi() {
         event.stopPropagation();
     });
 
-    $.get('./info.html?t=1716833088380', function (data) {
+    $.get('/info.html?t=1716833088380', function (data) {
         $(function () {
             $('#infoFrame .modal-body').html(data);
             if (localStorage.getItem(CACHE_INFO_READ) !== INFO_VERSION) {
@@ -178,11 +178,7 @@ function addBreadcrumbContent(path, isActive, isRootPath) {
 
     let shareBtn = '';
     if (isActive) {
-        const currentURL = new URL(window.location.href);
-        if (currentURL.searchParams.has('fileId')) {
-            currentURL.searchParams.delete('fileId');
-        }
-        currentURL.searchParams.set('fileId', path.id);
+        const currentURL = this.getNormalizedUrl(path.id);
 
         shareBtn = `<i class="bi bi-share-fill"
                         onclick="prompt('Share link:', '${currentURL.toString()}')">
@@ -491,6 +487,43 @@ function getPreviewImageLink(file, width = 512) {
 
 function getSourceLink(file) {
     return `${FILE_API_URI}?request=binary&fileId=${file.id}`;
+}
+
+function getFileIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let fileId = urlParams.get('fileId');
+    if (fileId) {
+        return fileId;
+    }
+
+    // Extract the fileId from the path (allow just /album/{fileId})
+    const path = window.location.pathname;
+    const pathSegments = path.split('/');
+
+    // Ensure the path matches the expected format
+    if (pathSegments.length >= 3 && pathSegments[1] === 'album') {
+        return pathSegments[2] || null;
+    }
+
+    return null;
+}
+
+function getNormalizedUrl(fileId) {
+    const currentURL = new URL(window.location.href);
+
+    // change path if the URL path is */album/{fileId}
+    const pathSegments = currentURL.pathname.split('/');
+    if (pathSegments.length >= 3 && pathSegments[1] === 'album') {
+        currentURL.pathname = '/';
+    }
+
+    if (currentURL.searchParams.has('fileId')) {
+        currentURL.searchParams.delete('fileId');
+    }
+
+    currentURL.searchParams.set('fileId', fileId);
+
+    return currentURL.toString();
 }
 
 function updateSeoInfo() {
