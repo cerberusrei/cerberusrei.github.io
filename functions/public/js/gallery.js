@@ -490,11 +490,12 @@ function getSourceLink(file) {
 }
 
 function getFileIdFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let fileId = urlParams.get('fileId');
-    if (fileId) {
-        return fileId;
-    }
+    // This part is unnecessary after changed the URL pattern from query parameter style to path parameter style
+    // const urlParams = new URLSearchParams(window.location.search);
+    // let fileId = urlParams.get('fileId');
+    // if (fileId) {
+    //     return fileId;
+    // }
 
     // Extract the fileId from the path (allow just /album/{fileId})
     const path = window.location.pathname;
@@ -509,21 +510,25 @@ function getFileIdFromUrl() {
 }
 
 function getNormalizedUrl(fileId) {
-    const currentURL = new URL(window.location.href);
+    const currentHost = window.location.hostname;
+    return `https://${currentHost}/album/${fileId}`;
 
-    // change path if the URL path is */album/{fileId}
-    const pathSegments = currentURL.pathname.split('/');
-    if (pathSegments.length >= 3 && pathSegments[1] === 'album') {
-        currentURL.pathname = '/';
-    }
-
-    if (currentURL.searchParams.has('fileId')) {
-        currentURL.searchParams.delete('fileId');
-    }
-
-    currentURL.searchParams.set('fileId', fileId);
-
-    return currentURL.toString();
+    // This part is unnecessary after changed the URL pattern from query parameter style to path parameter style
+    // const currentURL = new URL(window.location.href);
+    //
+    // // change path if the URL path is */album/{fileId}
+    // const pathSegments = currentURL.pathname.split('/');
+    // if (pathSegments.length >= 3 && pathSegments[1] === 'album') {
+    //     currentURL.pathname = '/';
+    // }
+    //
+    // if (currentURL.searchParams.has('fileId')) {
+    //     currentURL.searchParams.delete('fileId');
+    // }
+    //
+    // currentURL.searchParams.set('fileId', fileId);
+    //
+    // return currentURL.toString();
 }
 
 function updateSeoInfo() {
