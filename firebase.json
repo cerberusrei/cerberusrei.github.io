@@ -5,6 +5,10 @@
       {
         "source": "/album/**",
         "function": "rewriter"
+      },
+      {
+        "source": "/?fileId=:fileId",
+        "destination": "/album/:fileId"
       }
     ],
     "ignore": [
