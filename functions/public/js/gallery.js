@@ -227,6 +227,7 @@ async function listFiles() {
 
 async function getFileList() {
     if (filePage && filePage.pageNumber >= Math.ceil(filePage.totalCount / filePage.pageSize)) {
+        showToast("No more records", 500);
         return []; // already loaded files for last page
     }
 
@@ -617,6 +618,18 @@ function dismissAlbumList() {
 function setLoading() {
     loadingLock.lock();
     $('.spinner-border').show();
+}
+
+function showToast(message, duration) {
+    const alertDiv = $(`<div class="alert alert-light alert-dismissible fade show" role="alert">${message}</div>`);
+    $('.toast-container').empty().append(alertDiv);
+
+    setTimeout(
+        () => {
+            alertDiv.alert('close');
+        },
+        duration
+    );
 }
 
 function finishLoading() {
