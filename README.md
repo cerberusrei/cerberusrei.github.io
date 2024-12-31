@@ -56,6 +56,10 @@
 - Change resources(*.js, *.css, *.html) paths from relative to absolute since URL for SEO does not start from root.
 - Move static resources from root into functions directory since index.html need to be loaded by the app.
 
+Configuration files are:
+- filebase.json: rewrite URL from *?fileId={fileId} to /album/{fileId}
+- index.js: Update canonical link based on file ID to generate unique link for each album.
+
 #### app info
 Run command `firebase functions:list`
 
@@ -78,4 +82,5 @@ https://console.cloud.google.com/artifacts?invt=AbldJA&authuser=1&project=linen-
 # How to deploy
 Latest release is using Google Firebase
 - Go to project
-- Run command `firebase deploy`
+- Run `firebase deploy --only functions,hosting` instead of `firebase deploy`
+  - because we need functions, and we put static resources into functions directory.
