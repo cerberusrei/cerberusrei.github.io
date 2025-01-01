@@ -390,13 +390,23 @@ function getImageCardWidth() {
 
 function toVideoFileCellHtml(file) {
     let downloadButton = toSourceFileDownloadButton(file);
+    let contentHtml = file.youtubeId ?
+        `<div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item"
+                    src="https://www.youtube.com/embed/${file.youtubeId}"
+                    style="max-width: 100%; max-height: 100%;"
+                    allowFullScreen>
+            </iframe>
+            ${downloadButton}
+        </div>`
+        : `<div class="card" style="width: 18rem;">
+               <i class="bi bi-film fs-1">${file.fileName}</i>
+               ${downloadButton}
+           </div>`;
 
     return `<figure class="figure">
                   <div class="container" style="position: relative">
-                      <div class="card" style="width: 18rem;">
-                          <i class="bi bi-film fs-1"></i>
-                          ${downloadButton}
-                      </div>
+                      ${contentHtml}
                   </div>
                   <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
               </figure>`;
