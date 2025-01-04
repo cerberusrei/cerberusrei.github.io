@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '5213e4a9f61ea189647e943c33bc7a45',
+        name: '20250103 ほにや踊り初め',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1MdyKUqTYJL1dk2B32qHTTbTdSWH0bH2m',
+        version: 2
+    },
+    {
         id: '0de030a0fdd07a94dc194bc88fcb80e8',
         name: '20241221 湘南ダンスフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1NwYl32unpuMDivpi9HV9nBM3MwJTxsdd',
