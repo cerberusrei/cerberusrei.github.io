@@ -458,7 +458,7 @@ const ALBUM_LIST = [
     {
         id: '257a8d857a263bb214f26cee43eba9d6',
         name: '20240324 ひらつか市民スポーツフェスティバル',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=257a8d857a263bb214f26cee43eba9d6',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Ity0HdX0NsOW4MBB_cPRbblAuTL1Vfd1',
         version: 2
     },
     {
@@ -477,6 +477,12 @@ const ALBUM_LIST = [
         id: '3e0259fd66433887f51f17d30f57e01e',
         name: '20240310 土佐のおきゃく',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1VwwhGO26OEGdZd9130VMo4DQFR7SMKRA',
+        version: 2
+    },
+    {
+        id: '13d300294853b882537fade2cbb2b639',
+        name: '20240310 桂浜おきゃく',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1C9pv6aEv6hRI1hlmtG7GQ8GS4eFxEgQv',
         version: 2
     },
     {
@@ -548,7 +554,7 @@ const ALBUM_LIST = [
     {
         id: 'e5d38a3f9936f4b14b9dc3d18b4a1f61',
         name: '20240103 ほにや新春踊り初め',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=12eaiuSENLomshTG1DAAp_Lb_CeMe1Gds',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1RuYKZ1QkNlePqUIZxbhwn7E_BOK1pJjH',
         version: 2
     },
     {
