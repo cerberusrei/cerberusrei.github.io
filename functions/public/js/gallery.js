@@ -28,6 +28,7 @@ let fileMeta = {};
 let queryParams = new URLSearchParams(window.location.search);
 let gaDisabled= queryParams.get('gaDisabled') === 'true';
 let initFileId= getFileIdFromUrl();
+let customAlbumConfig= getCustomAlbumConfigFromUrl();
 
 function initUi() {
     // register listener to load more images when scrolling to bottom
@@ -62,6 +63,8 @@ function initUi() {
         // switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
         switchPath(initFileId)
             .then(() => updateSeoInfo());
+    } else if (customAlbumConfig) {
+        loadCustomAlbumList();
     } else {
         listUpdatedRecently();
     }
@@ -241,6 +244,24 @@ async function getFileList() {
     filePage = { ...response, fileId: request.fileId };
 
     return response.records.map((file) => buildFile(file));
+}
+
+async function loadCustomAlbumList() {
+    const jsonData = await fetch(customAlbumConfig)
+        .then(response => {
+            return response.json()
+        });
+
+    const dataList = jsonData
+        .map((file) => {
+            file.type = 2;
+            file.categories = 1;
+            file.organized = true;
+            return file;
+        })
+        .map((file) => buildFile(file));
+
+    renderFiles(dataList);
 }
 
 async function listUpdatedRecently() {
@@ -519,6 +540,11 @@ function getFileIdFromUrl() {
     }
 
     return null;
+}
+
+function getCustomAlbumConfigFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('customAlbums');
 }
 
 function getNormalizedUrl(fileId) {
