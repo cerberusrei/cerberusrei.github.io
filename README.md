@@ -1,5 +1,5 @@
 # Files
-- index.html: latest version of index page
+- ~~index.html~~ home.html: latest version of index page
 - index-gd.html: index page for old version which access file on Google Drive
 
 # Google cloud console
@@ -54,7 +54,7 @@
 ### Firebase functions
 - Deploy "rewriter" app for rewriting canonical link in order to generate unique value directly instead of by client side scripts.
 - Change resources(*.js, *.css, *.html) paths from relative to absolute since URL for SEO does not start from root.
-- Move static resources from root into functions directory since index.html need to be loaded by the app.
+- Move static resources from root into functions directory since ~~index.html~~home.html need to be loaded by the app.
 
 Configuration files are:
 - filebase.json: rewrite URL from *?fileId={fileId} to /album/{fileId}
