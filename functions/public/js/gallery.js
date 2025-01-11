@@ -65,6 +65,7 @@ function initUi() {
             .then(() => updateSeoInfo());
     } else if (customAlbumConfig) {
         loadCustomAlbumList();
+        finishLoading(); // TODO: not centralized control...
     } else {
         listUpdatedRecently();
     }
@@ -697,6 +698,7 @@ function onViewingGoogleDriveFile(fileType, fileId) {
 }
 
 async function fetchData(requestType, queryParams) {
-    return fetch(`${FILE_API_URI}?request=${requestType}&${queryParams}`);
+    let fullUri = `${FILE_API_URI}?request=${requestType}`;
+    return queryParams ? fetch(`${fullUri}&${queryParams}`) : fetch(fullUri);
 }
 
