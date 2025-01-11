@@ -55,10 +55,13 @@
 - Deploy "rewriter" app for rewriting canonical link in order to generate unique value directly instead of by client side scripts.
 - Change resources(*.js, *.css, *.html) paths from relative to absolute since URL for SEO does not start from root.
 - Move static resources from root into functions directory since ~~index.html~~home.html need to be loaded by the app.
+- **If static page exists, the routing configuration will not work for that, so we must rename index.html to other file name.**
 
 Configuration files are:
 - filebase.json: rewrite URL from *?fileId={fileId} to /album/{fileId}
-- index.js: Update canonical link based on file ID to generate unique link for each album.
+- index.js: 
+  - Update canonical link based on file ID to generate unique link for each album.
+  - Redirect requests sent to root with specific fileId to /album/* path.
 
 #### app info
 Run command `firebase functions:list`
