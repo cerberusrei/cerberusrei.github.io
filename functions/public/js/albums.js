@@ -825,6 +825,18 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: 'cccbfce921b2cfad0d4e3f38a0979604',
+        name: '20230507 Worldあぽろん',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=169C8VcNkbyciBOevp-U1m785yNQYLehP',
+        version: 2
+    },
+    {
+        id: '4aff041002251cfbb0505a56889dd432',
+        name: '20230418 学生&社会人よさこい2023',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1BwzeM-PeP9Sqw51v3R4tue8yI7xO03Th',
+        version: 2
+    },
+    {
         id: 'e04624bb5a36be0e7ce34accb3f9f93f',
         name: '20230402 さくよさ',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1IUzTBrE9Rm9Fw1iRFKYbCbHNmxEP8ndn',
