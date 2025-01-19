@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'c491cd28713d0af4e19efac7fa9bf783',
+        name: '20250118 疾風乱舞20周年記念公演',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1mJLEABOP17CFSeT7UUWX-G2j5KJbRQxk',
+        version: 2
+    },
+    {
         id: '5213e4a9f61ea189647e943c33bc7a45',
         name: '20250103 ほにや踊り初め',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1MdyKUqTYJL1dk2B32qHTTbTdSWH0bH2m',
