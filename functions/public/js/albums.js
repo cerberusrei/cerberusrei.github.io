@@ -72,6 +72,18 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: '99e67721ff449fadf82127ca06577e10',
+        name: '20241103 よさこい東海道',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1dKiq0bV2vEugoZRmTI_A72OrK7gbx2AK',
+        version: 2
+    },
+    {
+        id: 'abe389fbf7d48872bf12000f426a68f3',
+        name: '20241102 よさこい東海道',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1KmuEH4IZCyo860g_ItuVqQRQExDkhTCr',
+        version: 2
+    },
+    {
         id: '65692f65524acc1ad725f564dfa17965',
         name: '20241027 能登よさこいふるさと祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1bGtnpXfzDyprps-STcNGUN-H3uF4X3Wj',
