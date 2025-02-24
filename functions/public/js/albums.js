@@ -1,8 +1,32 @@
 const ALBUM_LIST = [
     {
+        id: '54dff2a3ec69ed19698cce51f7c8940a',
+        name: '20250224 THE ASAKUSA SHOW PARADE IN 浮世絵と歌舞伎祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1qVHXKay-D9zvHwUPsDxcB3xCS0OTpua',
+        version: 2
+    },
+    {
+        id: '7093fcb7c9d5441980e75b70c91e7ae6',
+        name: '20250223 THE ASAKUSA SHOW PARADE IN 浮世絵と歌舞伎祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1TniTAxN-dZ3JN-2qWYxxvBGjZ87dLm28',
+        version: 2
+    },
+    {
+        id: 'e1a35a1fad66111d0c401ba8fa047a33',
+        name: '20250222 たまプラーザ テラス YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1c56jB9PLz-BJDr1zapVV8A0MFJYujoMT',
+        version: 2
+    },
+    {
         id: '4542f58199b833ff0bd848ccff2a9644',
         name: '20250215 高知龍馬マラソン前日イベント',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w800&id=1nobmqFNRv8-nLJkazpYb_55MzNwZJJ6Y',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1-x4b6cDxdzR0T0nxsy1QZ6-u28Es3ehu',
+        version: 2
+    },
+    {
+        id: 'dccbaa28a8ce6740fd07adc4fc38779f',
+        name: '20250215 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1cBY6PyTpbMJyn_FPirx8bP9ZLtT5Ol_t',
         version: 2
     },
     {
