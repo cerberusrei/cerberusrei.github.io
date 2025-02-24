@@ -2,7 +2,7 @@ const ALBUM_LIST = [
     {
         id: '54dff2a3ec69ed19698cce51f7c8940a',
         name: '20250224 THE ASAKUSA SHOW PARADE IN 浮世絵と歌舞伎祭り',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1qVHXKay-D9zvHwUPsDxcB3xCS0OTpua',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1qVHXKay-D9zvHwUPsDxcB3xCS0OTpua6',
         version: 2
     },
     {
