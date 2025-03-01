@@ -53,7 +53,9 @@ app.get("/album/:fileId", (req, res) => {
     html = html
         .replace(
             /<link rel="canonical" href=".*">/,
-            `<link rel="canonical" href="${req.protocol}://${req.get("host")}${currentPath}">`,
+            // The host retrieved by Google SEO will be "rewriter-osh643qiva-uc.a.run.app", so we try to hard code it
+            // `<link rel="canonical" href="${req.protocol}://${req.get("host")}${currentPath}">`,
+            `<link rel="canonical" href="https://linen-sun-367015.web.app/album${currentPath}">`,
         );
 
     res.send(html);
