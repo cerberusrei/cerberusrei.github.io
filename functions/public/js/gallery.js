@@ -40,14 +40,7 @@ function initUi() {
         event.stopPropagation();
     });
 
-    $.get('/info.html?t=1716833088380', function (data) {
-        $(function () {
-            $('#infoFrame .modal-body').html(data);
-            if (localStorage.getItem(CACHE_INFO_READ) !== INFO_VERSION) {
-                $('#infoFrame').modal('show');
-            }
-        });
-    });
+    showInfoDialog();
 
     $('#infoFrame').on('hidden.bs.modal', function () {
         localStorage.setItem(CACHE_INFO_READ, INFO_VERSION);
@@ -62,7 +55,11 @@ function initUi() {
         // let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
         // switchPath(initFileId || randomAlbums[Math.floor(Math.random() * randomAlbums.length)].id);
         switchPath(initFileId)
-            .then(() => updateSeoInfo());
+            //.then(() => updateSeoInfo());
+            .catch((error) => {
+                console.log(error);
+                listUpdatedRecently();
+            });
     } else if (customAlbumConfig) {
         loadCustomAlbumList();
         finishLoading(); // TODO: not centralized control...
@@ -144,6 +141,7 @@ async function switchPath(id, toSubFolder) {
 
             listFiles(); // list folders first
         } catch (error) {
+            handleError(error);
             reject(error); // Reject with the error
         }
     });
@@ -155,13 +153,8 @@ async function getAlbumInfo(id, includeParentInfo = false) {
         return {id: album.id, fileName: album.name};
     }
 
-    // get name for the case when going to sub-folder
-    try {
-        return await getFileInfo(id, includeParentInfo);
-    } catch (err) {
-        handleError(err);
-        return "unknown-folder-name";
-    }
+    // get info for the case when going to sub-folder
+    return await getFileInfo(id, includeParentInfo);
 }
 
 async function getFileInfo(fileId, includeParentInfo = false) {
@@ -570,6 +563,9 @@ function getNormalizedUrl(fileId) {
     // return currentURL.toString();
 }
 
+/**
+ * Unused because we changed to update SEO info by firebase functions.
+ */
 function updateSeoInfo() {
     if (currentPaths.length === 0) {
         return;
@@ -700,5 +696,20 @@ function onViewingGoogleDriveFile(fileType, fileId) {
 async function fetchData(requestType, queryParams) {
     let fullUri = `${FILE_API_URI}?request=${requestType}`;
     return queryParams ? fetch(`${fullUri}&${queryParams}`) : fetch(fullUri);
+}
+
+function showInfoDialog() {
+    if (navigator.userAgent.includes("Googlebot")) {
+        return;
+    }
+
+    $.get('/info.html?t=1716833088380', function (data) {
+        $(function () {
+            $('#infoFrame .modal-body').html(data);
+            if (localStorage.getItem(CACHE_INFO_READ) !== INFO_VERSION) {
+                $('#infoFrame').modal('show');
+            }
+        });
+    });
 }
 
