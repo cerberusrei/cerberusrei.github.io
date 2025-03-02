@@ -26,7 +26,10 @@ let loadingLock = {
 let fileMeta = {};
 
 let queryParams = new URLSearchParams(window.location.search);
-let gaDisabled= queryParams.get('gaDisabled') === 'true';
+
+let gaDisabled= queryParams.get('gaDisabled') === 'true' || navigator.userAgent.includes("Googlebot");
+console.log(`gaDisabled=${gaDisabled}`);
+
 let initFileId= getFileIdFromUrl();
 let customAlbumConfig= getCustomAlbumConfigFromUrl();
 
