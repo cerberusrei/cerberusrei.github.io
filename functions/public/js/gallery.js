@@ -2,6 +2,7 @@ const FILE_API_URI= 'https://cerberusrei.clear-net.jp/public/file-api.php';
 const CACHE_INFO_READ = "infoRead";
 const INFO_VERSION = '3';
 const postProductionFolderName = 'post-production';
+let fileCellPaddingStyle = getCellPadding();
 
 let currentPaths = []; // [root, sub1, sub2, ...]
 let filePage = null; // current pagination result
@@ -33,10 +34,13 @@ console.log(`gaDisabled=${gaDisabled}`);
 let initFileId= getFileIdFromUrl();
 let customAlbumConfig= getCustomAlbumConfigFromUrl();
 
+let masonry = null;
+
 function initUi() {
     // register listener to load more images when scrolling to bottom
     $(document.body).on('touchmove', onScroll); // for mobile
     $(window).on('scroll', onScroll);
+    $(window).resize(adjustFileListContainerHeight);
 
     // prevent modal dialog to be closed after functional button is clicked
     $(".fixed-bottom button").click(function (event) {
@@ -50,6 +54,14 @@ function initUi() {
     });
 
     new AlbumListController(ALBUM_LIST);
+
+    masonry = new Masonry($('.js-masonry')[0], {
+        // options
+        itemSelector: '.masonry-grid-item',
+        fitWidth: true,
+        //width: '10%',
+        //percentPosition: true
+    });
 
     // load content of an album randomly
     // let randomAlbums = ALBUM_LIST.filter(album => album.version === 2);
@@ -72,6 +84,7 @@ function initUi() {
 
     let headerHeight = $('.header').height();
     $('#fileListContainer').css('margin', `${headerHeight + 10}px 0px`);
+    adjustFileListContainerHeight();
 }
 
 async function onScroll() {
@@ -226,6 +239,10 @@ async function listFiles() {
 }
 
 async function getFileList() {
+    if ($('img[src*="spinner"]').length > 0) {
+        return []; // there are images still loading
+    }
+
     if (filePage && filePage.pageNumber >= Math.ceil(filePage.totalCount / filePage.pageSize)) {
         showToast("No more records", 500);
         return []; // already loaded files for last page
@@ -273,8 +290,7 @@ async function listUpdatedRecently() {
             });
 
         renderFiles(
-            response.records.map((file) => buildFile(file)),
-
+            response.records.map((file) => buildFile(file))
         );
     } catch (err) {
         handleError(err);
@@ -301,7 +317,10 @@ function renderFiles(files) {
     files
         .filter((file) => !file.isUnsupportedFile())
         .filter((file) => file.fileName !== postProductionFolderName)
-        .forEach((file) => container.append(toFileCellHtml(file)));
+        .forEach((file) => {
+            const html = toFileCellHtml(file);
+            container.append(`<div class="masonry-grid-item">${html}</div>`);
+        });
 }
 
 function buildFile(fileInfo) {
@@ -366,18 +385,21 @@ function toImageFileCellHtml(file) {
     let thumbnailLink = getPreviewImageLink(file, thumbnailWidth);
     let sourceFileLink = getSourceLink(file);
     let imageStyle = "margin-bottom: 0;"; // override the value in .figure-img to avoid space in bottom
-    let divSizeStyle = "width: fit-content; overflow: hidden; margin-top: 5px;";
+    let divSizeStyle = fileCellPaddingStyle; // "width: fit-content; overflow: hidden; margin-top: 5px;";
     let downloadButton = toSourceFileDownloadButton(file);
-    let cardWidth = getImageCardWidth();
+    let cardWidth = getCardWidth();
 
     return `<figure class="figure">
-                <div class="container" style="position: relative;  ${divSizeStyle}">
+                <div class="container" style="position: relative; ${divSizeStyle}">
                     <div class="card" style="${cardWidth}">
-                        <img id="img-${file.id}" src="${thumbnailLink}"
+                        <img id="img-${file.id}"
+                            src="images/spinner.gif" data-src="${thumbnailLink}"
                             class="figure-img img-fluid rounded" alt="${file.fileName}"
                             style="${imageStyle}"
                             data-bs-toggle="modal" data-bs-target="#photoFrame"
-                            onclick="showPhoto('${file.id}', '${file.toText()}')"/>
+                            onclick="showPhoto('${file.id}', '${file.toText()}')"
+                            onload="onFileRendered(this.id, this.src, true)"
+                            onerror="onFileRendered(this.id, this.src, false)"/>
                         ${downloadButton}
                     </div>
                 </div>
@@ -396,34 +418,43 @@ function getFileExtension(fileName) {
     }
 }
 
-function getImageCardWidth() {
+function getCardWidth() {
     if (window.innerWidth <= 576) {
-        return "width: 100%;"; // mobile
+        return "width: 8rem;"; // mobile
     } else if (window.innerWidth <= 992) {
-        return "width: 18rem;"; // Tablet
+        return "width: 8rem;"; // Tablet
     } else {
-        return "width: 18rem;"; // Desktop
+        return "width: 12rem;"; // Desktop
+    }
+}
+
+function getCellPadding() {
+    if (window.innerWidth <= 576) {
+        return "padding: 0;"; // mobile
+    } else {
+        return "padding: 0.5rem;"; // Tablet and Desktop
     }
 }
 
 function toVideoFileCellHtml(file) {
+    let cardWidth = getCardWidth();
     let downloadButton = toSourceFileDownloadButton(file);
     let contentHtml = file.youtubeId ?
         `<div class="embed-responsive embed-responsive-16by9">
             <iframe class="embed-responsive-item"
                     src="https://www.youtube.com/embed/${file.youtubeId}"
-                    style="max-width: 100%; max-height: 100%;"
+                    style="${cardWidth};"
                     allowFullScreen>
             </iframe>
             ${downloadButton}
         </div>`
-        : `<div class="card" style="width: 18rem;">
+        : `<div class="card" style="${cardWidth};">
                <i class="bi bi-film fs-1">${file.fileName}</i>
                ${downloadButton}
            </div>`;
 
     return `<figure class="figure">
-                  <div class="container" style="position: relative">
+                  <div class="container" style="position: relative; ${fileCellPaddingStyle}">
                       ${contentHtml}
                   </div>
                   <figcaption class="figure-caption text-end"><!-- nothing to display --></figcaption>
@@ -442,13 +473,18 @@ function toFolderCellHtml(file) {
             ${yosakoiBadge}${soranBadge}${awaodoriBadge}
         </div>`;
 
+    const cardWidth = getCardWidth();
+
     return `<figure class="figure">
-                  <div class="container" style="position: relative">
-                      <div class="card img-fluid align-middle align-items-center ${organizedStyle}"
-                        style="width: 18rem;">
+                  <div class="container" style="${fileCellPaddingStyle}">
+                      <div class="card ${organizedStyle}" style="${cardWidth};">
                           <button class="btn btn-light btn-lg"
                                   onclick="onFolderChanged('${file.id}');switchPath('${file.id}', true)">
-                              <img src="${thumbnail}" class="card-img-top" alt="${file.fileName}"/>
+                              <img id="img-${file.id}"
+                                    src="images/spinner.gif" data-src="${thumbnail}"
+                                    class="card-img-top" alt="${file.fileName}"
+                                    onload="onFileRendered(this.id, this.src, true)"
+                                    onerror="onFileRendered(this.id, this.src, false)"/>
                               ${categoryBadges}
                           </button>
                           <div>${file.fileName}</div>
@@ -458,6 +494,29 @@ function toFolderCellHtml(file) {
               </figure>`;
 }
 
+function onFileRendered(imageId, loadedSrc, isSuccessful) {
+    if (!isSuccessful) {
+        console.error(`Failed to load image ${imageId} for ${loadedSrc}`);
+        $(`#${imageId}`).attr("render-successful", isSuccessful);
+    }
+
+    adjustFileListContainerHeight();
+    masonry.reloadItems();
+    masonry.layout();
+
+    // Google Drive have rate limit even accessing from thumbnail CDN, so we need to control the concurrent requests.
+    // (12000 per 60 seconds)
+    // See https://developers.google.com/drive/api/guides/limits
+
+    // note: onerror is deprecated by some browsers, but it is still working
+    const nextPendingImage = $('img[src*="spinner"]').not(`#${imageId}`).not('[render-successful]').first();
+    if (!nextPendingImage) {
+        return; // no more pending images
+    }
+
+    setTimeout(() => nextPendingImage.attr("src", nextPendingImage.attr("data-src")), 200);
+}
+
 function toSourceFileDownloadButton(file) {
     let sourceFileLink = getSourceLink(file);
 
@@ -465,7 +524,7 @@ function toSourceFileDownloadButton(file) {
                 style="position: absolute; bottom: 0; right: 0;">
                 <a href="${sourceFileLink}"
                     class="download-link" download="${file.id}">
-                    <button class="btn btn-light btn-lg transparent-button">
+                    <button class="btn btn-light btn-sm transparent-button">
                         <i class="bi bi-download"></i>
                     </button>
                 </a>
@@ -716,3 +775,17 @@ function showInfoDialog() {
     });
 }
 
+function adjustFileListContainerHeight() {
+    // This is workaround to adjust the height by timer because the height is changed by unknown threads (masonry?)
+    // margin-left and margin-right only work when fitWidth of masonry is true
+    const viewportHeight = $(window).height();
+    setTimeout(
+        () => $("#fileListContainer")
+            .css('height', viewportHeight)
+            .css("margin-left", "auto")
+            .css("margin-right", "auto"),
+        100
+    );
+
+    fileCellPaddingStyle = getCellPadding();
+}
