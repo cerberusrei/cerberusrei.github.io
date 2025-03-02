@@ -12,7 +12,8 @@
       "**/.*",
       "**/node_modules/**",
       "**/js/env.js",
-      "**/js/*-test.js"
+      "**/js/*-test.js",
+      "**/home-local.html"
     ]
   },
   "functions":
