@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '3bba8978b1945c4d094b654fdd52ead1',
+        name: '20250308 土佐のおきゃく よさこい春の舞',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Ug-3J_PcH5TlwyEEd1ypd-qfAu7KULXQ',
+        version: 2
+    },
+    {
+        id: 'ccb48847ec21816bf208822304ad1746',
+        name: '20250307 植野食談 in 土佐の「おきゃく」',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1s8RTvU3oYZqZ0I4B4KNFnphHlDYHijLl',
+        version: 2
+    },
+    {
         id: '54dff2a3ec69ed19698cce51f7c8940a',
         name: '20250224 THE ASAKUSA SHOW PARADE IN 浮世絵と歌舞伎祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1qVHXKay-D9zvHwUPsDxcB3xCS0OTpua6',
