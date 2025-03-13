@@ -1,8 +1,20 @@
 const ALBUM_LIST = [
     {
+        id: 'd33073c1d13243e0785a3ae837dd7502',
+        name: '20250309 土佐のおきゃく はりまやの大おきゃく',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13rSWjeDhcpSgXpPlJD7u9d1gYnts1t_D',
+        version: 2
+    },
+    {
         id: '3bba8978b1945c4d094b654fdd52ead1',
         name: '20250308 土佐のおきゃく よさこい春の舞',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Ug-3J_PcH5TlwyEEd1ypd-qfAu7KULXQ',
+        version: 2
+    },
+    {
+        id: 'd58936b7508948a38612d44225aecf02',
+        name: '20250308 たびひろよさこい バサラ風流倭尽 心舞',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1f59LBlfde1O-rm6flmfS8IkPDOW17UuO',
         version: 2
     },
     {
