@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'c5d1bede2d54d99996cf6c04ce6fcf14',
+        name: '20250315 伊東☆絆☆祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1N6oEnX8Pwx4coFnMjslQY8In4j_tGm4o',
+        version: 2
+    },
+    {
         id: 'd33073c1d13243e0785a3ae837dd7502',
         name: '20250309 土佐のおきゃく はりまやの大おきゃく',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13rSWjeDhcpSgXpPlJD7u9d1gYnts1t_D',
