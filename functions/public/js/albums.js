@@ -12,6 +12,12 @@ const ALBUM_LIST = [
         version: 2
     },
     {
+        id: '142ad3782def5a5c477a9c7f5b243554',
+        name: '20250309 たびひろよさこい いづる',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1gyj3VHuPYAzGp0HEB7vjviK2HT8ksZ9l',
+        version: 2
+    },
+    {
         id: '3bba8978b1945c4d094b654fdd52ead1',
         name: '20250308 土佐のおきゃく よさこい春の舞',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Ug-3J_PcH5TlwyEEd1ypd-qfAu7KULXQ',
