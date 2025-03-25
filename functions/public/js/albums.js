@@ -1,5 +1,23 @@
 const ALBUM_LIST = [
     {
+        id: '39182000435561d09e03827cbcba5bb0',
+        name: '20250323 春風のおまつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1GztWLLpqSs2yQxwz7RbIyLohO5Zx1lJH',
+        version: 2
+    },
+    {
+        id: '1e67ae4f2b558c2f1d2fd157f5ab196c',
+        name: '20250322 横浜舞踏会',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FOV64V5VaDks43-TDn3FIBEJHhj6tTmJ',
+        version: 2
+    },
+    {
+        id: 'd37bf6a728c2262314fb45dc27850eb3',
+        name: '20250322 みなとみらい21　さくらフェスタ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1axGfLdMn39XGLUxyEigcyVAwkEymySzE',
+        version: 2
+    },
+    {
         id: 'c5d1bede2d54d99996cf6c04ce6fcf14',
         name: '20250315 伊東☆絆☆祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1N6oEnX8Pwx4coFnMjslQY8In4j_tGm4o',
