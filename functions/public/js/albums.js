@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: 'ad436009b5ec640c8cff8daa92317702',
+        name: '20250330 藍なり in 豊洲 千客万来',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ImWRtLvUdGpJvBimuEDu9mQywefVkASL',
+        version: 2
+    },
+    {
+        id: 'a149e7078ce592f1b525abf89866594d',
+        name: '20250329 藍なり in 豊洲 千客万来',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1odz2nZlLFAXCabVx6pGqwTFy8T03S32T',
+        version: 2
+    },
+    {
         id: '39182000435561d09e03827cbcba5bb0',
         name: '20250323 春風のおまつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1GztWLLpqSs2yQxwz7RbIyLohO5Zx1lJH',
@@ -15,6 +27,12 @@ const ALBUM_LIST = [
         id: 'd37bf6a728c2262314fb45dc27850eb3',
         name: '20250322 みなとみらい21　さくらフェスタ',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1axGfLdMn39XGLUxyEigcyVAwkEymySzE',
+        version: 2
+    },
+    {
+        id: '8d73ec9eb69516f2d8dc934249bcaefe',
+        name: '20250321 高知×新宿 よさこいまつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1vZXWkOd9K_lNfCnAlb136pmNAl6N6Xr_',
         version: 2
     },
     {
