@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '3819f034493360dd73d2a4a86128865a',
+        name: '20250406 京都さくらよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ekAEhqh8Qdw-UFFfAx75ynfwn28O8BC7',
+        version: 2
+    },
+    {
+        id: '64bb01d96002e02e1c168f174618984b',
+        name: '20250405 京都さくらよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1k_H9hVxan5fEY-4QhtXb91inQLrrX2-j',
+        version: 2
+    },
+    {
         id: 'ad436009b5ec640c8cff8daa92317702',
         name: '20250330 藍なり in 豊洲 千客万来',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ImWRtLvUdGpJvBimuEDu9mQywefVkASL',
@@ -9,6 +21,12 @@ const ALBUM_LIST = [
         id: 'a149e7078ce592f1b525abf89866594d',
         name: '20250329 藍なり in 豊洲 千客万来',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1odz2nZlLFAXCabVx6pGqwTFy8T03S32T',
+        version: 2
+    },
+    {
+        id: '90aa9e1fdc5aa77e0ce1ed958cc1f85a',
+        name: '20250329 Rie Dancing Team Dance Showcase',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1HYKcQC9sdsCIlyLtqxEeuWerAKviuxb4',
         version: 2
     },
     {
