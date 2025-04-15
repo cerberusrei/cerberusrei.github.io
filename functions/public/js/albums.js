@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '127bb59fe318729b6627bc1872a4acac',
+        name: '20250413 よさこいご縁まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=16BmEFukdQiVmCNKqVCDP0Q2KU0B7TZTH',
+        version: 2
+    },
+    {
+        id: '34d50fc20ce5592635c59c175eae9e33',
+        name: '20250412 よさこいご縁まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1GlSv7uTo-lnlV1wiVEFGjMfmHDGyb5TB',
+        version: 2
+    },
+    {
         id: '3819f034493360dd73d2a4a86128865a',
         name: '20250406 京都さくらよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ekAEhqh8Qdw-UFFfAx75ynfwn28O8BC7',
