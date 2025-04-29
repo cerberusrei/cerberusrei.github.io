@@ -8,7 +8,7 @@ const ALBUM_LIST = [
     {
         id: 'a703d3dff8d178440a50029782893226',
         name: '20250426 センター南の春まつり',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FvS5Ew-kqFiOmFaZ7Gto8wfBMmU4Dqjs',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1r7ZfdPcWw1ee_-EGMUXFfnn1XVbxH0pq',
         version: 2
     },
     {
