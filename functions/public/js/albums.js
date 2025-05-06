@@ -1,8 +1,26 @@
 const ALBUM_LIST = [
     {
+        id: 'ee6a6acc009a136d62f10cdb9f773fb2',
+        name: '20250505 冨士浅間神社例大祭 春まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1udMxSRiIzIsajTE_OYP9HOlsef5kceB4',
+        version: 2
+    },
+    {
+        id: 'f8058560294e65cb213f9ed25b0fdc4d',
+        name: '20250504 木更津舞尊',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ObFdy48ERPdoxMcIkiv8vGbPgI3KhcAr',
+        version: 2
+    },
+    {
         id: 'a795d55e46545dfc03ef14e516d5e071',
         name: '20250427 春よさこい2025',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=12RaJ96s-YvYmNwr1kjrEy8uZl07vrtI9',
+        version: 2
+    },
+    {
+        id: '396d9f8c5c7d3aa54df8397cfc72c403',
+        name: '20250427 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1shTJtnF3dZVHoLH_MPVLP6c6-o3lRItD',
         version: 2
     },
     {
