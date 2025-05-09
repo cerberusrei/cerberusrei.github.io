@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'f5e033e84a8a0a95856c7872c98b74e5',
+        name: '20250509 新宿高島屋 高知フェア',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1SaDa3sSow_hwPBiZ6ho2nUaOimuleptr',
+        version: 2
+    },
+    {
         id: 'ee6a6acc009a136d62f10cdb9f773fb2',
         name: '20250505 冨士浅間神社例大祭 春まつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1udMxSRiIzIsajTE_OYP9HOlsef5kceB4',
