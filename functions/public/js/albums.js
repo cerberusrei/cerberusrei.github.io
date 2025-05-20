@@ -1,5 +1,23 @@
 const ALBUM_LIST = [
     {
+        id: 'e483b325e2d6a1c372a8569406db9608',
+        name: '20250518 ピオニウォークよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1XqnqULyTrH88CJ-X9hygZfhmVAzkaTNV',
+        version: 2
+    },
+    {
+        id: 'af39615463c73b4e7d5f915de3ea1ca2',
+        name: '20250511 あっぱれ富士',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13biG_WkxUWKquCGITyI9FbTAQQPRRvGW',
+        version: 2
+    },
+    {
+        id: '959ac0bd3c2f036620a57539b8025597',
+        name: '20250510 新宿高島屋 高知フェア',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1QPX7BBXKPjHZ9bkIbUMD_qSAxzRTJpBB',
+        version: 2
+    },
+    {
         id: 'f5e033e84a8a0a95856c7872c98b74e5',
         name: '20250509 新宿高島屋 高知フェア',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1SaDa3sSow_hwPBiZ6ho2nUaOimuleptr',
