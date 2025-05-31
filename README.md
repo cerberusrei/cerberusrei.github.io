@@ -65,6 +65,9 @@ In order to make SEO work, not being impact by contents loaded dynamically by Ja
 
 Configuration files are:
 - filebase.json: rewrite URL from *?fileId={fileId} to /album/{fileId}
+  - We need to add `{"source": "/sitemap.xml","destination": "/sitemap.xml"}` into `hosting.rewrites` node 
+    and `{"source": "/sitemap.xml","headers": {"key": "Content-Type","value": "application/xml"}]}`
+    into `hosting.headers` node so the file can be served as static resource with correct content type.
 - index.js: 
   - Update canonical link based on file ID to generate unique link for each album.
   - Redirect requests sent to root with specific fileId to /album/* path.

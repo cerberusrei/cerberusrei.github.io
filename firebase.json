@@ -3,6 +3,10 @@
     "public": "functions/public",
     "rewrites": [
       {
+        "source": "/sitemap.xml",
+        "destination": "/sitemap.xml"
+      },
+      {
         "source": "/**",
         "function": "rewriter"
       }
@@ -14,6 +18,21 @@
       "**/js/env.js",
       "**/js/*-test.js",
       "**/home-local.html"
+    ],
+    "headers": [
+      {
+        "source": "/sitemap.xml",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/xml"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
     ]
   },
   "functions":
