@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '0e9f4f81e68e5646c608879dbd37188e',
+        name: '20250604 YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ifw0NECs3O-ooY6gkfKqP_hIlsSSgkcq',
+        version: 2
+    },
+    {
+        id: '5aa85ae38028f7afee1c1772549618f2',
+        name: '20250601 湘南よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1NGIdSv-aoufP1aCiq0HCzCE1esVhpySA',
+        version: 2
+    },
+    {
         id: 'e483b325e2d6a1c372a8569406db9608',
         name: '20250518 ピオニウォークよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1XqnqULyTrH88CJ-X9hygZfhmVAzkaTNV',
