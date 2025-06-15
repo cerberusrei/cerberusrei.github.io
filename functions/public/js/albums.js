@@ -1,5 +1,29 @@
 const ALBUM_LIST = [
     {
+        id: '92dc8fb0cefc28486280e14d2d0f3dea',
+        name: '20250608 YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=17n51saUieUJ2G8lTfaF0Xdc9pD9Z-bZL',
+        version: 2
+    },
+    {
+        id: 'aa6af122ae7c5ec3483f101eefe8553b',
+        name: '20250607 YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1qYjbIiBv0btkXZGxKiFCCUhCUxUtb-RY',
+        version: 2
+    },
+    {
+        id: '9b36a20e683cad6e2a47205740c6c8e7',
+        name: '20250606 YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Py5C54PPhC2tqsb62UJkJpSyzQ5omfZg',
+        version: 2
+    },
+    {
+        id: 'f544fc0dea8bc1e6e45c9fe87bc8b5c7',
+        name: '20250605 YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1p3Bb_btOLTGUDaSOownMOfRJjOW_hIC1',
+        version: 2
+    },
+    {
         id: '0e9f4f81e68e5646c608879dbd37188e',
         name: '20250604 YOSAKOIソーラン祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ifw0NECs3O-ooY6gkfKqP_hIlsSSgkcq',
