@@ -1,6 +1,6 @@
 const FILE_API_URI= 'https://cerberusrei.clear-net.jp/public/file-api.php';
 const CACHE_INFO_READ = "infoRead";
-const INFO_VERSION = '3';
+const INFO_VERSION = '4';
 const postProductionFolderName = 'post-production';
 
 let currentPaths = []; // [root, sub1, sub2, ...]
@@ -368,10 +368,11 @@ function toImageFileCellHtml(file) {
     let imageStyle = "margin-bottom: 0;"; // override the value in .figure-img to avoid space in bottom
     let divSizeStyle = "width: fit-content; overflow: hidden; margin-top: 5px;";
     let downloadButton = toSourceFileDownloadButton(file);
+    let passwordButton = toPasswordButton(file);
     let cardWidth = getImageCardWidth();
 
-    return `<figure class="figure">
-                <div class="container" style="position: relative;  ${divSizeStyle}">
+    return `<figure id="figure-${file.id}" class="figure">
+                <div class="container" style="position: relative; ${divSizeStyle}">
                     <div class="card" style="${cardWidth}">
                         <img id="img-${file.id}" src="${thumbnailLink}"
                             class="figure-img img-fluid rounded" alt="${file.fileName}"
@@ -379,6 +380,7 @@ function toImageFileCellHtml(file) {
                             data-bs-toggle="modal" data-bs-target="#photoFrame"
                             onclick="showPhoto('${file.id}', '${file.toText()}')"/>
                         ${downloadButton}
+                        ${passwordButton}
                     </div>
                 </div>
                 <figcaption class="figure-caption text-end">
@@ -407,6 +409,10 @@ function getImageCardWidth() {
 }
 
 function toVideoFileCellHtml(file) {
+    if (file.passwordRequired) {
+        return toImageFileCellHtml(file);
+    }
+
     let downloadButton = toSourceFileDownloadButton(file);
     let contentHtml = file.youtubeId ?
         `<div class="embed-responsive embed-responsive-16by9">
@@ -422,7 +428,7 @@ function toVideoFileCellHtml(file) {
                ${downloadButton}
            </div>`;
 
-    return `<figure class="figure">
+    return `<figure id="figure-${file.id}" class="figure">
                   <div class="container" style="position: relative">
                       ${contentHtml}
                   </div>
@@ -460,9 +466,11 @@ function toFolderCellHtml(file) {
 
 function toSourceFileDownloadButton(file) {
     let sourceFileLink = getSourceLink(file);
+    let display = file.passwordRequired ? "none" : "block";
+    let dFlex = file.passwordRequired ? "" : "d-flex"; // need to remove this class, or display will be always "block"
 
-    return `<div class="d-flex align-items-center justify-content-center"
-                style="position: absolute; bottom: 0; right: 0;">
+    return `<div class="${dFlex} align-items-center justify-content-center"
+                style="position: absolute; bottom: 0; right: 0; display: ${display}">
                 <a href="${sourceFileLink}"
                     class="download-link" download="${file.id}">
                     <button class="btn btn-light btn-lg transparent-button">
@@ -470,6 +478,53 @@ function toSourceFileDownloadButton(file) {
                     </button>
                 </a>
             </div>`
+}
+
+function toPasswordButton(file) {
+    if (!file.passwordRequired) {
+        return "";
+    }
+
+    return `<div class="d-flex align-items-center justify-content-center"
+                style="position: absolute; bottom: 0; right: 0;">
+                <button class="btn btn-light btn-lg transparent-button"
+                    onclick="getProtectedContent('${file.id}')">
+                    <i class="bi bi-key"></i>
+                </button>
+            </div>`
+}
+
+async function getProtectedContent(fileId) {
+    const password = prompt("パスワードを入力してください");
+    if (!password) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${FILE_API_URI}?request=protectedInfo&fileId=${fileId}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({"password": password})
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.message || 'Unknown error');
+            return;
+        }
+
+        const file = buildFile(await response.json());
+        $(`#figure-${fileId}`).replaceWith(
+            file.isVideo() ? toVideoFileCellHtml(file) : toImageFileCellHtml(file)
+        );
+    } catch (err) {
+        if (err.status === 403) {
+            alert("間違っています");
+        } else {
+            alert(`Failed: ${err.status} ${err.message}`);
+        }
+    }
 }
 
 function toCategoryBadgeHtml(file, category, text, bgColor) {
@@ -508,9 +563,14 @@ function showPhoto(id, fileInfoStr) {
 }
 
 function getPreviewImageLink(file, width = 512) {
+    if (file.passwordRequired) {
+        return 'images/password-protected-file.png';
+    }
+
     if (!file.thumbnail) {
         return 'https://cdn-icons-png.flaticon.com/512/7757/7757558.png';
     }
+
     //return `https://drive.google.com/uc?export=view&id=${file.thumbnail}`;
     return `https://drive.google.com/thumbnail?authuser=0&sz=w${width}&id=${file.thumbnail}`;
 }
@@ -698,7 +758,9 @@ function onViewingGoogleDriveFile(fileType, fileId) {
 
 async function fetchData(requestType, queryParams) {
     let fullUri = `${FILE_API_URI}?request=${requestType}`;
-    return queryParams ? fetch(`${fullUri}&${queryParams}`) : fetch(fullUri);
+    return queryParams
+        ? fetch(`${fullUri}&${queryParams}`, {credentials: 'include'})
+        : fetch(fullUri, {credentials: 'include'});
 }
 
 function showInfoDialog() {
