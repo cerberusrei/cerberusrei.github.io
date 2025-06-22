@@ -1,5 +1,23 @@
 const ALBUM_LIST = [
     {
+        id: '0368c2a10e14209fb5897eb08b047a78',
+        name: '20250622 静岡県消防協会駿東支部消防フェスタ （共催：SUSONO HOE-ROCK）',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1hB5lmjS2gNpTUJ6JYAcKHjdSs8kwVSHV',
+        version: 2
+    },
+    {
+        id: 'b1fadf88ecd5851d0e20d0fc7e70dc6e',
+        name: '20250615 下町ハイボールフェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1gdSwxcj8_uqH6MCD9-_fV6y5com__el0',
+        version: 2
+    },
+    {
+        id: '77beae50016b1abd7cc4114010bc08c2',
+        name: '20250614 下町ハイボールフェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1QBmeFYEIgE6RXlYAY1Nz2agTn1lB0i61',
+        version: 2
+    },
+    {
         id: '92dc8fb0cefc28486280e14d2d0f3dea',
         name: '20250608 YOSAKOIソーラン祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=17n51saUieUJ2G8lTfaF0Xdc9pD9Z-bZL',
