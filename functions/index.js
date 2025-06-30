@@ -40,7 +40,7 @@ let indexHtml = null;
 let seoMetaList = null;
 
 // serve the index of our website at /
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
     const fileId = req.query.fileId;
     console.debug(`fileId is ${fileId}`);
 
