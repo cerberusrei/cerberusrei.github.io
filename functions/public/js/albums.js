@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '4506694081da8b8a121008ed0da91541',
+        name: '20250629 いずみよさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FERPYd7O3eHsfmDvuhy_Q154c4Hojat-',
+        version: 2
+    },
+    {
+        id: 'c3476ed5274696f4c3319175e7db4f28',
+        name: '20250626 大阪・関西万博 LaLaLaよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=17bgEDpYNFzfX-2UK8cBkHgiAd7OGXzwO',
+        version: 2
+    },
+    {
         id: '0368c2a10e14209fb5897eb08b047a78',
         name: '20250622 静岡県消防協会駿東支部消防フェスタ （共催：SUSONO HOE-ROCK）',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1hB5lmjS2gNpTUJ6JYAcKHjdSs8kwVSHV',
