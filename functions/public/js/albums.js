@@ -1,8 +1,56 @@
 const ALBUM_LIST = [
     {
+        id: '7c98fcd1ff6202a174dc91408ba99b4c',
+        name: '20250721 よさこい祭りin光が丘公園',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1iPvxSXT596BagXIkJJC6KKs_EJTUnLPv',
+        version: 2
+    },
+    {
+        id: 'd637f6513dd6f845299983664facc4da',
+        name: '20250720 どんGALA！祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Piknl9dJnI2WJ2F2GwDkSmPn9m1mMECx',
+        version: 2
+    },
+    {
+        id: '3717e21a81cb3ac639f513bee9a60bec',
+        name: '20250719 どんGALA！祭り 前日交流会',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ejk0BTQnZb0FjP9aUu-OHL2Bw_FRgR-i',
+        version: 2
+    },
+    {
+        id: 'c2e661b9a77662d4bfb1fc9dc1ca3a11',
+        name: '20250719 よさこい祭りin光が丘公園',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=18XrXrkvZX24a-eLNe2ULi4F8o6O8aCol',
+        version: 2
+    },
+    {
+        id: '02c517d1bf7a1a9069e4c7087e2387bd',
+        name: '20250713 多摩センター夏まつり たまよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=16x5dTod-cIOp6dcgG9F7_BRT6p15y6LV',
+        version: 2
+    },
+    {
+        id: '028a83ff49087d1e577b2f09e60e3ee0',
+        name: '20250712 ライオンズ夏祭り ライオンズよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1qQYse3nR6An8VakMz78Lfg85JjOLD6wD',
+        version: 2
+    },
+    {
+        id: 'e2d4e59bf061be2b12db85e19787e92f',
+        name: '20250705 湘南ひらつか七夕まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1_dMgTNGVqP2WDhh-Gl-RAC8x6lmZoAH9',
+        version: 2
+    },
+    {
         id: '4506694081da8b8a121008ed0da91541',
         name: '20250629 いずみよさこい祭り',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FERPYd7O3eHsfmDvuhy_Q154c4Hojat-',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1YaKf3mdGHHm-4PnL1Ud6bPyOwiAJTxEx',
+        version: 2
+    },
+    {
+        id: '1572c8df967300bb43db6ece0b4f4b77',
+        name: '20250628 いずみよさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FbcjrWPO8C3SpqGoL6u32ABxSCflaNo4',
         version: 2
     },
     {
