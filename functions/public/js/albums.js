@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: 'b70fe4f47a80763f2aa9e9f2071abbca',
+        name: '20250727 大和阿波おどり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1mjD_8UXRba49GKpdfFzBfDbhJdMeo0HP',
+        version: 2
+    },
+    {
+        id: 'b9330ed7de6f2602a2d7eb05aab05fe8',
+        name: '20250726 沼津夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1OYV6iTOH9Kl_u0b42dRexgITiadcbW2T',
+        version: 2
+    },
+    {
         id: '7c98fcd1ff6202a174dc91408ba99b4c',
         name: '20250721 よさこい祭りin光が丘公園',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1iPvxSXT596BagXIkJJC6KKs_EJTUnLPv',
