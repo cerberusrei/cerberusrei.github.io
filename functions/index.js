@@ -39,6 +39,17 @@ let htmlTemplate = null;
 let indexHtml = null;
 let seoMetaList = null;
 
+// IMPORTANT: route matching is order-sensitive
+// serve requests to /album/:fileId
+app.get("/album/:fileId", (req, res) => {
+    console.log(`__dirname is ${__dirname}`);
+
+    const seoMeta = getSeoInfo(req.params.fileId);
+    const html = loadHtmlTemplate();
+
+    res.send(injectSeoInfo(html, seoMeta));
+});
+
 // serve the index of our website at /
 app.get("*", (req, res) => {
     const fileId = req.query.fileId;
@@ -62,16 +73,6 @@ app.get("*", (req, res) => {
 
     // Serve the default home.html
     res.send(indexHtml);
-});
-
-// serve requests to /album/:fileId
-app.get("/album/:fileId", (req, res) => {
-    console.log(`__dirname is ${__dirname}`);
-
-    const seoMeta = getSeoInfo(req.params.fileId);
-    const html = loadHtmlTemplate();
-
-    res.send(injectSeoInfo(html, seoMeta));
 });
 
 /**
