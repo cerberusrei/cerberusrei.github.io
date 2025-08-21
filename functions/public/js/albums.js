@@ -1,5 +1,47 @@
 const ALBUM_LIST = [
     {
+        id: '800f9403f239c7148305cbcb15146a2a',
+        name: '20250815 上下夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=17c59VMLyRrxXTpsujWmkbmaCZg2nnH83',
+        version: 2
+    },
+    {
+        id: 'c0bbb9d8c6743201bfa0641b6bc54718',
+        name: '20250812 よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1y5pjMx4eD6OiFdFE1Y3T9BZGXaFkRVUq',
+        version: 2
+    },
+    {
+        id: '72c38bb5b08a9ba849ebe4146f9dc46a',
+        name: '20250811 よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=14NYB5IF-bjqfmO8v3D9P2VXtkQggAJq2',
+        version: 2
+    },
+    {
+        id: 'ae41e3c233f3f6e5f91f99282c42689b',
+        name: '20250810 よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1UvEHB7GR7fkZMnA7hBvfqFbVoEONgggz',
+        version: 2
+    },
+    {
+        id: '211de91942eade77a4e40f1ce372f90c',
+        name: '20250809 よさこい祭り ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=150p3vQq20sPckDeBqw2_ivzwr13-AoRx',
+        version: 2
+    },
+    {
+        id: 'a9048acdb802531732693b39196a6b8a',
+        name: '20250803 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1n6OZDQgBnM4benVW4iUspE7VXlV7Lv9Q',
+        version: 2
+    },
+    {
+        id: '078044bab043c9e00a3f9d26df459db4',
+        name: '20250802 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=188hZFaVHZVRwSxPbT1KHDmxOtgP17qQK',
+        version: 2
+    },
+    {
         id: 'b70fe4f47a80763f2aa9e9f2071abbca',
         name: '20250727 大和阿波おどり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1mjD_8UXRba49GKpdfFzBfDbhJdMeo0HP',
