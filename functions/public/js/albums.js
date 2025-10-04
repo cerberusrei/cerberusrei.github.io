@@ -1,5 +1,65 @@
 const ALBUM_LIST = [
     {
+        id: '029c07400c97b9f51c17111c8732686c',
+        name: '20250928 草加よさこいサンバフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1M9HpfCxXCc2LMERntH6ax5KDbNy4BrwJ',
+        version: 2
+    },
+    {
+        id: 'a7a1373b3525ce0cb562c231f04db5df',
+        name: '20250921 富山のよさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1OPE235x5ohdfzkwf9HZrBPvVdIgFzJly',
+        version: 2
+    },
+    {
+        id: '986c540c9289e1cae985b7cf2947c2f9',
+        name: '20250920 富山のよさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1uCwWlAu7Iy4miktOCtlanTYmoEuvN7K9',
+        version: 2
+    },
+    {
+        id: '5f9d18a4c9bb27a2af87808a9e9e258b',
+        name: '20250914 よさこい四万十',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13Jf_GuzJx-jAQg1uqIpBCKwPKMdaI-Jk',
+        version: 2
+    },
+    {
+        id: '723b2292446116a7a7007f8116deb20b',
+        name: '20250831 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1iPUDWaYNSd7u2m5lAPP3XhmDt1MhwHK8',
+        version: 2
+    },
+    {
+        id: '5132cbb9e0fb591d342b6877cede4d60',
+        name: '20250830 長浜病院老人保健施設「優」納涼祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Mrx4cSJbVJ82oYsZpLY1Y6r_cGfregof',
+        version: 2
+    },
+    {
+        id: '752952e8e0c85ebe9a5998f70a681da8',
+        name: '20250830 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=14BUGxPY7i1syMcfosoJDSVnTCIywgFxX',
+        version: 2
+    },
+    {
+        id: '1157b9ed1e82bc335f8d65cf96a83c18',
+        name: '20250824 原宿表参道元氣祭 スーパーよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1evqFTocRI_roXvv_W6U5dMqEcWj4Vt0P',
+        version: 2
+    },
+    {
+        id: '8e01d877fd53411fb0951a8140943b54',
+        name: '20250823 原宿表参道元氣祭 スーパーよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1h1h53g2xVBSx_rLIztYVEVqv9w4IDQ_Z',
+        version: 2
+    },
+    {
+        id: 'e6e02482811c39cdb6414859e30d0d97',
+        name: '20250817 四国に新幹線を 夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1x05rKttjFYXXa8HYdNH_5Wppe71sWVC0',
+        version: 2
+    },
+    {
         id: '800f9403f239c7148305cbcb15146a2a',
         name: '20250815 上下夏まつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=17c59VMLyRrxXTpsujWmkbmaCZg2nnH83',
@@ -20,13 +80,13 @@ const ALBUM_LIST = [
     {
         id: 'ae41e3c233f3f6e5f91f99282c42689b',
         name: '20250810 よさこい祭り',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1UvEHB7GR7fkZMnA7hBvfqFbVoEONgggz',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1c2vT_42li6H-3f-AgYuJFlgTdBNnqyUM',
         version: 2
     },
     {
         id: '211de91942eade77a4e40f1ce372f90c',
         name: '20250809 よさこい祭り ',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=150p3vQq20sPckDeBqw2_ivzwr13-AoRx',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1vEq9ppssbA2OHg5jrjDWPkn5OglxY7-s',
         version: 2
     },
     {
