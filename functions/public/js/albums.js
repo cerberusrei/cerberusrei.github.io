@@ -1,5 +1,41 @@
 const ALBUM_LIST = [
     {
+        id: 'fb9c48488b1d97ec5733c4df41973a9a',
+        name: '20251101 よさこい陣屋まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Icwt98L3vyHKSB2wajRv4HNj4gajufNx',
+        version: 2
+    },
+    {
+        id: '3553824833bca588b3cd5fac96624de0',
+        name: '20251026 ふくのやまよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1WCAviOuIujlurx82TsJPRN-6vrSwbuPL',
+        version: 2
+    },
+    {
+        id: '0d82ad28d03fb855012db18d9af361f5',
+        name: '20251019 横浜よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1K23kG41Oa_QYnTQLdAgLpeoHqzhPqbi1',
+        version: 2
+    },
+    {
+        id: '24f52831c97c6d2727b5e501d13c8f07',
+        name: '20251018 横浜よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1zV3Kg_EUbD3rxUsS632JJbV8gAaf0RIi',
+        version: 2
+    },
+    {
+        id: '9966276839c5430d2fcdcb3015bcdfbf',
+        name: '20251013 坂戸よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1x1jkM50zhPQU-c12kx8V0A77rt_baS07',
+        version: 2
+    },
+    {
+        id: 'f4b4c8aff465b4fdc41812a4adb8520a',
+        name: '20251013 東京よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ZYvA1lBphfAHx0vSx16PmZO74qmAaQ0m',
+        version: 2
+    },
+    {
         id: '029c07400c97b9f51c17111c8732686c',
         name: '20250928 草加よさこいサンバフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1M9HpfCxXCc2LMERntH6ax5KDbNy4BrwJ',
@@ -51,6 +87,12 @@ const ALBUM_LIST = [
         id: '8e01d877fd53411fb0951a8140943b54',
         name: '20250823 原宿表参道元氣祭 スーパーよさこい',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1h1h53g2xVBSx_rLIztYVEVqv9w4IDQ_Z',
+        version: 2
+    },
+    {
+        id: '48878af468d3b501183b8f64b0818cb0',
+        name: '20250818 よさこいアンコール',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ygcSMGfcpOXMQhU3pSPY8JTczjjnbKrb',
         version: 2
     },
     {
