@@ -329,7 +329,7 @@ function buildFile(fileInfo) {
             return file.fileName.startsWith(".") || file.fileName.endsWith(".ini");
         },
         toText: function() {
-            return btoa(JSON.stringify(this));
+            return btoaUTF8(JSON.stringify(this));
         }
     });
 
@@ -344,6 +344,10 @@ function buildFile(fileInfo) {
 }
 
 function toFileCellHtml(file) {
+    if (file.passwordRequired) {
+        return toImageFileCellHtml(file);
+    }
+
     if (file.isImage()) {
         return toImageFileCellHtml(file);
     }
@@ -409,10 +413,6 @@ function getImageCardWidth() {
 }
 
 function toVideoFileCellHtml(file) {
-    if (file.passwordRequired) {
-        return toImageFileCellHtml(file);
-    }
-
     let downloadButton = toSourceFileDownloadButton(file);
     let contentHtml = file.youtubeId ?
         `<div class="embed-responsive embed-responsive-16by9">
@@ -516,7 +516,7 @@ async function getProtectedContent(fileId) {
 
         const file = buildFile(await response.json());
         $(`#figure-${fileId}`).replaceWith(
-            file.isVideo() ? toVideoFileCellHtml(file) : toImageFileCellHtml(file)
+            toFileCellHtml(file)
         );
     } catch (err) {
         if (err.status === 403) {
@@ -548,7 +548,7 @@ function showPhoto(id, fileInfoStr) {
     sourceImage.hide();
     $('#photoFrame .modal-body .source-image-spinner').show();
 
-    let fileInfo = JSON.parse(atob(fileInfoStr));
+    let fileInfo = JSON.parse(atobUTF8(fileInfoStr));
     previewImage.attr("src", getPreviewImageLink(fileInfo));
     sourceImage.attr("src", getSourceLink(fileInfo));
 
@@ -778,3 +778,28 @@ function showInfoDialog() {
     });
 }
 
+function btoaUTF8(str) {
+    if (!str) {
+        return str;
+    }
+
+    const bytes = new TextEncoder().encode(str);
+    let binary = '';
+    for (let b of bytes) {
+        binary += String.fromCharCode(b);
+    }
+    return btoa(binary);
+}
+
+function atobUTF8(base64) {
+    if (!base64) {
+        return base64;
+    }
+
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder().decode(bytes);
+}
