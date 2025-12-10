@@ -1,5 +1,59 @@
 const ALBUM_LIST = [
     {
+        id: '8f7baa2be0a29746b2070a219783678e',
+        name: '20251207 ドイツクリスマスマーケット in 都筑',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1gUXGh8konoQ_MXjuR-_ca7V_0yWhsrq7',
+        version: 2
+    },
+    {
+        id: 'f6c1fa59d4bcf9aee0d09a856e1c22f2',
+        name: '20251206 たびひろ文化祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1dv6-WD49kUsFGNPFa_4Tacdq__gwPZ25',
+        version: 2
+    },
+    {
+        id: '1650fe3ff1bd002a0fdf365f5781d2f8',
+        name: '20251123 神奈川よさこいまつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1NqFKnYEi32I3aC71TTfUZUfhUDNAIksf',
+        version: 2
+    },
+    {
+        id: 'f789f7ef3915a796982124d5cfd0b90d',
+        name: '20251122 水島よさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1NLpqIA3FZuUoZ7k3a5kSiSpufA8Df3kr',
+        version: 2
+    },
+    {
+        id: 'da3236ff905329ad5b1c009e41ad6f47',
+        name: '20251116 肉よさ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1e8O8RO9KqUjNefYUBJQYBr4UmFZFo5s6',
+        version: 2
+    },
+    {
+        id: '8d6a84be1e9d418055549f453b1be6d8',
+        name: '20251115 龍馬生誕祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1drRtTtvdNA8jAEJoKcprMAYEMP6dF6uj',
+        version: 2
+    },
+    {
+        id: 'a2730f8643b26e96c99baa1455cf0e58',
+        name: '20251109 よさこい東海道',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=19rDDfxggwmIJkeU6aro6gUh7T5GO_00X',
+        version: 2
+    },
+    {
+        id: '13d5551ba4480361752a8414c56ffc45',
+        name: '20251108 台地まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1cjdiTbNr-UZomWJ0WnVm0Nh1ERS8NDh_',
+        version: 2
+    },
+    {
+        id: 'a764c2769c78e33a35d8a828df807c72',
+        name: '20251102 ドリーム夜さ来い祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1iQ8oJ6WBhuzKaKkiXdZr8Q4-lzOAUG_Y',
+        version: 2
+    },
+    {
         id: 'fb9c48488b1d97ec5733c4df41973a9a',
         name: '20251101 よさこい陣屋まつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Icwt98L3vyHKSB2wajRv4HNj4gajufNx',
