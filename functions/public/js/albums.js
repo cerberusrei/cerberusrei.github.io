@@ -1,8 +1,32 @@
 const ALBUM_LIST = [
     {
+        id: 'c34533eaf31e918024f7d819cef6229f',
+        name: '20251221 湘南ひらつかスターライトフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1bxsqrLeheZlPGduq27effuH_j-hm1Ij_',
+        version: 2
+    },
+    {
+        id: 'c0d0789ddb5b54a05f1e9d814e9c3101',
+        name: '20251214 YOSAKOI高松祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1fyu5hau4YWA1rFPf1IWXyJLyWRzLFV2W',
+        version: 2
+    },
+    {
+        id: 'dfc72145f7c18a2c8636fb1286c2ce5d',
+        name: '20251213 YOSAKOI高松祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1w_7LPXpB2rmG26L7n7mm9wpdN6mZ90u3',
+        version: 2
+    },
+    {
         id: '8f7baa2be0a29746b2070a219783678e',
         name: '20251207 ドイツクリスマスマーケット in 都筑',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1gUXGh8konoQ_MXjuR-_ca7V_0yWhsrq7',
+        version: 2
+    },
+    {
+        id: '0518a2b36fe1dff6389d4b8b3b8650f0',
+        name: '20251206 よさこいリターンズ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1kG08iaXZcPvrk6KhmXy2vxOdGhK6-iHM',
         version: 2
     },
     {
@@ -33,6 +57,12 @@ const ALBUM_LIST = [
         id: '8d6a84be1e9d418055549f453b1be6d8',
         name: '20251115 龍馬生誕祭',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1drRtTtvdNA8jAEJoKcprMAYEMP6dF6uj',
+        version: 2
+    },
+    {
+        id: '711620c214f65dd0a4c49bdcb165daa1',
+        name: '20251115 たびひろよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1S4fAYns67-HvabSykfFHd-nhB1m-6dps',
         version: 2
     },
     {
