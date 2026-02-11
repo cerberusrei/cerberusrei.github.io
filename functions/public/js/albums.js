@@ -1,5 +1,35 @@
 const ALBUM_LIST = [
     {
+        id: 'f95b7756bb3198c53388f4ca5783af13',
+        name: '20260208 俄嘉屋28周年祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=16nsUxJPtdAhCi-7daaSSlDi6hCmfapar',
+        version: 2
+    },
+    {
+        id: '4450701750818c9a53f3f82ba7c559f6',
+        name: '20260201 伊勢原ダンス&ライブ祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Rit1_Vupv96A1QLEHVJI0CCDxrMegh0P',
+        version: 2
+    },
+    {
+        id: 'e2457ec8b987bb0027141350b4b50071',
+        name: '20260125 出雲大社相模分祠 ダイコク市',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1VLvjYRnk0gy9enN25kjr0TFs9Z1b4dXX',
+        version: 2
+    },
+    {
+        id: '7e3f700090152fe736057e4b0a106b09',
+        name: '20260115 飛騨谷川 三寺まいり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1TPahZ4b4Nm0Pae-Tp0DbFzZ8P9iini8n',
+        version: 2
+    },
+    {
+        id: '931452624e0301eed10da005d894305c',
+        name: '20260103 ほにや新春踊り初め',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1q-3uYO5779IPyqO15i1GMXUHPYuKaPS8',
+        version: 2
+    },
+    {
         id: 'c34533eaf31e918024f7d819cef6229f',
         name: '20251221 湘南ひらつかスターライトフェスティバル',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1bxsqrLeheZlPGduq27effuH_j-hm1Ij_',
