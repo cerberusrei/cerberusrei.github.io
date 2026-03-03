@@ -1,5 +1,17 @@
 const ALBUM_LIST = [
     {
+        id: '4408d33bbe5526a4191aa7fca42f6f8f',
+        name: '20260301 桃磐祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1r8QfNP1qiiW7Ijx6cb3_t6uYRy0y0TH8',
+        version: 2
+    },
+    {
+        id: '5c233f0dd56eec55212af14d9c2caf13',
+        name: '20260214 ウエノデ・パンダ中秋節',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1-APQ4rsirpIf1PaLr8cmh0x0WzJzojvi',
+        version: 2
+    },
+    {
         id: 'f95b7756bb3198c53388f4ca5783af13',
         name: '20260208 俄嘉屋28周年祭',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=16nsUxJPtdAhCi-7daaSSlDi6hCmfapar',
