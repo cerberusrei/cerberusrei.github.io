@@ -1,5 +1,59 @@
 const ALBUM_LIST = [
     {
+        id: '8997ffe3d74428b828cf9632df7655cc',
+        name: '20260330 FUN DANCE STUDIO Showcase',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ukxVhrvvFvd29fTqXuomLrNIIL0FoHj4',
+        version: 2
+    },
+    {
+        id: '0e321f020df77693a95f65b84bb5612b',
+        name: '20260328 Rie Dancing Team Dance Showcase',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Td7cdyoc8LKAxy9KTtZOW3XdqQK_KaXu',
+        version: 2
+    },
+    {
+        id: 'd587ab71e99dd397dc80c7060e2d2193',
+        name: '20260322 ひらつか市民スポーツフェスティバル',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1PROx06poCkK-DXswwLUOlOvlSw_04MQA',
+        version: 2
+    },
+    {
+        id: 'c7b152bea1421de11140cada0d05baf9',
+        name: '20260321 伊東絆祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1QkSvmrulD7u4a5Rh3iDvbA-puvnt_fQn',
+        version: 2
+    },
+    {
+        id: 'b7cfd398f00c4f8a139e1dbda1092648',
+        name: '20260315 はりまやの大おきゃく',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=15Y-lt4AEu_h5ncSn1v_72FwFVU6CBFXj',
+        version: 2
+    },
+    {
+        id: '99bc8e53467e5ead7d2680a03713bed5',
+        name: '20260314 土佐のおきゃく よさこい春の舞',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13jn-lUdb2RU_qRx13MmJTy93-V29GLyh',
+        version: 2
+    },
+    {
+        id: 'b6564d0525c3ffdaf8261e5f69e0f6b0',
+        name: '20260314 はりまやの大おきゃく',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1RJ7UF1prHoDug4AhlBzuZgGjOj8VOwXQ',
+        version: 2
+    },
+    {
+        id: '0e7c96a226997ff959af412b2e45188d',
+        name: '20260313 土佐のおきゃく',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=18iMOWCuJSdA4u9s9rCCsTbvZO5mx3voq',
+        version: 2
+    },
+    {
+        id: 'ba5c5512fa8e59d8d6dd97b9143d0f3e',
+        name: '20260308 ひらつな祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1S7cprF6o6d7SiAx6mZIP5XLU6VUDlMfQ',
+        version: 2
+    },
+    {
         id: '4408d33bbe5526a4191aa7fca42f6f8f',
         name: '20260301 桃磐祭',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1r8QfNP1qiiW7Ijx6cb3_t6uYRy0y0TH8',
