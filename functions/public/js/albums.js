@@ -1,5 +1,48 @@
 const ALBUM_LIST = [
     {
+        id: '628814396f119b7b606adc26eea98904',
+        name: '20260426 あっぱれ富士 Day 2',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1N5RyBIqrW1Aij7Ox3JD9Y4N7pR731kV8',
+        version: 2
+    },
+    {
+        id: '290c598e4fdf13a48cc8c0159c5fade4',
+        name: '20260425 あっぱれ富士 Day 1',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1zna2y3TywNejmCQIojJOkshqPkuMyPbV',
+        version: 2
+    },
+    {
+        id: 'd04d0d68ec91ff873f602d1e59393b70',
+        name: '20260419 国領神社千年乃藤まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1pIOX_yqAiKejg4d77zWVvJ9JHvOIH53c',
+        version: 2
+    },
+    {
+        id: '3bd70e940171d2de8ca08c5c1cb0e3c9',
+        name: '20260418 花菜ガーデンの春まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=14huGCTWPDoEoOiEEFMisFwFm3n9jNqKj',
+        version: 2
+    },
+
+    {
+        id: '699fa15f42af93032961474b94336428',
+        name: '20260412 よさこいご縁まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ZsPpgoCz_zrqNBmt9-NB_UavX1HPe56G',
+        version: 2
+    },
+    {
+        id: '156e4b65a619ce9ae055a50b9a4a6e37',
+        name: '20260411 よさこいご縁まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1d44anSd5BlqHLeALcX_7mlARu6t-EuL6',
+        version: 2
+    },
+    {
+        id: 'c05d97a402016ca604ef0fc871644614',
+        name: '20260404 サクラタウンよさこい ～春の特別祭～',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1aabDQGpiiVZC8DUVSWr3-wPrOAtIZgnq',
+        version: 2
+    },
+    {
         id: '8997ffe3d74428b828cf9632df7655cc',
         name: '20260330 FUN DANCE STUDIO Showcase',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ukxVhrvvFvd29fTqXuomLrNIIL0FoHj4',
@@ -32,7 +75,7 @@ const ALBUM_LIST = [
     {
         id: '99bc8e53467e5ead7d2680a03713bed5',
         name: '20260314 土佐のおきゃく よさこい春の舞',
-        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13jn-lUdb2RU_qRx13MmJTy93-V29GLyh',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1mSLVnegSNcSN-pndfR3s_TX3lXMkGK65',
         version: 2
     },
     {
