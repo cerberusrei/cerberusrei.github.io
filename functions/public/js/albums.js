@@ -1,5 +1,23 @@
 const ALBUM_LIST = [
     {
+        id: 'c039c9ca58b56516136827b6d31e9c75',
+        name: '20260505 須走春まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1o-iFd1o46dYgaD9ftbXlTZKAf_KYhff9',
+        version: 2
+    },
+    {
+        id: '7d6855fb46c9592945f4a782ff656fd0',
+        name: '20260503 よさこいパフォーマンス at 蓮馨寺',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1nojFjXZRWK38IBpEg5sdgVdXOVbDyM43',
+        version: 2
+    },
+    {
+        id: '6dbf1bb7cfed64977ae37ff0a8e68fa7',
+        name: '20260429 湘南クリエイターズマルシェ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1ArKpmXVL8APTC7m5f7SwvcLLhP-HyILD',
+        version: 2
+    },
+    {
         id: '628814396f119b7b606adc26eea98904',
         name: '20260426 あっぱれ富士 Day 2',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1N5RyBIqrW1Aij7Ox3JD9Y4N7pR731kV8',
