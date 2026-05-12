@@ -5,6 +5,7 @@ import {
   fetchProtectedFile,
   getAlbumInfo,
   getCustomAlbumConfigFromUrl,
+  getFileExtension,
   getFileIdFromUrl,
   getNormalizedUrl,
   getPreviewImageLink,
@@ -316,6 +317,27 @@ createApp({
       return file.id;
     }
 
+    function downloadFilename(file) {
+      if (!file) {
+        return '';
+      }
+      if (file.isImage()) {
+        return `${downloadName(file)}.jpg`;
+      }
+      if (file.isVideo()) {
+        const ext = getFileExtension(file.fileName);
+        if (ext && file.fileName) {
+          return file.fileName;
+        }
+        return `${file.id}.mp4`;
+      }
+      return String(file.id);
+    }
+
+    function showDownloadFor(file) {
+      return !file.passwordRequired && (file.isImage() || file.isVideo());
+    }
+
     async function unlockFile(fileId) {
       const password = window.prompt('パスワードを入力してください');
       if (!password) {
@@ -463,6 +485,8 @@ createApp({
       onModalBodyClick,
       onSourceImageLoaded,
       downloadName,
+      downloadFilename,
+      showDownloadFor,
       shareCurrentAlbum,
     };
   },
@@ -504,13 +528,16 @@ createApp({
       </Teleport>
 
       <div class="gallery-grid">
-        <button
+        <div
           v-for="file in visibleFiles"
           :key="file.id"
-          type="button"
           class="gallery-tile"
           :class="tileClass(file)"
+          role="button"
+          tabindex="0"
           @click="onTileActivate(file)"
+          @keydown.enter.prevent="onTileActivate(file)"
+          @keydown.space.prevent="onTileActivate(file)"
         >
           <template v-if="file.isFolder()">
             <img class="gallery-tile-media" :src="thumbUrl(file)" :alt="file.fileName" loading="lazy" />
@@ -536,9 +563,27 @@ createApp({
                 <i class="bi bi-film"></i>
               </div>
             </template>
+            <a
+              v-if="showDownloadFor(file)"
+              :href="getSourceLink(file)"
+              class="gallery-tile-download"
+              :download="downloadFilename(file)"
+              title="ダウンロード"
+              aria-label="ダウンロード"
+              @click.stop
+            ><i class="bi bi-download"></i></a>
           </template>
           <template v-else>
             <img class="gallery-tile-media" :src="thumbUrl(file)" :alt="file.fileName" loading="lazy" />
+            <a
+              v-if="showDownloadFor(file)"
+              :href="getSourceLink(file)"
+              class="gallery-tile-download"
+              :download="downloadFilename(file)"
+              title="ダウンロード"
+              aria-label="ダウンロード"
+              @click.stop
+            ><i class="bi bi-download"></i></a>
             <button
               v-if="file.passwordRequired"
               type="button"
@@ -546,7 +591,7 @@ createApp({
               @click.stop="unlockFile(file.id)"
             ><i class="bi bi-key"></i></button>
           </template>
-        </button>
+        </div>
       </div>
 
       <div
@@ -597,7 +642,7 @@ createApp({
       >
         <div class="modal-dialog modal-fullscreen">
           <div v-if="selectedFile" class="modal-content gallery-photo-modal" @click="dismissPhoto">
-            <div class="modal-body d-flex align-items-center justify-content-center" @click="onModalBodyClick">
+            <div class="modal-body gallery-photo-modal-body d-flex align-items-center justify-content-center" @click="onModalBodyClick">
               <button type="button" class="btn btn-secondary fixed-top transparent-button btn-close-toolbar" data-bs-dismiss="modal" aria-label="Close">X</button>
               <div class="container p-0 text-center">
                 <img
@@ -617,8 +662,13 @@ createApp({
                 />
               </div>
               <div v-show="previewVisible && !sourceLoaded" class="spinner-border source-image-spinner text-light" role="status"></div>
-              <div class="fixed-bottom gallery-photo-actions">
-                <a :href="getSourceLink(selectedFile)" class="download-link" :download="downloadName(selectedFile) + '.jpg'">
+              <div class="gallery-photo-actions">
+                <a
+                  v-if="showDownloadFor(selectedFile)"
+                  :href="getSourceLink(selectedFile)"
+                  class="download-link"
+                  :download="downloadFilename(selectedFile)"
+                >
                   <button type="button" class="btn btn-light btn-lg transparent-button"><i class="bi bi-download"></i></button>
                 </a>
                 <button type="button" class="btn btn-lg btn-light transparent-button file-info-btn" data-bs-container="body" data-bs-toggle="popover" data-bs-custom-class="custom-popover" data-bs-title="Info" data-bs-placement="top">
