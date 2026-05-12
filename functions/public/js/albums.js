@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: '075c6e8b0801d5a7441e03599e81b7cb',
+        name: '20260506 湘南ハイボール南フェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1c1JI6bb4GAwEe-K9RWnfk7OwvAizZ27B',
+        version: 2
+    },
+    {
         id: 'c039c9ca58b56516136827b6d31e9c75',
         name: '20260505 須走春まつり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1o-iFd1o46dYgaD9ftbXlTZKAf_KYhff9',
