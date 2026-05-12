@@ -12,7 +12,7 @@ import {
   postProductionFolderName,
 } from './gallery-core.js';
 
-import { createApp, ref, computed, onMounted, onUnmounted, nextTick, Teleport } from 'vue';
+import { createApp, ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 
 const CACHE_INFO_READ = 'infoRead';
 const INFO_VERSION = '4';
@@ -61,6 +61,50 @@ createApp({
     const visibleFiles = computed(() =>
       files.value.filter((f) => !f.isUnsupportedFile() && f.fileName !== postProductionFolderName),
     );
+
+    const loadedVisibleCount = computed(() => visibleFiles.value.length);
+
+    const albumTotalCount = computed(() => {
+      const fp = filePage.value;
+      if (fp == null || typeof fp.totalCount !== 'number') {
+        return null;
+      }
+      return fp.totalCount;
+    });
+
+    const inAlbumBrowseMode = computed(() => currentPaths.value.length > 0);
+
+    const hasMorePages = computed(() => {
+      const fp = filePage.value;
+      if (!fp || typeof fp.totalCount !== 'number' || !fp.pageSize) {
+        return false;
+      }
+      return fp.pageNumber < Math.ceil(fp.totalCount / fp.pageSize);
+    });
+
+    const showAlbumProgress = computed(
+      () => inAlbumBrowseMode.value && albumTotalCount.value != null,
+    );
+
+    const showLooseCountChip = computed(() => {
+      if (showAlbumProgress.value) {
+        return false;
+      }
+      if (!loadedVisibleCount.value) {
+        return false;
+      }
+      return true;
+    });
+
+    const looseCountLabel = computed(() => {
+      if (customAlbumConfig) {
+        return 'カスタム一覧';
+      }
+      if (inAlbumBrowseMode.value) {
+        return 'このフォルダ';
+      }
+      return '最近の更新';
+    });
 
     function getCurrentPath() {
       const arr = currentPaths.value;
@@ -215,6 +259,13 @@ createApp({
 
     function thumbUrl(file) {
       return getPreviewImageLink(file, 512);
+    }
+
+    function youtubeThumbUrl(youtubeId) {
+      if (!youtubeId) {
+        return '';
+      }
+      return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
     }
 
     function tileClass(file) {
@@ -385,6 +436,13 @@ createApp({
     return {
       currentPaths,
       visibleFiles,
+      loadedVisibleCount,
+      albumTotalCount,
+      showAlbumProgress,
+      showLooseCountChip,
+      looseCountLabel,
+      hasMorePages,
+      inAlbumBrowseMode,
       uiLoading,
       toastMessage,
       selectedFile,
@@ -393,6 +451,7 @@ createApp({
       gaDisabled,
       displayName,
       thumbUrl,
+      youtubeThumbUrl,
       tileClass,
       getPreviewImageLink,
       getSourceLink,
@@ -407,7 +466,6 @@ createApp({
       shareCurrentAlbum,
     };
   },
-  components: { Teleport },
   template: `
     <div class="gallery-page">
       <Teleport to="#breadcrumb-mount">
@@ -465,9 +523,13 @@ createApp({
           </template>
           <template v-else-if="file.isVideo()">
             <template v-if="file.youtubeId">
-              <div class="gallery-tile-video-placeholder">
-                <i class="bi bi-youtube gallery-yt-icon"></i>
-              </div>
+              <img
+                class="gallery-tile-media"
+                :src="youtubeThumbUrl(file.youtubeId)"
+                :alt="file.fileName"
+                loading="lazy"
+              />
+              <span class="gallery-tile-play" aria-hidden="true"><i class="bi bi-play-fill"></i></span>
             </template>
             <template v-else>
               <div class="gallery-tile-video-placeholder">
@@ -487,8 +549,41 @@ createApp({
         </button>
       </div>
 
-      <div v-if="uiLoading" class="gallery-loading">
-        <div class="spinner-border text-secondary" role="status"><span class="visually-hidden">Loading</span></div>
+      <div
+        v-if="uiLoading"
+        class="gallery-fetch-overlay"
+        role="status"
+        aria-live="polite"
+        aria-busy="true"
+      >
+        <div class="gallery-fetch-overlay-inner">
+          <div class="gallery-fetch-spinners">
+            <div class="spinner-border spinner-border-sm text-light"></div>
+            <div class="spinner-grow spinner-grow-sm text-light gallery-fetch-pulse"></div>
+          </div>
+          <span class="gallery-fetch-text">読み込み中…</span>
+        </div>
+      </div>
+
+      <div
+        v-if="showAlbumProgress"
+        class="gallery-progress-chip"
+        :class="{
+          'gallery-progress-chip--more': hasMorePages,
+          'gallery-progress-chip--with-loader': uiLoading
+        }"
+      >
+        <span class="gallery-progress-chip-count">{{ loadedVisibleCount }} / {{ albumTotalCount }}</span>
+        <span class="gallery-progress-chip-hint">{{
+          hasMorePages ? '下にスクロールで続きを表示' : 'すべて表示しました'
+        }}</span>
+      </div>
+      <div
+        v-else-if="showLooseCountChip"
+        class="gallery-progress-chip gallery-progress-chip--single"
+        :class="{ 'gallery-progress-chip--with-loader': uiLoading }"
+      >
+        <span class="gallery-progress-chip-count">{{ looseCountLabel }} · {{ loadedVisibleCount }} 件</span>
       </div>
 
       <div v-if="toastMessage" class="gallery-toast">{{ toastMessage }}</div>

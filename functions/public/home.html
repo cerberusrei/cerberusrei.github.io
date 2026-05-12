@@ -260,6 +260,127 @@
       padding: 16px;
     }
 
+    .gallery-fetch-overlay {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1040;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 16px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+      pointer-events: none;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+    }
+
+    .gallery-fetch-overlay-inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: rgba(25, 25, 25, 0.92);
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+      animation: gallery-fetch-pop 0.35s ease-out;
+    }
+
+    @keyframes gallery-fetch-pop {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gallery-fetch-spinners {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gallery-fetch-pulse {
+      animation: gallery-fetch-breathe 0.9s ease-in-out infinite;
+    }
+
+    @keyframes gallery-fetch-breathe {
+      0%, 100% { opacity: 0.35; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .gallery-fetch-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .gallery-progress-chip {
+      position: fixed;
+      left: 50%;
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+      z-index: 1030;
+      max-width: min(420px, 94vw);
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      line-height: 1.35;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: bottom 0.25s ease;
+    }
+
+    .gallery-progress-chip--with-loader {
+      bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .gallery-progress-chip--more {
+      border-color: rgba(13, 110, 253, 0.35);
+    }
+
+    .gallery-progress-chip-count {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #212529;
+    }
+
+    .gallery-progress-chip-hint {
+      display: block;
+      font-size: 0.75rem;
+      color: #495057;
+      margin-top: 2px;
+    }
+
+    .gallery-progress-chip--single .gallery-progress-chip-count {
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    .gallery-tile-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .gallery-tile-play i {
+      font-size: 2.25rem;
+      color: #fff;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+      line-height: 1;
+    }
+
     .gallery-toast {
       position: fixed;
       top: 50%;
@@ -323,7 +444,7 @@
       }
     }
   </script>
-  <script type="module" src="/js/gallery-app.js?t=20260512"></script>
+  <script type="module" src="/js/gallery-app.js?t=20260512b"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {
