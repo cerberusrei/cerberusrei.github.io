@@ -138,8 +138,290 @@
       gap: 10px;
     }
 
-  </style>
+    #gallery-app {
+      max-width: 100%;
+    }
 
+    .gallery-page {
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 2px 48px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .gallery-grid {
+        gap: 3px;
+      }
+    }
+
+    .gallery-tile {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      padding: 0;
+      border: none;
+      overflow: hidden;
+      background: #1a1a1a;
+      cursor: pointer;
+    }
+
+    .gallery-tile:focus-visible {
+      outline: 2px solid #0d6efd;
+      outline-offset: 2px;
+    }
+
+    .gallery-tile-media {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      vertical-align: middle;
+    }
+
+    .tile-folder--unorganized {
+      box-shadow: inset 0 0 0 3px #e9ecef;
+    }
+
+    .gallery-tile-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 4px 6px;
+      font-size: 0.65rem;
+      line-height: 1.2;
+      color: #fff;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+      text-align: left;
+      max-height: 40%;
+      overflow: hidden;
+    }
+
+    .gallery-tile-badge-wrap {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      max-width: calc(100% - 8px);
+    }
+
+    .gallery-cat-badge {
+      font-size: 0.55rem;
+      padding: 2px 4px;
+      border-radius: 3px;
+      color: #fff;
+      opacity: 0.85;
+    }
+
+    .gallery-tile-video-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2c2c2c;
+      color: #adb5bd;
+      font-size: 2rem;
+    }
+
+    .gallery-yt-icon {
+      font-size: 2.5rem;
+      color: #ff0000;
+    }
+
+    .gallery-tile-lock {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.85);
+      color: #333;
+    }
+
+    .gallery-loading {
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .gallery-fetch-overlay {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1040;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 16px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+      pointer-events: none;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+    }
+
+    .gallery-fetch-overlay-inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: rgba(25, 25, 25, 0.92);
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+      animation: gallery-fetch-pop 0.35s ease-out;
+    }
+
+    @keyframes gallery-fetch-pop {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gallery-fetch-spinners {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gallery-fetch-pulse {
+      animation: gallery-fetch-breathe 0.9s ease-in-out infinite;
+    }
+
+    @keyframes gallery-fetch-breathe {
+      0%, 100% { opacity: 0.35; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .gallery-fetch-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .gallery-progress-chip {
+      position: fixed;
+      left: 50%;
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+      z-index: 1030;
+      max-width: min(420px, 94vw);
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      line-height: 1.35;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: bottom 0.25s ease;
+    }
+
+    .gallery-progress-chip--with-loader {
+      bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .gallery-progress-chip--more {
+      border-color: rgba(13, 110, 253, 0.35);
+    }
+
+    .gallery-progress-chip-count {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #212529;
+    }
+
+    .gallery-progress-chip-hint {
+      display: block;
+      font-size: 0.75rem;
+      color: #495057;
+      margin-top: 2px;
+    }
+
+    .gallery-progress-chip--single .gallery-progress-chip-count {
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    .gallery-tile-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .gallery-tile-play i {
+      font-size: 2.25rem;
+      color: #fff;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+      line-height: 1;
+    }
+
+    .gallery-toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1060;
+      padding: 10px 16px;
+      background: rgba(33, 37, 41, 0.92);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .gallery-breadcrumb .breadcrumb {
+      background: transparent;
+      padding: 4px 0;
+    }
+
+    .breadcrumb-label {
+      max-width: min(280px, 40vw);
+    }
+
+    .breadcrumb-btn--current {
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .share-icon {
+      cursor: pointer;
+      color: #495057;
+    }
+
+    .gallery-photo-modal {
+      background-color: transparent;
+    }
+
+    .gallery-photo-actions .btn {
+      pointer-events: auto;
+    }
+
+  </style>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFKJ9BT7LX"></script>
@@ -154,8 +436,15 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <script src="/js/google-analytics-util.js"></script>
-  <script src="/js/albums.js?t=1778477932853"></script>
-  <script src="/js/gallery.js?t=1762190974683"></script>
+  <script src="/js/albums.js?t=1778176497918"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "vue": "https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.esm-browser.prod.js"
+      }
+    }
+  </script>
+  <script type="module" src="/js/gallery-app.js?t=20260512b"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {
@@ -163,77 +452,31 @@
     }
   </script>
 </head>
-<body onload="initUi()">
+<body>
 <div class="container position-fixed header" style="max-width: 100%; top: 0">
-  <div class="dropdown col-4" style="margin: 5px">
-    <button class="btn btn-secondary"
-            data-bs-toggle="modal" data-bs-target="#albumListFrame">
-      <i class="bi bi-journal-album"></i>
-    </button>
-    <button class="btn btn-primary"
-            data-bs-toggle="modal" data-bs-target="#infoFrame">
-      <i class="bi bi-info-square"></i>
-    </button>
-    <a href="https://cerberusrei.clear-net.jp/public/events-view.html"
-       target="_blank"
-       rel="noopener noreferrer"
-       class="btn btn-success">
-      <i class="bi bi-calendar-event"></i>
-    </a>
-  </div>
-  <div class="col">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb align-middle align-items-center">
-        　 <!-- this is for workaround to make content container to have correct margin by the height of this div -->
-      </ol>
-    </nav>
+  <div class="row align-items-center g-0 w-100">
+    <div class="dropdown col-auto" style="margin: 5px">
+      <button class="btn btn-secondary"
+              data-bs-toggle="modal" data-bs-target="#albumListFrame">
+        <i class="bi bi-journal-album"></i>
+      </button>
+      <button class="btn btn-primary"
+              data-bs-toggle="modal" data-bs-target="#infoFrame">
+        <i class="bi bi-info-square"></i>
+      </button>
+      <a href="https://cerberusrei.clear-net.jp/public/events-view.html"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn btn-success">
+        <i class="bi bi-calendar-event"></i>
+      </a>
+    </div>
+    <div class="col min-w-0" id="breadcrumb-mount"></div>
   </div>
 </div>
 
-<div class="container text-center">
-  <div id="fileListContainer">
-  </div>
-
-  <div class="spinner-border" role="status">
-    <span class="sr-only"></span>
-  </div>
-  <!-- Photo Modal -->
-  <div class="modal fade" id="photoFrame" tabindex="-1" aria-labelledby="photoFrameLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content" onclick="dismissPhoto()">
-        <div class="modal-body d-flex align-items-center justify-content-center">
-          <div class="container">
-            <button type="button"
-                    class="btn btn-secondary fixed-top transparent-button"
-                    style="right: auto"
-                    data-bs-dismiss="modal" aria-label="Close">
-              X
-            </button>
-
-            <img class="img-fluid align-middle align-items-center preview-image modal-content-image" src="" alt=""/>
-            <img class="img-fluid align-middle align-items-center source-image modal-content-image" src="" alt=""
-                 onload="onSourceImageLoaded()"/>
-          </div>
-          <div class="spinner-border source-image-spinner" role="status">
-            <span class="sr-only"></span>
-          </div>
-          <div class="fixed-bottom">
-            <a href="" class="download-link" download>
-              <button class="btn btn-light btn-lg transparent-button">
-                <i class="bi bi-download"></i>
-              </button>
-            </a>
-            <button type="button" class="file-info-btn btn btn-lg btn-light transparent-button"
-                    data-bs-container="body" data-bs-toggle="popover"
-                    data-bs-custom-class="custom-popover"
-                    data-bs-title="Info" data-bs-placement="top">
-              <i class="bi bi-info-square"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="container text-center px-0" style="max-width: 100%">
+  <div id="gallery-app"></div>
 </div>
 
 <!-- Album List Modal -->
