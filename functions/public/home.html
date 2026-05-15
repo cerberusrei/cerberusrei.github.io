@@ -201,13 +201,14 @@
 
     .gallery-page--single {
       max-width: 100%;
-      padding-left: 4px;
-      padding-right: 4px;
+      padding-left: clamp(14px, 4.5vw, 28px);
+      padding-right: clamp(14px, 4.5vw, 28px);
+      padding-bottom: 48px;
     }
 
     .gallery-page--single .gallery-grid {
       grid-template-columns: 1fr;
-      gap: 8px;
+      gap: clamp(18px, 3vw, 28px);
     }
 
     .gallery-page--single .gallery-tile {
@@ -217,7 +218,69 @@
       background: #111;
     }
 
-    .gallery-page--single .gallery-tile-media {
+    .gallery-page--single .gallery-tile--folder {
+      background: transparent;
+    }
+
+    .gallery-page--single .gallery-tile.tile-folder--unorganized {
+      box-shadow: none;
+    }
+
+    .gallery-page--single .gallery-album-single {
+      width: 100%;
+      max-width: min(800px, 100%);
+      margin: 0 auto;
+      padding: 12px 12px 14px;
+      background: #eceef2;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .gallery-page--single .gallery-tile.tile-folder--unorganized .gallery-album-single {
+      box-shadow: inset 0 0 0 3px #dee2e6, 0 2px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .gallery-page--single .gallery-album-single-frame {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #1a1a1a;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      aspect-ratio: 16 / 10;
+      max-height: min(280px, 42vw);
+    }
+
+    .gallery-page--single .gallery-album-single-cover {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      margin: 0;
+    }
+
+    .gallery-page--single .gallery-album-single-name {
+      margin-top: 10px;
+      padding: 0 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #212529;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    .gallery-page:not(.gallery-page--single) .gallery-tile--folder .gallery-tile-caption {
+      font-size: 0.52rem;
+      padding: 3px 5px;
+      line-height: 1.15;
+      max-height: 46%;
+    }
+
+    .gallery-page--single .gallery-tile-media:not(.gallery-album-single-cover) {
       width: auto;
       max-width: min(800px, 100%);
       height: auto;
@@ -655,7 +718,7 @@
       }
     }
   </script>
-  <script type="module" src="/js/gallery-app.js?t=20260512g"></script>
+  <script type="module" src="/js/gallery-app.js?t=20260512h"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {

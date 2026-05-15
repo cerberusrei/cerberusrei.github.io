@@ -295,7 +295,11 @@ createApp({
 
     function tileClass(file) {
       if (file.isFolder()) {
-        return file.organized ? '' : 'tile-folder--unorganized';
+        const parts = ['gallery-tile--folder'];
+        if (!file.organized) {
+          parts.push('tile-folder--unorganized');
+        }
+        return parts.join(' ');
       }
       return '';
     }
@@ -587,13 +591,33 @@ createApp({
           @keydown.space.prevent="onTileActivate(file)"
         >
           <template v-if="file.isFolder()">
-            <img class="gallery-tile-media" :src="thumbUrl(file)" :alt="file.fileName" loading="lazy" />
-            <span class="gallery-tile-badge-wrap">
-              <span v-if="(file.categories & 1)" class="gallery-cat-badge" style="background:#d2691e">よさこい</span>
-              <span v-if="(file.categories & 2)" class="gallery-cat-badge" style="background:#0dcaf0">ソーラン</span>
-              <span v-if="(file.categories & 4)" class="gallery-cat-badge" style="background:#d20df0">阿波踊り</span>
-            </span>
-            <span class="gallery-tile-caption">{{ file.fileName }}</span>
+            <template v-if="layoutMode === 'single'">
+              <div class="gallery-album-single">
+                <div class="gallery-album-single-frame">
+                  <img
+                    class="gallery-tile-media gallery-album-single-cover"
+                    :src="thumbUrl(file)"
+                    :alt="file.fileName"
+                    loading="lazy"
+                  />
+                  <span class="gallery-tile-badge-wrap">
+                    <span v-if="(file.categories & 1)" class="gallery-cat-badge" style="background:#d2691e">よさこい</span>
+                    <span v-if="(file.categories & 2)" class="gallery-cat-badge" style="background:#0dcaf0">ソーラン</span>
+                    <span v-if="(file.categories & 4)" class="gallery-cat-badge" style="background:#d20df0">阿波踊り</span>
+                  </span>
+                </div>
+                <div class="gallery-album-single-name">{{ file.fileName }}</div>
+              </div>
+            </template>
+            <template v-else>
+              <img class="gallery-tile-media" :src="thumbUrl(file)" :alt="file.fileName" loading="lazy" />
+              <span class="gallery-tile-badge-wrap">
+                <span v-if="(file.categories & 1)" class="gallery-cat-badge" style="background:#d2691e">よさこい</span>
+                <span v-if="(file.categories & 2)" class="gallery-cat-badge" style="background:#0dcaf0">ソーラン</span>
+                <span v-if="(file.categories & 4)" class="gallery-cat-badge" style="background:#d20df0">阿波踊り</span>
+              </span>
+              <span class="gallery-tile-caption">{{ file.fileName }}</span>
+            </template>
           </template>
           <template v-else-if="file.isVideo()">
             <template v-if="file.youtubeId">
