@@ -17,6 +17,27 @@ import { createApp, ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 
 const CACHE_INFO_READ = 'infoRead';
 const INFO_VERSION = '4';
+const LAYOUT_STORAGE_KEY = 'galleryLayoutMode';
+
+function readStoredLayoutMode() {
+  try {
+    const saved = localStorage.getItem(LAYOUT_STORAGE_KEY);
+    if (saved === 'single' || saved === 'triple') {
+      return saved;
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+function writeStoredLayoutMode(mode) {
+  try {
+    localStorage.setItem(LAYOUT_STORAGE_KEY, mode);
+  } catch {
+    /* ignore */
+  }
+}
 
 const queryParams = new URLSearchParams(window.location.search);
 const gaDisabled = ref(
@@ -58,6 +79,8 @@ createApp({
     const selectedFile = ref(null);
     const previewVisible = ref(true);
     const sourceLoaded = ref(false);
+
+    const layoutMode = ref(readStoredLayoutMode() ?? 'triple');
 
     const visibleFiles = computed(() =>
       files.value.filter((f) => !f.isUnsupportedFile() && f.fileName !== postProductionFolderName),
@@ -403,6 +426,12 @@ createApp({
       window.prompt('Share link:', url);
     }
 
+    function toggleLayout() {
+      const next = layoutMode.value === 'triple' ? 'single' : 'triple';
+      layoutMode.value = next;
+      writeStoredLayoutMode(next);
+    }
+
     function onScrollHandler() {
       onScroll();
     }
@@ -471,6 +500,8 @@ createApp({
       previewVisible,
       sourceLoaded,
       gaDisabled,
+      layoutMode,
+      toggleLayout,
       displayName,
       thumbUrl,
       youtubeThumbUrl,
@@ -491,40 +522,55 @@ createApp({
     };
   },
   template: `
-    <div class="gallery-page">
+    <div class="gallery-page" :class="{ 'gallery-page--single': layoutMode === 'single' }">
       <Teleport to="#breadcrumb-mount">
-        <nav class="gallery-breadcrumb w-100" aria-label="breadcrumb">
-          <ol class="breadcrumb align-middle align-items-center mb-0 flex-wrap">
-            <li
-              v-for="(path, index) in currentPaths"
-              :key="path.id"
-              class="breadcrumb-item"
-              :class="{ active: index === currentPaths.length - 1 }"
-              :aria-current="index === currentPaths.length - 1 ? 'page' : undefined"
-            >
-              <span class="d-inline-block align-middle text-truncate breadcrumb-label">
-                <button
-                  v-if="index < currentPaths.length - 1"
-                  type="button"
-                  class="btn btn-light btn-sm breadcrumb-btn"
-                  :title="path.name"
-                  @click="switchPath(path.id)"
-                >{{ displayName(path.name) }}</button>
-                <span v-else class="btn btn-light btn-sm breadcrumb-btn breadcrumb-btn--current" :title="path.name">
-                  {{ displayName(path.name) }}
+        <div class="gallery-header-bar w-100 d-flex align-items-center flex-wrap gap-1">
+          <nav class="gallery-breadcrumb flex-grow-1 min-w-0" aria-label="breadcrumb">
+            <ol class="breadcrumb align-middle align-items-center mb-0 flex-wrap">
+              <li
+                v-for="(path, index) in currentPaths"
+                :key="path.id"
+                class="breadcrumb-item"
+                :class="{ active: index === currentPaths.length - 1 }"
+                :aria-current="index === currentPaths.length - 1 ? 'page' : undefined"
+              >
+                <span class="d-inline-block align-middle text-truncate breadcrumb-label">
+                  <button
+                    v-if="index < currentPaths.length - 1"
+                    type="button"
+                    class="btn btn-light btn-sm breadcrumb-btn"
+                    :title="path.name"
+                    @click="switchPath(path.id)"
+                  >{{ displayName(path.name) }}</button>
+                  <span v-else class="btn btn-light btn-sm breadcrumb-btn breadcrumb-btn--current" :title="path.name">
+                    {{ displayName(path.name) }}
+                  </span>
                 </span>
-              </span>
-              <i
-                v-if="index === currentPaths.length - 1"
-                class="bi bi-share-fill ms-1 share-icon"
-                role="button"
-                tabindex="0"
-                @click="shareCurrentAlbum(path)"
-                @keydown.enter="shareCurrentAlbum(path)"
-              ></i>
-            </li>
-          </ol>
-        </nav>
+                <i
+                  v-if="index === currentPaths.length - 1"
+                  class="bi bi-share-fill ms-1 share-icon"
+                  role="button"
+                  tabindex="0"
+                  @click="shareCurrentAlbum(path)"
+                  @keydown.enter="shareCurrentAlbum(path)"
+                ></i>
+              </li>
+            </ol>
+          </nav>
+          <button
+            type="button"
+            class="btn btn-light btn-sm gallery-layout-toggle flex-shrink-0"
+            :aria-pressed="layoutMode === 'single'"
+            :aria-label="layoutMode === 'triple' ? '1列表示に切り替え' : '3列表示に切り替え'"
+            :title="layoutMode === 'triple' ? '1列（画面幅・元の比率）' : '3列グリッド'"
+            @click="toggleLayout"
+          >
+            <span class="gallery-layout-picto" :data-mode="layoutMode" aria-hidden="true">
+              <span class="glp-one"></span>
+              <span class="glp-three"><i></i><i></i><i></i></span>
+            </span>
+          </button>
+        </div>
       </Teleport>
 
       <div class="gallery-grid">

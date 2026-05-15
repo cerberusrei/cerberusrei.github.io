@@ -199,6 +199,106 @@
       padding: 0 2px 48px;
     }
 
+    .gallery-page--single {
+      max-width: 100%;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+
+    .gallery-page--single .gallery-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .gallery-page--single .gallery-tile {
+      aspect-ratio: auto;
+      min-height: 0;
+      overflow: visible;
+      background: #111;
+    }
+
+    .gallery-page--single .gallery-tile-media {
+      width: 100%;
+      height: auto;
+      max-height: min(92vh, 2200px);
+      object-fit: contain;
+      object-position: center top;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .gallery-page--single .gallery-tile-video-placeholder {
+      width: 100%;
+      height: auto;
+      min-height: 36vh;
+      aspect-ratio: auto;
+    }
+
+    .gallery-header-bar {
+      min-width: 0;
+    }
+
+    .gallery-layout-toggle {
+      width: 40px;
+      height: 34px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .gallery-layout-picto {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 16px;
+    }
+
+    .gallery-layout-picto .glp-one {
+      display: block;
+      width: 6px;
+      height: 12px;
+      background: #adb5bd;
+      border-radius: 2px;
+      transition: height 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+    }
+
+    .gallery-layout-picto .glp-three {
+      display: inline-flex;
+      align-items: stretch;
+      gap: 2px;
+      height: 14px;
+    }
+
+    .gallery-layout-picto .glp-three i {
+      display: block;
+      width: 3px;
+      align-self: stretch;
+      background: #adb5bd;
+      border-radius: 2px;
+      transition: background 0.15s ease, opacity 0.15s ease;
+    }
+
+    .gallery-layout-picto[data-mode="single"] .glp-one {
+      height: 16px;
+      background: #0d6efd;
+    }
+
+    .gallery-layout-picto[data-mode="single"] .glp-three i {
+      opacity: 0.45;
+      background: #adb5bd;
+    }
+
+    .gallery-layout-picto[data-mode="triple"] .glp-three i {
+      background: #0d6efd;
+    }
+
+    .gallery-layout-picto[data-mode="triple"] .glp-one {
+      height: 10px;
+      opacity: 0.45;
+    }
+
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -207,7 +307,7 @@
     }
 
     @media (min-width: 768px) {
-      .gallery-grid {
+      .gallery-page:not(.gallery-page--single) .gallery-grid {
         gap: 3px;
       }
     }
@@ -494,7 +594,7 @@
       }
     }
   </script>
-  <script type="module" src="/js/gallery-app.js?t=20260512c"></script>
+  <script type="module" src="/js/gallery-app.js?t=20260512e"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {
