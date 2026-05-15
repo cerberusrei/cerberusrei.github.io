@@ -218,9 +218,10 @@
     }
 
     .gallery-page--single .gallery-tile-media {
-      width: 100%;
+      width: auto;
+      max-width: min(800px, 100%);
       height: auto;
-      max-height: min(92vh, 2200px);
+      max-height: 1000px;
       object-fit: contain;
       object-position: center top;
       display: block;
@@ -229,6 +230,10 @@
 
     .gallery-page--single .gallery-tile-video-placeholder {
       width: 100%;
+      max-width: 800px;
+      max-height: 1000px;
+      margin-left: auto;
+      margin-right: auto;
       height: auto;
       min-height: 36vh;
       aspect-ratio: auto;
@@ -594,7 +599,7 @@
       }
     }
   </script>
-  <script type="module" src="/js/gallery-app.js?t=20260512e"></script>
+  <script type="module" src="/js/gallery-app.js?t=20260512f"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {

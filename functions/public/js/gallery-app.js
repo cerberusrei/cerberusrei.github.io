@@ -282,7 +282,8 @@ createApp({
     }
 
     function thumbUrl(file) {
-      return getPreviewImageLink(file, 512);
+      const w = layoutMode.value === 'single' ? 800 : 512;
+      return getPreviewImageLink(file, w);
     }
 
     function youtubeThumbUrl(youtubeId) {
