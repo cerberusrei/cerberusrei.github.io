@@ -525,9 +525,9 @@ createApp({
   template: `
     <div class="gallery-page" :class="{ 'gallery-page--single': layoutMode === 'single' }">
       <Teleport to="#breadcrumb-mount">
-        <div class="gallery-header-bar w-100 d-flex align-items-center flex-wrap gap-1">
+        <div class="gallery-header-bar w-100 d-flex align-items-center flex-nowrap gap-1">
           <nav class="gallery-breadcrumb flex-grow-1 min-w-0" aria-label="breadcrumb">
-            <ol class="breadcrumb align-middle align-items-center mb-0 flex-wrap">
+            <ol class="breadcrumb align-middle align-items-center mb-0 flex-nowrap">
               <li
                 v-for="(path, index) in currentPaths"
                 :key="path.id"

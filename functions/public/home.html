@@ -240,7 +240,50 @@
     }
 
     .gallery-header-bar {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 6px;
       min-width: 0;
+      width: 100%;
+    }
+
+    .gallery-breadcrumb {
+      flex: 1 1 0;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .gallery-breadcrumb .breadcrumb {
+      flex-wrap: nowrap;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .gallery-breadcrumb .breadcrumb-item {
+      min-width: 0;
+    }
+
+    .gallery-breadcrumb .breadcrumb-item:not(:last-child) {
+      flex-shrink: 0;
+    }
+
+    .gallery-breadcrumb .breadcrumb-item:last-child {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .gallery-breadcrumb .breadcrumb-item:last-child .breadcrumb-label {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .gallery-breadcrumb .breadcrumb-item:last-child .share-icon {
+      flex-shrink: 0;
     }
 
     .gallery-layout-toggle {
@@ -251,6 +294,7 @@
       align-items: center;
       justify-content: center;
       border: 1px solid rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
     }
 
     .gallery-layout-picto {
@@ -555,7 +599,19 @@
     }
 
     .breadcrumb-label {
-      max-width: min(280px, 40vw);
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .gallery-breadcrumb .breadcrumb-btn,
+    .gallery-breadcrumb .breadcrumb-btn--current {
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: middle;
     }
 
     .breadcrumb-btn--current {
@@ -599,7 +655,7 @@
       }
     }
   </script>
-  <script type="module" src="/js/gallery-app.js?t=20260512f"></script>
+  <script type="module" src="/js/gallery-app.js?t=20260512g"></script>
 
   <script type="text/javascript">
     window.onerror = function(error) {
