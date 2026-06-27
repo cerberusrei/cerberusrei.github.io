@@ -1,5 +1,60 @@
 const ALBUM_LIST = [
     {
+        id: 'fc29e3223147484f58c68b9f83feea2c',
+        name: '20260614 能登よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1YdQ_8hILuLbLrGC1hl7gscqrjMosWk81',
+        version: 2
+    },
+    {
+        id: 'b22c794b9c43a134ba9c5686b9508828',
+        name: '20260613 能登よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13K9acJ5fEeLWQVZDeodgghHilU8H2SEu',
+        version: 2
+    },
+
+    {
+        id: 'fd774f4f06fd131842632aa760773c2f',
+        name: '20260611 YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=112ULg3QXTb6ynT6Nz31YnMN_dErq0QGY',
+        version: 2
+    },
+    {
+        id: '596ddb8456d165f48bc429e9c94b944d',
+        name: '20260610 YOSAKOIソーラン祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=10IsXOFJ6Jn9oBNK1WDRhF8CHPT-AIc7w',
+        version: 2
+    },
+    {
+        id: '9bc51435fc4f240d244d74b295ec4e8b',
+        name: '20260607 湘南よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1kgA7raDEsrjiu24Qejn_mQJ5tErSwZLI',
+        version: 2
+    },
+    {
+        id: 'e58fc1b1f5da99aec49340793fd153af',
+        name: '20260531 ウエノデ.コリアンフェスタ',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Yr-4U8OtYdQ4eiiDrr950FoKtBS0yMWe',
+        version: 2
+    },
+    {
+        id: 'a3f7c596a92a71b330d5527c45aa50d9',
+        name: '20260524 坂本龍馬像生誕祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1HkJh0ngVHiAlqJQCdSIoZ03mVFAS-RZT',
+        version: 2
+    },
+    {
+        id: '9e1f6c2df66b7702cd85222075527227',
+        name: '20260517 福山ばら祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1z9adYxUc0ens69uQI6xf2zMVmcyiE0Ed',
+        version: 2
+    },
+    {
+        id: '5f30cf8b14d335b5f90847331f6c59fa',
+        name: '20260516 スリランカフェスティバル鎌ケ谷2026',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1X5hcAoqV4E0FtwU6ssJUPL5Fbeczu0TU',
+        version: 2
+    },
+    {
         id: '075c6e8b0801d5a7441e03599e81b7cb',
         name: '20260506 湘南ハイボール南フェス',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1c1JI6bb4GAwEe-K9RWnfk7OwvAizZ27B',
