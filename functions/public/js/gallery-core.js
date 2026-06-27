@@ -86,6 +86,23 @@ export async function fetchFileListPage(request) {
   return response.json();
 }
 
+export async function fetchFileListPageByTag(request) {
+  const tags = request.tags
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+    .map((tag) => encodeURIComponent(tag))
+    .join(',');
+  const match = request.match || 'any';
+  const page = request.page || 1;
+  const size = request.pageSize || 12;
+  const response = await fetchData(
+    'pageByTag',
+    `tags=${tags}&match=${match}&page=${page}&size=${size}`,
+  );
+  return response.json();
+}
+
 export async function fetchData(requestType, queryParams) {
   const fullUri = `${FILE_API_URI}?request=${requestType}`;
   return queryParams

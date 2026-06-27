@@ -2,6 +2,7 @@ import {
   buildFile,
   fetchData,
   fetchFileListPage,
+  fetchFileListPageByTag,
   fetchProtectedFile,
   getAlbumInfo,
   getCustomAlbumConfigFromUrl,
@@ -11,7 +12,7 @@ import {
   getPreviewImageLink,
   getSourceLink,
   postProductionFolderName,
-} from './gallery-core.js';
+} from './gallery-core.js?t=20260628a';
 
 import { createApp, ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 
@@ -82,6 +83,11 @@ createApp({
 
     const layoutMode = ref(readStoredLayoutMode() ?? 'triple');
 
+    const tagSearchInput = ref('');
+    const activeTagSearch = ref('');
+    const tagSearchMatch = ref('any');
+    const inTagSearchMode = ref(false);
+
     const visibleFiles = computed(() =>
       files.value.filter((f) => !f.isUnsupportedFile() && f.fileName !== postProductionFolderName),
     );
@@ -107,7 +113,8 @@ createApp({
     });
 
     const showAlbumProgress = computed(
-      () => inAlbumBrowseMode.value && albumTotalCount.value != null,
+      () =>
+        (inAlbumBrowseMode.value || inTagSearchMode.value) && albumTotalCount.value != null,
     );
 
     const showLooseCountChip = computed(() => {
@@ -121,6 +128,9 @@ createApp({
     });
 
     const looseCountLabel = computed(() => {
+      if (inTagSearchMode.value) {
+        return `タグ: ${activeTagSearch.value}`;
+      }
       if (customAlbumConfig) {
         return 'カスタム一覧';
       }
@@ -129,6 +139,16 @@ createApp({
       }
       return '最近の更新';
     });
+
+    function exitTagSearchMode() {
+      inTagSearchMode.value = false;
+      activeTagSearch.value = '';
+    }
+
+    function resetFileListState() {
+      files.value = [];
+      filePage.value = null;
+    }
 
     function getCurrentPath() {
       const arr = currentPaths.value;
@@ -174,6 +194,8 @@ createApp({
 
     async function switchPath(id, toSubFolder) {
       try {
+        exitTagSearchMode();
+        tagSearchInput.value = '';
         if (toSubFolder) {
           const info = await getAlbumInfo(id);
           currentPaths.value = [...currentPaths.value, { id, name: info.fileName }];
@@ -201,6 +223,87 @@ createApp({
       } catch (error) {
         console.error(error);
         throw error;
+      }
+    }
+
+    async function getTagSearchFileList() {
+      if (
+        filePage.value &&
+        filePage.value.pageNumber >= Math.ceil(filePage.value.totalCount / filePage.value.pageSize)
+      ) {
+        showToast('No more records', 500);
+        return [];
+      }
+
+      const request = {
+        tags: activeTagSearch.value,
+        match: tagSearchMatch.value,
+        page: filePage.value ? filePage.value.pageNumber + 1 : 1,
+        pageSize: filePage.value ? filePage.value.pageSize : 12,
+      };
+
+      const response = await fetchFileListPageByTag(request);
+      filePage.value = { ...response, tagSearch: true };
+      return response.records.map((file) => buildFile(file));
+    }
+
+    async function listTagSearchFiles(append = true) {
+      if (!activeTagSearch.value) {
+        return;
+      }
+      if (!loadingLock.isLocked()) {
+        setLoading();
+      }
+      try {
+        const list = await getTagSearchFileList();
+        files.value = append ? files.value.concat(list) : list;
+      } catch (err) {
+        console.error(err);
+        showToast('タグ検索に失敗しました', 1200);
+      } finally {
+        finishLoading();
+      }
+    }
+
+    async function submitTagSearch() {
+      const tags = tagSearchInput.value
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter(Boolean)
+        .join(',');
+
+      if (!tags) {
+        await clearTagSearch();
+        return;
+      }
+
+      currentPaths.value = [];
+      resetFileListState();
+      activeTagSearch.value = tags;
+      inTagSearchMode.value = true;
+
+      if (gaDisabled.value === false) {
+        AnalyticsUtil.trackEvent('search', 'tag', tags);
+      }
+
+      await listTagSearchFiles(false);
+    }
+
+    async function clearTagSearch() {
+      if (!inTagSearchMode.value && !tagSearchInput.value) {
+        return;
+      }
+      tagSearchInput.value = '';
+      exitTagSearchMode();
+      currentPaths.value = [];
+      resetFileListState();
+      await listUpdatedRecently();
+    }
+
+    function onTagSearchKeydown(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        submitTagSearch();
       }
     }
 
@@ -268,6 +371,17 @@ createApp({
     }
 
     async function onScroll() {
+      if (inTagSearchMode.value) {
+        if (
+          !loadingLock.isLocked() &&
+          !loadingLock.wasLockedInSeconds(0.2) &&
+          window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50
+        ) {
+          setLoading();
+          await listTagSearchFiles();
+        }
+        return;
+      }
       if (!getCurrentPath()) {
         return;
       }
@@ -507,6 +621,12 @@ createApp({
       gaDisabled,
       layoutMode,
       toggleLayout,
+      tagSearchInput,
+      tagSearchMatch,
+      inTagSearchMode,
+      submitTagSearch,
+      clearTagSearch,
+      onTagSearchKeydown,
       displayName,
       thumbUrl,
       youtubeThumbUrl,
@@ -528,6 +648,48 @@ createApp({
   },
   template: `
     <div class="gallery-page" :class="{ 'gallery-page--single': layoutMode === 'single' }">
+      <Teleport to="#tag-search-mount">
+        <form class="gallery-tag-search" role="search" @submit.prevent="submitTagSearch">
+          <input
+            v-model="tagSearchInput"
+            type="search"
+            class="form-control form-control-sm gallery-tag-search-input"
+            placeholder="タグ検索（,区切り）"
+            aria-label="タグで検索（カンマ区切り）"
+            autocomplete="off"
+            enterkeyhint="search"
+            @keydown="onTagSearchKeydown"
+          />
+          <select
+            v-model="tagSearchMatch"
+            class="form-select form-select-sm gallery-tag-search-match"
+            aria-label="タグ一致条件"
+            title="any = いずれかのタグ、all = すべてのタグ"
+          >
+            <option value="any">any</option>
+            <option value="all">all</option>
+          </select>
+          <button
+            type="submit"
+            class="btn btn-light btn-sm gallery-tag-search-btn"
+            aria-label="タグ検索"
+            title="検索"
+          >
+            <i class="bi bi-search"></i>
+          </button>
+          <button
+            v-if="inTagSearchMode || tagSearchInput"
+            type="button"
+            class="btn btn-light btn-sm gallery-tag-search-clear"
+            aria-label="検索をクリア"
+            title="クリア"
+            @click="clearTagSearch"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </form>
+      </Teleport>
+
       <Teleport to="#breadcrumb-mount">
         <div class="gallery-header-bar w-100 d-flex align-items-center flex-nowrap gap-1">
           <nav class="gallery-breadcrumb flex-grow-1 min-w-0" aria-label="breadcrumb">
