@@ -12,7 +12,7 @@ import {
   getPreviewImageLink,
   getSourceLink,
   postProductionFolderName,
-} from './gallery-core.js';
+} from './gallery-core.js?t=20260628a';
 
 import { createApp, ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 
@@ -654,7 +654,7 @@ createApp({
             v-model="tagSearchInput"
             type="search"
             class="form-control form-control-sm gallery-tag-search-input"
-            placeholder="タグ検索"
+            placeholder="タグ検索（,区切り）"
             aria-label="タグで検索（カンマ区切り）"
             autocomplete="off"
             enterkeyhint="search"
