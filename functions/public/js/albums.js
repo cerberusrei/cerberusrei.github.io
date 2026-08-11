@@ -1,5 +1,65 @@
 const ALBUM_LIST = [
     {
+        id: '05f498869a1b1ec77b021017acdb7835',
+        name: '20260808 大井よさこいひょうたん祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1adtXtcGSep3oJ2ipXGke1Mg33iniWJ5a',
+        version: 2
+    },
+    {
+        id: '23586e2441225059f2cde75b382f8039',
+        name: '20260802 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1dIrTkQDhCkzzkAh-8Kka8gTAVsxD1Stw',
+        version: 2
+    },
+    {
+        id: '64b6b5a8b0cbc2cd4ee2c4068b1918ec',
+        name: '20260801 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13CzkgZIYnYaW3JhQigMskpmExuBTdG6K',
+        version: 2
+    },
+    {
+        id: 'eac3111d2315ac59570f2dde7c9bb8e1',
+        name: '20260731 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1g2hxHdyLmI63l3UWkt5EX09C21NUL2gB',
+        version: 2
+    },
+    {
+        id: '315a584daff960a7f13df87b0f51e5d3',
+        name: '20260725 沼津夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=11ErqASAX1Ub-QbdCjh57u_fgCW6aDFlO',
+        version: 2
+    },
+    {
+        id: 'e328bdbc4790f445e4906370d95ff0ee',
+        name: '20260720 上野タイサマーフェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FVYDQTVoX2JVH1WRhDl2Xr_yWAP-8C8W',
+        version: 2
+    },
+    {
+        id: '921d3478b98d613648bbf492f5a96850',
+        name: '20260719 どんGALA!祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1vIPkbuiaDwu17Tdc1ux0dY4nNgnPJuYF',
+        version: 2
+    },
+    {
+        id: '1a240918eb784eef7dc43c1f9859c162',
+        name: '20260718 よさこい祭りin光が丘公園',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1lg_Ztu3iCkikcwSmE8Y0BUmSaiIH6hYT',
+        version: 2
+    },
+    {
+        id: 'dbac3be533ca6db9eff8efbdcde87097',
+        name: '20260713 たまよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1p0jMoEJVbNGNsOa2ZFFOpXb4yCotP8be',
+        version: 2
+    },
+    {
+        id: 'ef157161606dd6ec7759ac153594c70a',
+        name: '20260705 国領夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1EoxzpcxG9F0INLiz0jYGGzGcdBGTaSqW',
+        version: 2
+    },
+    {
         id: 'fc29e3223147484f58c68b9f83feea2c',
         name: '20260614 能登よさこい祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1YdQ_8hILuLbLrGC1hl7gscqrjMosWk81',
