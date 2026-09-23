@@ -1,5 +1,11 @@
 const ALBUM_LIST = [
     {
+        id: 'cdcd85bf8346c6ea8d15496e4cd8fb4e',
+        name: '20260920 よさこい四万十',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=12f_S4hZDUiH1etZaRZSTQdmwLlA-lPaf',
+        version: 2
+    },
+    {
         id: '5cae948db895420217027880f85ecc93',
         name: '20260913 ODAWARAえっさホイおどり',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Oie-f9wGfA1tYHfS_rbPHuS1569XRk-w',
