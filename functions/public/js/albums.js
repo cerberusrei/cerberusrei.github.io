@@ -1,5 +1,137 @@
 const ALBUM_LIST = [
     {
+        id: '5cae948db895420217027880f85ecc93',
+        name: '20260913 ODAWARAえっさホイおどり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1Oie-f9wGfA1tYHfS_rbPHuS1569XRk-w',
+        version: 2
+    },
+    {
+        id: '8f995e0d13bf4f414379f3442b5e7702',
+        name: '20260912 センター南の秋まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1CwJ6Xlt5Nvrtw_EoDXq2IlHc1aUBM6A1',
+        version: 2
+    },
+    {
+        id: 'e78ab394b7fbf1ba6756109c5cbbaa38',
+        name: '20260830 原宿表参道元気祭 スーパーよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1dHCoFsNUJcc8KGcHv-CEMgdHRYyriqmh',
+        version: 2
+    },
+    {
+        id: '9b31ca5f4ad0d04986f2a39ef1cda8cd',
+        name: '20260829 原宿表参道元気祭 スーパーよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1VMZQexynSPRN9vNkR_MC-5SCcQMDT9oy',
+        version: 2
+    },
+    {
+        id: '14cdb0dd0f5d79d7d679c4f29f74142a',
+        name: '20260816 奈半利町港まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1p2BaMcSlL2P99eBZZAJYYq4m1z-B-kX9',
+        version: 2
+    },
+    {
+        id: '21956ba04e39a127a3e393564fc123de',
+        name: '20260815 上下夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1JSYx_MnaS4UCwWL076Q9g4YNpZGzbazd',
+        version: 2
+    },
+    {
+        id: '893cb5df048f97ca8a3fe84ce87624a6',
+        name: '20260814 福山夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1SXcBIljQcsF_uD03re6C7qgBxCFDV1s7',
+        version: 2
+    },
+    {
+        id: 'd05682669d22d583ce556570d4cebc88',
+        name: '20260812 よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1DEuns-nqPvdQllrvrPt7cngB5L7T3vqT',
+        version: 2
+    },
+    {
+        id: 'f250c2a95ca8f535f221914323fa459d',
+        name: '20260811 よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1VxmeaTwp6qshJHQIyC4fIc9Ez33XFtNx',
+        version: 2
+    },
+    {
+        id: 'a35c3d0ab1baa3db5a829b20d31943c9',
+        name: '20260810 よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1RNPbLprY9FRXqerSKAdPBnWBQLJaJuB2',
+        version: 2
+    },
+    {
+        id: 'a0f7751bbbc0c1adfc277f4b4c444646',
+        name: '20260809 よさこい祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1dIKQUUB4apew_dZidjzYpUZh1vBaw-6e',
+        version: 2
+    },
+    {
+        id: 'dc1103b3341c8bc8a898cc986aa248d3',
+        name: '20260809 土佐学生よさこい大会',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=16C4kiEYnYo9bQOXhzDNgUabZO2fQfHqz',
+        version: 2
+    },
+    {
+        id: '05f498869a1b1ec77b021017acdb7835',
+        name: '20260808 大井よさこいひょうたん祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1adtXtcGSep3oJ2ipXGke1Mg33iniWJ5a',
+        version: 2
+    },
+    {
+        id: '23586e2441225059f2cde75b382f8039',
+        name: '20260802 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1dIrTkQDhCkzzkAh-8Kka8gTAVsxD1Stw',
+        version: 2
+    },
+    {
+        id: '64b6b5a8b0cbc2cd4ee2c4068b1918ec',
+        name: '20260801 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=13CzkgZIYnYaW3JhQigMskpmExuBTdG6K',
+        version: 2
+    },
+    {
+        id: 'eac3111d2315ac59570f2dde7c9bb8e1',
+        name: '20260731 彩夏祭',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1g2hxHdyLmI63l3UWkt5EX09C21NUL2gB',
+        version: 2
+    },
+    {
+        id: '315a584daff960a7f13df87b0f51e5d3',
+        name: '20260725 沼津夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=11ErqASAX1Ub-QbdCjh57u_fgCW6aDFlO',
+        version: 2
+    },
+    {
+        id: 'e328bdbc4790f445e4906370d95ff0ee',
+        name: '20260720 上野タイサマーフェス',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1FVYDQTVoX2JVH1WRhDl2Xr_yWAP-8C8W',
+        version: 2
+    },
+    {
+        id: '921d3478b98d613648bbf492f5a96850',
+        name: '20260719 どんGALA!祭り',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1vIPkbuiaDwu17Tdc1ux0dY4nNgnPJuYF',
+        version: 2
+    },
+    {
+        id: '1a240918eb784eef7dc43c1f9859c162',
+        name: '20260718 よさこい祭りin光が丘公園',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1lg_Ztu3iCkikcwSmE8Y0BUmSaiIH6hYT',
+        version: 2
+    },
+    {
+        id: 'dbac3be533ca6db9eff8efbdcde87097',
+        name: '20260713 たまよさこい',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1p0jMoEJVbNGNsOa2ZFFOpXb4yCotP8be',
+        version: 2
+    },
+    {
+        id: 'ef157161606dd6ec7759ac153594c70a',
+        name: '20260705 国領夏まつり',
+        cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1EoxzpcxG9F0INLiz0jYGGzGcdBGTaSqW',
+        version: 2
+    },
+    {
         id: 'fc29e3223147484f58c68b9f83feea2c',
         name: '20260614 能登よさこい祭り',
         cover: 'https://drive.google.com/thumbnail?authuser=0&sz=w1024&id=1YdQ_8hILuLbLrGC1hl7gscqrjMosWk81',

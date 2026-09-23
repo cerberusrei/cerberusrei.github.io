@@ -181,6 +181,27 @@
       overflow-y: scroll;
     }
 
+    #infoFrame .modal-dialog {
+      max-height: calc(100vh - 2 * var(--bs-modal-margin, 0.5rem));
+      max-height: calc(100dvh - 2 * var(--bs-modal-margin, 0.5rem));
+      margin-top: var(--bs-modal-margin, 0.5rem);
+      margin-bottom: var(--bs-modal-margin, 0.5rem);
+    }
+
+    #infoFrame .modal-content {
+      max-height: calc(100vh - 2 * var(--bs-modal-margin, 0.5rem));
+      max-height: calc(100dvh - 2 * var(--bs-modal-margin, 0.5rem));
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #infoFrame .modal-body {
+      overflow-y: auto;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
     .organized-album {
       background-color: #e9ecef;
     }
@@ -463,6 +484,11 @@
 
     .tile-folder--unorganized {
       box-shadow: inset 0 0 0 3px #e9ecef;
+    }
+
+    .tile-folder--unorganized .gallery-tile-media {
+      filter: grayscale(0.5) blur(0px);
+      transform: scale(1.00);
     }
 
     .gallery-tile-caption {
@@ -772,7 +798,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <script src="/js/google-analytics-util.js"></script>
-  <script src="/js/albums.js?t=1781949428225"></script>
+  <script src="/js/albums.js?t=1789986109685"></script>
   <script type="importmap">
     {
       "imports": {
